@@ -21,3 +21,10 @@ ember install ember-makeup
 ## License
 
 This project is licensed under the [ISC License](LICENSE.md).
+
+## Attributions
+
+The TypeScript setup for the ember-cli code is largely copied from or based on
+the setup in [`ember-cli-typescript`][ember-cli-typescript].
+
+[ember-cli-typescript]: https://github.com/typed-ember/ember-cli-typescript
