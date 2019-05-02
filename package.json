@@ -13,7 +13,7 @@
     "brand"
   ],
   "repository": "ClarkSource/ember-makeup",
-  "license": "MIT",
+  "license": "ISC",
   "author": "Jan Buschtöns <jan.buschtoens@clark.de>",
   "scripts": {
     "build": "ember build",
