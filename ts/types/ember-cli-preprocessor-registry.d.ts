@@ -1,0 +1,42 @@
+export default class Registry {
+  /**
+   * Adds the provided plugin to the registry for the type specified.
+   *
+   * @example
+   * ```js
+   * class SpecialSauce {
+   *   get name() { return 'special-sauce'; }
+   *
+   *   toTree(tree) {
+   *     // return new tree after processing
+   *   }
+   * }
+   *
+   * registry.add('js', new SpecialSauce);
+   * ```
+   */
+  add(type: string, plugin: Plugin): void;
+
+  /**
+   * Returns an array of all plugins that are registered for a given type.
+   */
+  load(type: string): Plugin[];
+
+  /**
+   * Returns an array of all known extensions for a given type.
+   */
+  extensionsForType(type: string): string[];
+
+  /**
+   * Removes the provided plugin from the specified type listing.
+   */
+  remove(type: string, plugin: Plugin): void;
+
+  private registeredForType(type: string): Plugin[];
+}
+
+export interface Plugin {
+  name: string;
+  ext: string | string[];
+  toTree(tree: unknown): unknown;
+}

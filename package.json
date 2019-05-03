@@ -26,7 +26,13 @@
     "postpack": "rm -rf js"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.1.2"
+    "broccoli-debug": "^0.6.5",
+    "broccoli-merge-trees": "^3.0.2",
+    "broccoli-postcss": "^5.0.0",
+    "cssesc": "^3.0.0",
+    "ember-cli-babel": "^7.1.2",
+    "postcss": "^7.0.14",
+    "postcss-value-parser": "^3.3.1"
   },
   "devDependencies": {
     "@clark/eslint-config-ember": "^0.5.1",
@@ -36,6 +42,7 @@
     "@ember/optional-features": "^0.7.0",
     "@types/console-ui": "^2.2.0",
     "@types/core-object": "^3.0.1",
+    "@types/cssesc": "^3.0.0",
     "@types/express": "^4.16.1",
     "@types/node": "^11.13.8",
     "broccoli-asset-rev": "^3.0.0",
@@ -66,6 +73,10 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "after": [
+      "ember-css-modules",
+      "ember-cli-sass"
+    ]
   }
 }
