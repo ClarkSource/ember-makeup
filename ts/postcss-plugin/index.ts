@@ -8,6 +8,10 @@ const serializeConfigKey = (key: string) =>
 export interface Options {
   keyword?: string;
   reportUsage?: (usage: Usage) => void;
+
+  // https://github.com/jeffjewiss/broccoli-postcss/blob/d01e9827889b0a61a56ed7d991119f2f00bde6b1/index.js#L38
+  from?: string;
+  to?: string;
 }
 
 export interface Usage {
@@ -16,13 +20,16 @@ export interface Usage {
   originalValue: string;
   key: string;
   fallback?: string;
+  path: string;
 }
 
 export default postcss.plugin(
   'postcss-ember-makeup',
-  ({ keyword = 'cfg', reportUsage }: Options = {}) => {
+  ({ keyword = 'cfg', reportUsage, to }: Options = {}) => {
     const needsTransformation = (value: string) =>
       value.includes(`${keyword}(`);
+
+    if (!to) throw new TypeError('Called without `to` file path option.');
 
     return (root, _result) => {
       root.walkDecls(decl => {
@@ -72,7 +79,8 @@ export default postcss.plugin(
                 prop: decl.prop,
                 originalValue,
                 key,
-                fallback
+                fallback,
+                path: to
               });
             }
           }, true)

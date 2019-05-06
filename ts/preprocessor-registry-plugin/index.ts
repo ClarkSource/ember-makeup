@@ -23,14 +23,8 @@ export default class PreprocessorRegistryPlugin implements Plugin {
         {
           module: postcssPlugin,
           options: {
-            reportUsage({
-              selectors,
-              prop,
-              originalValue,
-              key,
-              fallback
-            }: Usage) {
-              console.log({ selectors, prop, originalValue, key, fallback });
+            reportUsage(usage: Usage) {
+              console.log(usage);
             }
           }
         }
