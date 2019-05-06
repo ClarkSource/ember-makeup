@@ -3,6 +3,7 @@ import _addon from '../addon';
 import Addon from 'ember-cli/lib/models/addon';
 import broccoliPostcss from 'broccoli-postcss';
 import postcssPlugin, { Usage } from '../postcss-plugin';
+import { BroccoliNode } from 'broccoli-plugin';
 
 type EmberMakeupAddon = typeof _addon & Addon;
 
@@ -16,7 +17,7 @@ export default class PreprocessorRegistryPlugin implements Plugin {
     this.addon = addon;
   }
 
-  toTree(tree: unknown) {
+  toTree(tree: BroccoliNode) {
     const cfgToEnv = broccoliPostcss(tree, {
       browsers: this.addon.project.targets.browsers,
       plugins: [

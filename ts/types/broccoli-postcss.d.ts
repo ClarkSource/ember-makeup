@@ -1,8 +1,10 @@
 import postcss from 'postcss';
+import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
 
-export default function broccoliPostcss(tree: Tree, options?: Options): Tree;
-
-type Tree = unknown;
+export default function broccoliPostcss(
+  tree: BroccoliNode,
+  options?: Options
+): BroccoliPlugin;
 
 interface Options {
   /**

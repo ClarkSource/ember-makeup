@@ -1,3 +1,5 @@
+import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
+
 export default class Registry {
   /**
    * Adds the provided plugin to the registry for the type specified.
@@ -38,5 +40,5 @@ export default class Registry {
 export interface Plugin {
   name: string;
   ext: string | string[];
-  toTree(tree: unknown): unknown;
+  toTree(tree: BroccoliNode): BroccoliPlugin;
 }

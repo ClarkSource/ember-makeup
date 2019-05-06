@@ -1,3 +1,5 @@
+import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
+
 export = BroccoliDebug;
 
 interface BroccoliDebugOptions {
@@ -24,8 +26,6 @@ interface BroccoliDebugOptions {
   force?: boolean;
 }
 
-type BroccoliNode = any;
-
 declare class BroccoliDebug {
   /**
     Builds a callback function for easily generating `BroccoliDebug` instances
@@ -33,7 +33,10 @@ declare class BroccoliDebug {
   */
   static buildDebugCallback(
     prefix: string
-  ): (node: any, labelOrOptions: string | BroccoliDebugOptions) => BroccoliNode;
+  ): (
+    node: BroccoliNode,
+    labelOrOptions: string | BroccoliDebugOptions
+  ) => BroccoliPlugin;
 
   constructor(
     node: BroccoliNode,
