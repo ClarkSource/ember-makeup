@@ -98,7 +98,9 @@ declare module 'ember-cli/lib/models/project' {
       dependencies?: Record<string, string>;
       devDependencies?: Record<string, string>;
     };
-    targets: string[];
+    targets: {
+      browsers: string[];
+    };
 
     name(): string;
     isEmberCLIAddon(): boolean;

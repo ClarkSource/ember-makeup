@@ -18,7 +18,7 @@ export default class PreprocessorRegistryPlugin implements Plugin {
 
   toTree(tree: unknown) {
     const cfgToEnv = broccoliPostcss(tree, {
-      browsers: this.addon.project.targets,
+      browsers: this.addon.project.targets.browsers,
       plugins: [
         {
           module: postcssPlugin,
