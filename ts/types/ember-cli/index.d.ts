@@ -32,7 +32,7 @@ declare module 'ember-cli/lib/models/addon' {
     };
 
     blueprintsPath(): string;
-    included(includer: EmberApp | Project): void;
+    included(includer: EmberApp | Project | Addon): void;
     includedCommands(): Record<
       string,
       typeof Command | ExtendOptions<Command>
@@ -90,6 +90,7 @@ declare module 'ember-cli/lib/models/project' {
 
   export default class Project extends CoreObject {
     ui: UI;
+    options?: Record<string, unknown>;
     root: string;
     addons: Addon[];
     pkg: {

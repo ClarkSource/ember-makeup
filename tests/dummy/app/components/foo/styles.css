@@ -1,0 +1,7 @@
+@component foo;
+
+.foo {
+  font-size: cfg('/typo.sizes.medium');
+  color: cfg('color');
+  @context;
+}

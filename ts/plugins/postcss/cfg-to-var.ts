@@ -1,6 +1,7 @@
-import postcss from 'postcss';
-import valueParser from 'postcss-value-parser';
+import { plugin } from 'postcss';
+import valueParser, { Node } from 'postcss-value-parser';
 import cssesc from 'cssesc';
+import { getKeyNodeFromFunctionNode } from './utils';
 
 const serializeConfigKey = (key: string) =>
   `--${cssesc(key, { isIdentifier: true })}`;
@@ -23,7 +24,7 @@ export interface Usage {
   path: string;
 }
 
-export default postcss.plugin(
+export default plugin(
   'postcss-ember-makeup',
   ({ keyword = 'cfg', reportUsage, to }: Options = {}) => {
     const needsTransformation = (value: string) =>
@@ -46,28 +47,21 @@ export default postcss.plugin(
         const originalValue = decl.value;
 
         decl.value = valueParser(decl.value)
-          .walk((node, _index, _nodes) => {
+          .walk(node => {
             if (node.type !== 'function' || node.value !== keyword) return;
 
-            const [keyNode] = node.nodes;
-            if (
-              (keyNode.type !== 'word' && keyNode.type !== 'string') ||
-              keyNode.value.length === 0
-            ) {
-              throw decl.error(
-                `The first parameter of '${keyword}' has to be a key, but you provided: ${valueParser.stringify(
-                  node
-                )}`,
-                { word: keyword }
-              );
-            }
+            const keyNode = getKeyNodeFromFunctionNode(
+              decl,
+              node,
+              keyword
+            ) as Node;
+            keyNode.type = 'word';
 
             const key = keyNode.value;
             keyNode.value = serializeConfigKey(key);
-            keyNode.type = 'word';
 
-            // turns `cfg` into `env`
-            node.value = 'env';
+            // turns `cfg` into `var`
+            node.value = 'var';
 
             if (reportUsage) {
               const fallback =

@@ -30,15 +30,32 @@ export default class Registry {
   extensionsForType(type: string): string[];
 
   /**
+   * Returns an array of all registered plugins for a given type.
+   */
+  registeredForType(type: string): Plugin[];
+
+  /**
    * Removes the provided plugin from the specified type listing.
    */
   remove(type: string, plugin: Plugin): void;
-
-  private registeredForType(type: string): Plugin[];
 }
 
 export interface Plugin {
   name: string;
-  ext: string | string[];
-  toTree(tree: BroccoliNode): BroccoliPlugin;
+  // ext: string | string[];
+  toTree(
+    tree: BroccoliNode,
+    inputDirectory: string,
+    outputDirectory: string,
+    options: ToTreeOptions
+  ): BroccoliPlugin;
+}
+
+export interface ToTreeOptions {
+  outputPaths: Record<string, string>;
+  registry: unknown;
+  minifyCSS: {
+    processImport: boolean;
+    relativeTo: string;
+  };
 }
