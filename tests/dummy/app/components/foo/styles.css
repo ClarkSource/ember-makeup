@@ -4,4 +4,14 @@
   font-size: cfg('/typo.sizes.medium');
   color: cfg('color');
   @context;
+
+  .bar {
+    @component /bar;
+    color: cfg('color');
+  }
+
+  .qux {
+    @component qux;
+    color: cfg('color');
+  }
 }

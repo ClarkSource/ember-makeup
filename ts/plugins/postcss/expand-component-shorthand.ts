@@ -79,23 +79,46 @@ function transformOne(
   component: string,
   keyword = 'cfg'
 ) {
-  container.walkDecls(decl => transformDecl(decl, component, keyword));
+  container.walkDecls(decl => {
+    // Only parse and transform, if the function, e.g. `cfg(`, is present.
+    if (!decl.value.includes(`${keyword}(`)) return;
+
+    transformDecl(decl, component, keyword);
+  });
   container.walkAtRules('context', atRule =>
     transformContextAtRule(atRule, component)
   );
 }
 
 function transformMany(
-  _container: Container,
-  _componentAssociations: Map<Container, string>,
-  _keyword = 'cfg'
-) {}
+  container: Container,
+  componentAssociations: Map<Container, string>,
+  keyword = 'cfg'
+) {
+  container.walkDecls(decl => {
+    // Only parse and transform, if the function, e.g. `cfg(`, is present.
+    if (!decl.value.includes(`${keyword}(`)) return;
+
+    const parentNamespace = buildNamespaceFromParents(
+      componentAssociations,
+      decl
+    );
+
+    if (!parentNamespace) return;
+
+    transformDecl(decl, parentNamespace, keyword);
+  });
+  container.walkAtRules('context', atRule => {
+    const parentNamespace = buildNamespaceFromParents(
+      componentAssociations,
+      atRule
+    );
+    transformContextAtRule(atRule, parentNamespace);
+  });
+}
 
 function transformDecl(decl: Declaration, namespace: string, keyword = 'cfg') {
   const originalValue = decl.value;
-
-  // Only parse and transform, if the function, e.g. `cfg(`, is present.
-  if (!originalValue.includes(`${keyword}(`)) return;
 
   decl.value = valueParser(originalValue)
     .walk(node => {
@@ -116,4 +139,31 @@ function transformContextAtRule(atRule: AtRule, namespace: string) {
 function namespaceConfigKey(namespace: string, key: string) {
   if (isValidRootConfigKey(key)) return resolveRootConfigKey(key);
   return `${namespace}.${key}`;
+}
+
+function* getParents(node: { parent: any }) {
+  let { parent } = node;
+  while (parent) {
+    yield parent;
+    parent = parent.parent;
+  }
+}
+
+function buildNamespaceFromParents(
+  componentAssociations: Map<Container, string>,
+  node: { parent: any }
+): string {
+  const namespaceFragments: string[] = [];
+  for (const parent of getParents(node)) {
+    if (!componentAssociations.has(parent)) continue;
+
+    const currentNamespaceFragment = componentAssociations.get(parent)!;
+    if (isValidRootConfigKey(currentNamespaceFragment)) {
+      namespaceFragments.push(resolveRootConfigKey(currentNamespaceFragment));
+      break;
+    }
+    namespaceFragments.push(currentNamespaceFragment);
+  }
+
+  return namespaceFragments.reverse().join('.');
 }
