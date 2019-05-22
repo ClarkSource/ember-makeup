@@ -37,6 +37,7 @@
     "postcss-value-parser": "^3.3.1"
   },
   "devDependencies": {
+    "@clark/ember-css-modules-config": "^0.4.1",
     "@clark/eslint-config-ember": "^0.5.1",
     "@clark/eslint-config-ember-typescript": "^0.5.1",
     "@clark/eslint-config-node": "^0.5.0",
