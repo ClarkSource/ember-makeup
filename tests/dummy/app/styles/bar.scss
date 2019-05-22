@@ -2,5 +2,5 @@
 
 .bar {
   background: cfg();
-  color: cfg('bar');
+  color: cfg('foo-color');
 }

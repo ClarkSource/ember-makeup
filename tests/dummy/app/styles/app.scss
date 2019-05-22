@@ -1,6 +1,9 @@
 @import 'css-modules';
+@import 'bar';
+
+@component root;
 
 body {
   background: red;
-  color: cfg('bar');
+  color: cfg('quux');
 }
