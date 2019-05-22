@@ -1,0 +1,6 @@
+@component bar;
+
+.bar {
+  background: cfg();
+  color: cfg('bar');
+}

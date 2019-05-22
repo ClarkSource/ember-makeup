@@ -55,6 +55,7 @@
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^2.0.1",
+    "ember-cli-sass": "^10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^3.0.0",
     "ember-css-modules": "^1.2.0",
@@ -71,6 +72,7 @@
     "eslint": "^5.16.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.0",
+    "sass": "^1.20.1",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
   },

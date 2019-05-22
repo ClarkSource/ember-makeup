@@ -1,0 +1,6 @@
+@import 'css-modules';
+
+body {
+  background: red;
+  color: cfg('bar');
+}
