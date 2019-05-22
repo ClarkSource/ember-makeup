@@ -3,6 +3,7 @@ import broccoliPostcss from 'broccoli-postcss';
 import { BroccoliNode } from 'broccoli-plugin';
 import { EmberMakeupAddon } from '../../addon';
 import { expandComponentShorthandPlugin } from '../postcss';
+import scss from 'postcss-scss';
 
 export default class PrePlugin implements Plugin {
   ext = ['css', 'scss'];
@@ -26,7 +27,8 @@ export default class PrePlugin implements Plugin {
         {
           module: expandComponentShorthandPlugin
         }
-      ]
+      ],
+      parser: scss
     });
 
     // Passing as part of the options object above unfortunately does not work

@@ -1,4 +1,4 @@
-import postcss from 'postcss';
+import { Plugin, ProcessOptions, SourceMapOptions } from 'postcss';
 import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
 
 export default function broccoliPostcss(
@@ -26,7 +26,7 @@ interface ExtensionConfig {
   targetExtension?: string;
 }
 
-interface Options {
+interface Options extends ProcessOptions {
   /**
    * A list of plugin objects to be used by Postcss (a minimum of 1 plugin is
    * required).
@@ -44,7 +44,7 @@ interface Options {
    *
    * @default `{ inline: false, annotation: false }`
    */
-  map?: postcss.SourceMapOptions;
+  map?: SourceMapOptions;
 
   /**
    * Whitelist of files to be processed.
@@ -60,6 +60,6 @@ interface Options {
 type FileFilterList = (string | RegExp | ((filename: string) => boolean))[];
 
 interface ObjectFormPlugin<T = Record<string, any>> {
-  module: postcss.Plugin<T>;
+  module: Plugin<T>;
   options?: T;
 }
