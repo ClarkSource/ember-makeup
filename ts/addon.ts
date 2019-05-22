@@ -1,12 +1,12 @@
 import { addon } from './lib/utils/ember-cli-entities';
 import BroccoliDebug from 'broccoli-debug';
-import { PrePlugin, PostPlugin } from './plugins/preprocessor-registry';
+import { register } from './plugins/preprocessor-registry';
 import Addon from 'ember-cli/lib/models/addon';
 import { computeOptions, MakeupOptions } from './lib/options';
 import Project from 'ember-cli/lib/models/project';
 import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 
-export default addon({
+const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
 
   makeupOptions: (undefined as unknown) as MakeupOptions,
@@ -33,28 +33,13 @@ export default addon({
     return Boolean((this.parent as Addon).parent);
   },
 
+  /**
+   * Integrate with other CSS processors, like ember-cli-sass.
+   *
+   * @see https://github.com/ember-cli/ember-cli-preprocess-registry#addon-usage
+   */
   setupPreprocessorRegistry(type, registry) {
-    if (type !== 'parent') return;
-
-    const TYPE = 'css';
-
-    // Get a list of all already registered plugins.
-    const registeredPlugins = Array.from(registry.registeredForType(TYPE));
-
-    // Remove all already registered plugins.
-    for (const plugin of registeredPlugins) registry.remove(TYPE, plugin);
-
-    // Put the PrePlugin first.
-    registry.add(TYPE, new PrePlugin(this));
-
-    // Add all removed plugins back in.
-    for (const plugin of registeredPlugins) registry.add(TYPE, plugin);
-
-    // Add the PostPlugin.
-    // The list now looks like: [PrePlugin, ..., PostPlugin]
-    registry.add(TYPE, new PostPlugin(this));
-
-    console.log(registeredPlugins);
+    register(this, type, registry);
   },
 
   getIntermediateOutputPath() {
@@ -62,7 +47,7 @@ export default addon({
   },
 
   /**
-   *
+   * Integrate with ember-css-modules.
    *
    * @see https://github.com/salsify/ember-css-modules/blob/master/docs/PLUGINS.md#plugins
    */
@@ -70,3 +55,7 @@ export default addon({
     return new EmberCSSModulesPlugin(parent);
   }
 });
+
+export default addonPrototype;
+
+export type EmberMakeupAddon = typeof addonPrototype & Addon;
