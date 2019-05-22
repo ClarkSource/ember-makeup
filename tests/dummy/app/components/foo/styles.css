@@ -12,6 +12,6 @@
 
   .qux {
     @component qux;
-    color: cfg('color');
+    color: cfg();
   }
 }

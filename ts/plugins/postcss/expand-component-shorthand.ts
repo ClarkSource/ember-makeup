@@ -126,6 +126,8 @@ function transformDecl(decl: Declaration, namespace: string, keyword = 'cfg') {
 
       const keyNode = getKeyNodeFromFunctionNode(decl, node, keyword);
       keyNode.value = namespaceConfigKey(namespace, keyNode.value);
+
+      node.nodes = [keyNode];
     })
     .toString();
 }

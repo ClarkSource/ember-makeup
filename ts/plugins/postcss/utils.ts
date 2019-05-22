@@ -3,7 +3,8 @@ import {
   stringify,
   FunctionNode,
   StringNode,
-  WordNode
+  WordNode,
+  NodeType
 } from 'postcss-value-parser';
 import { isValidConfigKey, containsQuotes } from '../../lib/config-key';
 
@@ -38,6 +39,15 @@ export function getKeyNodeFromFunctionNode(
   keyword = 'cfg'
 ): WordNode | StringNode {
   const [keyNode] = node.nodes;
+
+  if (!keyNode) {
+    return {
+      type: 'string' as NodeType.String,
+      value: decl.prop,
+      quote: "'",
+      unclosed: false
+    } as StringNode;
+  }
 
   if (
     (keyNode.type !== 'word' && keyNode.type !== 'string') ||

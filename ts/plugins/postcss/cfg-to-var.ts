@@ -60,6 +60,8 @@ export default plugin(
             const key = keyNode.value;
             keyNode.value = serializeConfigKey(key);
 
+            node.nodes = [keyNode];
+
             // turns `cfg` into `var`
             node.value = 'var';
 
