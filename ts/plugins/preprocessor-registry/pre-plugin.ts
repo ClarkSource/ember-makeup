@@ -6,7 +6,9 @@ import { expandComponentShorthandPlugin } from '../postcss';
 import scss from 'postcss-scss';
 
 export default class PrePlugin implements Plugin {
+  // eslint-disable-next-line unicorn/prevent-abbreviations
   ext = ['css', 'scss'];
+
   name = 'ember-makeup:pre';
 
   private owner: EmberMakeupAddon;

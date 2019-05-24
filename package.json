@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@clark/ember-css-modules-config": "^0.4.1",
+    "@clark/eslint-config": "^1.1.1",
     "@clark/eslint-config-ember": "^1.1.1",
     "@clark/eslint-config-ember-typescript": "^1.1.1",
     "@clark/eslint-config-node": "^1.1.1",
@@ -72,6 +73,7 @@
     "ember-try": "^1.2.1",
     "eslint": "^5.16.0",
     "loader.js": "^4.7.0",
+    "lodash.merge": "^4.6.1",
     "qunit-dom": "^0.8.0",
     "sass": "^1.20.1",
     "ts-node": "^8.1.0",

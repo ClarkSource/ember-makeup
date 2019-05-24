@@ -32,7 +32,7 @@ export default plugin(
 
     if (!to) throw new TypeError('Called without `to` file path option.');
 
-    return (root, _result) => {
+    return root => {
       root.walkDecls(decl => {
         if (!needsTransformation(decl.value)) return;
 

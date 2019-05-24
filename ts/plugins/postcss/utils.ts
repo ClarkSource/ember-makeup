@@ -41,12 +41,13 @@ export function getKeyNodeFromFunctionNode(
   const [keyNode] = node.nodes;
 
   if (!keyNode) {
-    return {
+    const syntheticKeyNode: StringNode = {
       type: 'string' as NodeType.String,
       value: decl.prop,
       quote: "'",
       unclosed: false
-    } as StringNode;
+    };
+    return syntheticKeyNode;
   }
 
   if (

@@ -5,7 +5,9 @@ import { BroccoliNode } from 'broccoli-plugin';
 import { EmberMakeupAddon } from '../../addon';
 
 export default class PostPlugin implements Plugin {
+  // eslint-disable-next-line unicorn/prevent-abbreviations
   ext = ['css', 'yml'];
+
   name = 'ember-makeup:post';
 
   private owner: EmberMakeupAddon;

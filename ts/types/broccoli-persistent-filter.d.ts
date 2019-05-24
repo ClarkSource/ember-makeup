@@ -8,6 +8,7 @@ export default abstract class BroccoliPersistentFilter {
    * inherits from Filter, and which is not itself Filter.
    */
   constructor(inputNode: BroccoliNode, options: FilterOptions);
+
   /**
    * Abstract method `processString`: must be implemented on subclasses of
    * Filter.
@@ -37,6 +38,7 @@ export default abstract class BroccoliPersistentFilter {
    * property `extensions`, and `targetExtension` is supplied, the first matching
    * extension in the list is replaced with the `targetExtension` option's value.
    */
+  // eslint-disable-next-line unicorn/prevent-abbreviations
   getDestFilePath(relativePath: string): string;
 
   /**

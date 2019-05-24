@@ -2,8 +2,7 @@ import { Values } from 'core-object/-private/utils';
 
 declare function valueParser(input: string): valueParser.NodeTree;
 
-export = valueParser;
-
+// eslint-disable-next-line no-redeclare
 declare namespace valueParser {
   /**
    * Parses `quantity`, distinguishing the number from the unit.
@@ -107,7 +106,7 @@ declare namespace valueParser {
      * For example, given the source string `10px 20px`, the `word `node whose
      * value is `20px` will have a `sourceIndex` of `5`.
      */
-    sourceIndex: number;
+    sourceIndex?: number;
   }
 
   type DiscriminatedNode =
@@ -247,3 +246,5 @@ declare namespace valueParser {
     unclosed: boolean;
   }
 }
+
+export = valueParser;

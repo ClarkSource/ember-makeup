@@ -6,7 +6,7 @@ import {
 
 export default class EmberCSSModulesPlugin extends Plugin
   implements PluginHooks {
-  config(_env: string, baseOptions: Options) {
+  config(_environment: string, baseOptions: Options) {
     this.addPostcssPlugin(
       baseOptions,
       'before',

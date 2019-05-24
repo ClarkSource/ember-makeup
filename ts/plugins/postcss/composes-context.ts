@@ -30,7 +30,7 @@ export default plugin('postcss-ember-makeup:composes-context', () => {
   const keyword = 'context';
   const classNamePrefix = 'ember-makeup/contexts';
 
-  return (root, _result) => {
+  return root => {
     assertNoDoubleColonAtRule(keyword, root);
 
     root.walkAtRules(keyword, atRule => {

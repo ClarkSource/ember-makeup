@@ -1,7 +1,5 @@
 import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
 
-export = BroccoliDebug;
-
 interface BroccoliDebugOptions {
   /**
     The label to use for the debug folder. By default, will be placed in `DEBUG/*`.
@@ -45,3 +43,5 @@ declare class BroccoliDebug {
 
   debugLabel: string;
 }
+
+export = BroccoliDebug;

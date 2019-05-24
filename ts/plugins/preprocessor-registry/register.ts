@@ -1,4 +1,4 @@
-import { PrePlugin, PostPlugin } from './';
+import { PrePlugin, PostPlugin } from '.';
 import Registry from 'ember-cli-preprocessor-registry';
 import { EmberMakeupAddon } from '../../addon';
 
@@ -12,7 +12,7 @@ export function register(
   const TYPE = 'css';
 
   // Get a list of all already registered plugins.
-  const registeredPlugins = Array.from(registry.registeredForType(TYPE));
+  const registeredPlugins = [...registry.registeredForType(TYPE)];
 
   // Remove all already registered plugins.
   for (const plugin of registeredPlugins) registry.remove(TYPE, plugin);

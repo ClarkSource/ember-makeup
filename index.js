@@ -11,5 +11,5 @@ if (fs.existsSync(`${__dirname}/js/addon.js`)) {
   require('./register-ts-node');
 
   // eslint-disable-next-line node/no-unpublished-require
-  module.exports = require('./ts/addon').default;
+  module.exports = require('./ts/addon.ts').default;
 }

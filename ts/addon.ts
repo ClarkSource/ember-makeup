@@ -26,7 +26,7 @@ const addonPrototype = addon({
       this.parentAddon = includer as Addon;
     }
 
-    this._super.included.apply(this, arguments);
+    this._super.included.call(this, includer);
   },
 
   belongsToAddon() {
