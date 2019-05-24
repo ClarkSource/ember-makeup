@@ -18,6 +18,11 @@ themes in one codebase.
 ember install ember-makeup
 ```
 
+## Project Status
+
+Under active development. You can't really use it yet, but feel free to start
+watching releases.
+
 ## License
 
 This project is licensed under the [ISC License](LICENSE.md).
