@@ -35,7 +35,7 @@
     "ember-cli-babel": "^7.1.2",
     "postcss": "^7.0.16",
     "postcss-scss": "^2.0.0",
-    "postcss-value-parser": "^3.3.1"
+    "postcss-value-parser": "^4.0.0"
   },
   "devDependencies": {
     "@clark/ember-css-modules-config": "^0.4.1",
@@ -50,7 +50,7 @@
     "@types/core-object": "^3.0.1",
     "@types/cssesc": "^3.0.0",
     "@types/express": "^4.16.1",
-    "@types/node": "^12.0.2",
+    "@types/node": "^12.0.4",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.10.1",
     "ember-cli-dependency-checker": "^3.2.0",
@@ -75,9 +75,9 @@
     "loader.js": "^4.7.0",
     "lodash.merge": "^4.6.1",
     "qunit-dom": "^0.8.0",
-    "sass": "^1.20.1",
-    "ts-node": "^8.1.0",
-    "typescript": "^3.4.5"
+    "sass": "^1.20.3",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.5.1"
   },
   "peerDependencies": {
     "ember-css-modules": "^1.2.0"
