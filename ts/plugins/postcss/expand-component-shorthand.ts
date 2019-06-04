@@ -26,6 +26,8 @@ function buildNamespaceFromParents(
   for (const parent of getParents(node)) {
     if (!componentAssociations.has(parent)) continue;
 
+    // @todo https://github.com/microsoft/TypeScript/issues/13086
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const currentNamespaceFragment = componentAssociations.get(parent)!;
     if (isValidRootConfigKey(currentNamespaceFragment)) {
       namespaceFragments.push(resolveRootConfigKey(currentNamespaceFragment));

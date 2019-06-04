@@ -71,6 +71,8 @@ export default plugin(
                   ? valueParser.stringify(node.nodes.slice(1))
                   : undefined;
               reportUsage({
+                // @todo https://github.com/postcss/postcss/pull/1277
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 selectors: rule.selectors!,
                 prop: decl.prop,
                 originalValue,
