@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es2017",
     "allowJs": true,
     "moduleResolution": "node",
@@ -20,28 +21,13 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "dummy/tests/*": [
-        "tests/*"
-      ],
-      "dummy/*": [
-        "tests/dummy/app/*",
-        "app/*"
-      ],
-      "ember-makeup": [
-        "addon"
-      ],
-      "ember-makeup/*": [
-        "addon/*"
-      ],
-      "ember-makeup/test-support": [
-        "addon-test-support"
-      ],
-      "ember-makeup/test-support/*": [
-        "addon-test-support/*"
-      ],
-      "*": [
-        "types/*"
-      ]
+      "dummy/tests/*": ["tests/*"],
+      "dummy/*": ["tests/dummy/app/*", "app/*"],
+      "ember-makeup": ["addon"],
+      "ember-makeup/*": ["addon/*"],
+      "ember-makeup/test-support": ["addon-test-support"],
+      "ember-makeup/test-support/*": ["addon-test-support/*"],
+      "*": ["types/*"]
     }
   },
   "include": [
