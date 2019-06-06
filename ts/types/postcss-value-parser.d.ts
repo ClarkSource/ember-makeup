@@ -2,6 +2,7 @@ import { Values } from 'core-object/-private/utils';
 
 declare function valueParser(input: string): valueParser.NodeTree;
 
+// @todo https://github.com/typescript-eslint/typescript-eslint/issues/60
 // eslint-disable-next-line no-redeclare
 declare namespace valueParser {
   /**

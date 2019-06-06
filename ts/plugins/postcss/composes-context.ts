@@ -26,21 +26,24 @@ import { assertNoDoubleColonAtRule, assertValidConfigKey } from './utils';
  * }
  * ```
  */
-export default plugin('postcss-ember-makeup:composes-context', () => {
-  const keyword = 'context';
-  const classNamePrefix = 'ember-makeup/contexts';
+export default plugin<{
+  contextKeyword: string;
+  contextClassNamePrefix: string;
+}>('postcss-ember-makeup:composes-context', options => {
+  if (!options) throw new TypeError('Cannot be invoked without options.');
+  const { contextKeyword, contextClassNamePrefix } = options;
 
   return root => {
-    assertNoDoubleColonAtRule(keyword, root);
+    assertNoDoubleColonAtRule(contextKeyword, root);
 
-    root.walkAtRules(keyword, atRule => {
+    root.walkAtRules(contextKeyword, atRule => {
       const configKey = atRule.params.length === 0 ? 'context' : atRule.params;
       assertValidConfigKey(configKey, atRule);
 
       atRule.replaceWith(
         decl({
           prop: 'composes',
-          value: `${classNamePrefix}/${configKey} from global`
+          value: `${contextClassNamePrefix}/${configKey} from global`
         })
       );
     });

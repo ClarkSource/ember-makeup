@@ -14,6 +14,7 @@ declare module 'ember-cli/lib/models/addon' {
   import Command from 'ember-cli/lib/models/command';
   import EmberApp from 'ember-cli/lib/broccoli/ember-app';
   import Registry from 'ember-cli-preprocessor-registry';
+  import { BroccoliNode } from 'broccoli-plugin';
 
   export default class Addon extends CoreObject {
     name: string;
@@ -61,6 +62,8 @@ declare module 'ember-cli/lib/models/addon' {
       type: 'self' | 'parent',
       registry: Registry
     ): void;
+
+    treeForAddon(tree: BroccoliNode): BroccoliNode;
   }
 }
 

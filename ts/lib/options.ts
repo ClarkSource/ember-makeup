@@ -1,10 +1,16 @@
 export interface MakeupOptions {
-  intermediateOutputPath?: string;
+  contextClassNamePrefix?: string;
+  contextKeyword?: string;
 }
 
-export const DEFAULT_OPTIONS: MakeupOptions = Object.freeze({});
+export type FinalMakeupOptions = Readonly<Required<MakeupOptions>>;
 
-export function computeOptions(options?: MakeupOptions): MakeupOptions {
+export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
+  contextClassNamePrefix: 'ember-makeup/',
+  contextKeyword: 'context'
+});
+
+export function computeOptions(options?: MakeupOptions): FinalMakeupOptions {
   if (options && typeof options === 'object') {
     return Object.assign({}, DEFAULT_OPTIONS, options);
   }

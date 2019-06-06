@@ -1,4 +1,4 @@
-import { Plugin as PostCSSPlugin } from 'postcss';
+import { Plugin as PostCSSPlugin, Transformer } from 'postcss';
 import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
 
@@ -108,7 +108,7 @@ export default class Plugin {
   addPostcssPlugin(
     config: Options,
     type: 'after' | 'before' | 'postprocess',
-    ...plugins: PostCSSPlugin<any>[]
+    ...plugins: (PostCSSPlugin<any> | Transformer)[]
   ): void;
 }
 
