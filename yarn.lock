@@ -1165,10 +1165,10 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.16.1":
-  version "4.16.1"
-  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.16.1.tgz#d756bd1a85c34d87eaf44c888bad27ba8a4b7cf0"
-  integrity sha512-V0clmJow23WeyblmACoxbHBu2JKlE5TiIme6Lem14FnPW9gsttyHtk6wq7njcdIWH1njAaFgR8gW09lgY98gQg==
+"@types/express@^4.17.0":
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.0.tgz#49eaedb209582a86f12ed9b725160f12d04ef287"
+  integrity sha512-CjaMu57cjgjuZbh9DpkloeGxV45CnMGlVd+XpG7Gm9QgVrd7KFq+X4HY0vM+2v0bczS48Wg7bvnMY5TN+Xmcfw==
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
@@ -1218,10 +1218,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.8.tgz#e5d71173c95533be9842b2c798978f095f912aab"
   integrity sha512-szA3x/3miL90ZJxUCzx9haNbK5/zmPieGraZEe4WI+3srN0eGLiT22NXeMHmyhNEopn+IrxqMc7wdVwvPl8meg==
 
-"@types/node@^12.0.4":
-  version "12.0.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.4.tgz#46832183115c904410c275e34cf9403992999c32"
-  integrity sha512-j8YL2C0fXq7IONwl/Ud5Kt0PeXw22zGERt+HSSnwbKOJVsAGkEz3sFCYwaF9IOuoG1HOtE0vKCj6sXF7Q0+Vaw==
+"@types/node@^12.0.5":
+  version "12.0.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.5.tgz#ac14404c33d1a789973c45379a67f7f7e58a01b9"
+  integrity sha512-CFLSALoE+93+Hcb5pFjp0J1uMrrbLRe+L1+gFwerJ776R3TACSF0kTVRQ7AvRa7aFx70nqYHAc7wQPlt9kY2Mg==
 
 "@types/qunit@^2.9.0":
   version "2.9.0"
@@ -4688,10 +4688,10 @@ ember-source-channel-url@^2.0.1:
   dependencies:
     got "^8.0.1"
 
-ember-source@~3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-3.10.0.tgz#c423f494d573d418bf843d605ea79c21a14ca863"
-  integrity sha512-qHI+1y1gcfHO44+Ld3ty9565UsqlmimfOLe/Ra3jA4Z9h6vJNOdIzr4Bws7by/8kiBqjO1RM+TVe19zglivwoQ==
+ember-source@~3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-3.10.1.tgz#f8b337aa9fa2aacab4dfcfb8460028730df9a84c"
+  integrity sha512-I6AJTuy05WruN77Fb6mXtrt68jPy0pXyfSGXhCzxJMZIfv03jJ89CiRnzkjk6W4YCxVqJnNZigqMxUAXogMcsA==
   dependencies:
     broccoli-funnel "^2.0.2"
     broccoli-merge-trees "^3.0.2"
@@ -8956,7 +8956,7 @@ postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.14, postcss@^6.0.19, postcss@^6.0.2
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.16, postcss@^7.0.2, postcss@^7.0.6:
+postcss@^7.0.0, postcss@^7.0.2, postcss@^7.0.6:
   version "7.0.16"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.16.tgz#48f64f1b4b558cb8b52c88987724359acb010da2"
   integrity sha512-MOo8zNSlIqh22Uaa3drkdIAgUGEL+AD1ESiSdmElLUmE2uVDo1QloiT/IfW9qRw8Gw+Y/w69UVMGwbufMSftxA==
@@ -8969,6 +8969,15 @@ postcss@^7.0.14, postcss@^7.0.5:
   version "7.0.14"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.14.tgz#4527ed6b1ca0d82c53ce5ec1a2041c2346bbd6e5"
   integrity sha512-NsbD6XUUMZvBxtQAJuWDJeeC4QFsmWsfozWxCJPWf3M55K9iu2iMDaKqyoOdTJ1R4usBXuxlVFAIo8rZPQD4Bg==
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
+
+postcss@^7.0.17:
+  version "7.0.17"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.17.tgz#4da1bdff5322d4a0acaab4d87f3e782436bad31f"
+  integrity sha512-546ZowA+KZ3OasvQZHsbuEpysvwTZNGJv9EfyCQdsIDltPSWHAeTQ5fQy/Npi2ZDtLI3zs7Ps/p6wThErhm9fQ==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
