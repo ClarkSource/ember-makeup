@@ -1218,10 +1218,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.8.tgz#e5d71173c95533be9842b2c798978f095f912aab"
   integrity sha512-szA3x/3miL90ZJxUCzx9haNbK5/zmPieGraZEe4WI+3srN0eGLiT22NXeMHmyhNEopn+IrxqMc7wdVwvPl8meg==
 
-"@types/node@^12.0.5":
-  version "12.0.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.5.tgz#ac14404c33d1a789973c45379a67f7f7e58a01b9"
-  integrity sha512-CFLSALoE+93+Hcb5pFjp0J1uMrrbLRe+L1+gFwerJ776R3TACSF0kTVRQ7AvRa7aFx70nqYHAc7wQPlt9kY2Mg==
+"@types/node@^12.0.7":
+  version "12.0.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.7.tgz#4f2563bad652b2acb1722d7e7aae2b0ff62d192c"
+  integrity sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
 
 "@types/qunit@^2.9.0":
   version "2.9.0"
@@ -2886,10 +2886,10 @@ broccoli-persistent-filter@^2.1.0, broccoli-persistent-filter@^2.1.1, broccoli-p
     symlink-or-copy "^1.0.1"
     walk-sync "^1.0.0"
 
-broccoli-persistent-filter@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-2.2.3.tgz#63dbd7ff05b6d7dcfdefd75238e1097370ac7467"
-  integrity sha512-WSq6S9lC78LZ2T6L8s+NueEDuWdVSDiwjH8XbHo4ocL7V5fZLXupxvnPWtoH2Jp20j6/nvznTkgKJC4g70JVdA==
+broccoli-persistent-filter@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-2.3.0.tgz#191e6272e20693c6e110e844cce58bdb46238035"
+  integrity sha512-3ckoDlHB4IVsMrPFUOmFhPlSj6GC6p4PgxVRZU581GCq0j2IdEfmhzjm/s+ctkkl2PFUANBSs3Ot5W9wYgP4ZQ==
   dependencies:
     async-disk-cache "^1.2.1"
     async-promise-queue "^1.0.3"
@@ -2903,6 +2903,7 @@ broccoli-persistent-filter@^2.2.3:
     rimraf "^2.6.1"
     rsvp "^4.7.0"
     symlink-or-copy "^1.0.1"
+    sync-disk-cache "^1.3.3"
     walk-sync "^1.0.0"
 
 broccoli-plugin@1.1.0:
@@ -9697,10 +9698,10 @@ sane@^4.0.0, sane@^4.1.0:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-sass@^1.20.3:
-  version "1.20.3"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.20.3.tgz#18284a7bac6eab9cbb80453288473194f29efb84"
-  integrity sha512-kvf+w5XT7FrmFrCKz1gPHqegufG+gxifC8oQesX/s8gkShdeiTqiuvP0c8TvfBwMAuI1YGOgobZQ2KIJGn//jA==
+sass@^1.21.0:
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.21.0.tgz#cc565444e27c2336746b09c45d6e8c46caaf6b04"
+  integrity sha512-67hIIOZZtarbhI2aSgKBPDUgn+VqetduKoD+ZSYeIWg+ksNioTzeX+R2gUdebDoolvKNsQ/GY9NDxctbXluTNA==
   dependencies:
     chokidar "^2.0.0"
 
@@ -10316,6 +10317,17 @@ symlink-or-copy@^1.0.0, symlink-or-copy@^1.0.1, symlink-or-copy@^1.1.6, symlink-
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symlink-or-copy/-/symlink-or-copy-1.2.0.tgz#5d49108e2ab824a34069b68974486c290020b393"
   integrity sha512-W31+GLiBmU/ZR02Ii0mVZICuNEN9daZ63xZMPDsYgPgNjMtg+atqLEGI7PPI936jYSQZxoLb/63xos8Adrx4Eg==
+
+sync-disk-cache@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/sync-disk-cache/-/sync-disk-cache-1.3.3.tgz#481933461623fdc2bdf46cfc87872ba215a7e246"
+  integrity sha512-Kp7DFemXDPRUbFW856CKamtX7bJuThZPa2dwnK2RfNqMew7Ah8xDc52SdooNlfN8oydDdDHlBPLsXTrtmA7HKw==
+  dependencies:
+    debug "^2.1.3"
+    heimdalljs "^0.2.3"
+    mkdirp "^0.5.0"
+    rimraf "^2.2.8"
+    username-sync "^1.0.2"
 
 table@^5.2.3:
   version "5.2.3"
