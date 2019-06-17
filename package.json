@@ -24,10 +24,8 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
-    "prepack": "tsc --noEmit false --project ts",
-    "postpack": "rm -rf js",
-    "prepublishOnly": "ember ts:precompile",
-    "postpublish": "ember ts:clean"
+    "prepack": "tsc --noEmit false --project ts && ember ts:precompile",
+    "postpack": "rm -rf js; ember ts:clean"
   },
   "dependencies": {
     "broccoli-debug": "^0.6.5",
