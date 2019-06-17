@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 import { localClass as originalLocalClass } from 'ember-css-modules/helpers/local-class';
-
 import MakeupService from 'ember-makeup/services/makeup';
 
 export default class LocalClassHelper extends Helper {

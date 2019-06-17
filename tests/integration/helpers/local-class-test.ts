@@ -6,11 +6,12 @@ import Evented from '@ember/object/evented';
 import { begin, end } from '@ember/runloop';
 import Service from '@ember/service';
 
+import MakeupService from 'ember-makeup/services/makeup';
 import { TestContext as _TestContext } from 'ember-test-helpers';
+
 import hbs from 'htmlbars-inline-precompile';
 
 import registerModule from 'dummy/tests/helpers/register-module';
-import MakeupService from 'ember-makeup/services/makeup';
 
 module('Integration | Helper | local-class', function(hooks) {
   setupRenderingTest(hooks);
