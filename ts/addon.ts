@@ -10,10 +10,9 @@ import {
 import Project from 'ember-cli/lib/models/project';
 import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
-import { Class as BroccoliFileCreator } from 'broccoli-file-creator';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
 import { BroccoliNode } from 'broccoli-plugin';
-import { EmberMakeupConfig } from '../addon/config';
+import { configCreator } from './plugins/broccoli/config-creator';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
@@ -73,14 +72,9 @@ const addonPrototype = addon({
       this._super.treeForAddon.call(this, tree),
       'treeForAddon:input'
     );
-    const configModuleName = `${this.name}/config`;
-    const config: EmberMakeupConfig = this.makeupOptions;
-    const configFile = new BroccoliFileCreator(
-      `${configModuleName}.js`,
-      `define.exports('${configModuleName}', { default: ${JSON.stringify(
-        config
-      )} });`
-    );
+
+    const configFile = configCreator(`${this.name}/config`, this.makeupOptions);
+
     const mergedTree = this.debugTree(
       new BroccoliMergeTrees([originalTree, configFile], {
         annotation: 'ember-makeup:merge-config'
