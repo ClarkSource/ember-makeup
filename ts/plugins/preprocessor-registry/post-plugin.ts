@@ -1,6 +1,6 @@
 import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
 import broccoliPostcss from 'broccoli-postcss';
-import cfgToVarPlugin, { Usage } from '../postcss/cfg-to-var';
+import cfgToVarPlugin from '../postcss/cfg-to-var';
 import { BroccoliNode } from 'broccoli-plugin';
 import { EmberMakeupAddon } from '../../addon';
 
@@ -28,9 +28,9 @@ export default class PostPlugin implements Plugin {
         {
           module: cfgToVarPlugin,
           options: {
-            reportUsage(usage: Usage) {
-              console.log(usage);
-            }
+            // reportUsage(usage: Usage) {
+            //   console.log(usage);
+            // }
           }
         }
       ]
