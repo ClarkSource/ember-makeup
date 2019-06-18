@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": { "*": ["types/*"] },
     "target": "es2016",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"], // All `@types` in `node_modules` are checked, which is why we need to include `dom` here.
     "module": "commonjs",
     "moduleResolution": "node",
     "allowJs": true,
