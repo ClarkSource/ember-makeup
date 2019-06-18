@@ -2,6 +2,9 @@ import { assert } from '@ember/debug';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 
+// @TODO: This fails, when the primary host does not depend on `ember-makeup`
+// directly. What should the correct behavior be? I think we should throw a
+// build error, similar to `ember-cli-resolve-asset`.
 import config from 'ember-makeup/config';
 
 import pEvent from 'p-event';
