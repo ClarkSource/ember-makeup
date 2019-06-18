@@ -1,3 +1,5 @@
+import cssesc from 'cssesc';
+
 const CONFIG_KEY_REGEX = /^[\w-.]+$/i;
 const ROOT_CONFIG_KEY_REGEX = /^\/[\w-.]+$/i;
 
@@ -14,3 +16,10 @@ export const containsQuotes = (string: string) =>
   string.includes('"') || string.includes("'") || string.includes('`');
 
 export const resolveRootConfigKey = (key: string) => key.slice(1);
+
+export const serializeConfigKey = (key: string) =>
+  `--${cssesc(key, { isIdentifier: true })}`;
+
+export const isContextKey = (key: string) => key.startsWith('$');
+
+export const contextFromContextKey = (key: string) => key.slice(1);

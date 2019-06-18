@@ -2,8 +2,10 @@
 
 import { FinalMakeupOptions } from '../ts/lib/options';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EmberMakeupConfig extends FinalMakeupOptions {}
+export interface EmberMakeupConfig {
+  options: FinalMakeupOptions;
+  themePaths: Record<string, string>;
+}
 
 declare const config: EmberMakeupConfig;
 

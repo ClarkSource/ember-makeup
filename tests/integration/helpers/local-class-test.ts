@@ -2,6 +2,7 @@ import { render, settled } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import EmberObject from '@ember/object';
 import Evented from '@ember/object/evented';
 import { begin, end } from '@ember/runloop';
 import Service from '@ember/service';
@@ -12,6 +13,13 @@ import { TestContext as _TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import registerModule from 'dummy/tests/helpers/register-module';
+
+type MakeupServiceInterface = Partial<
+  Pick<
+    MakeupService,
+    Exclude<keyof MakeupService, keyof Evented | keyof EmberObject>
+  >
+>;
 
 module('Integration | Helper | local-class', function(hooks) {
   setupRenderingTest(hooks);
@@ -25,7 +33,7 @@ module('Integration | Helper | local-class', function(hooks) {
     this.owner.register(
       'service:makeup',
       class MakeupServiceMock extends Service.extend(Evented)
-        implements MakeupService {
+        implements MakeupServiceInterface {
         classNamePrefix = 'some-class-name-prefix/';
 
         resolveContext(): string {
@@ -47,7 +55,7 @@ module('Integration | Helper | local-class', function(hooks) {
     this.owner.register(
       'service:makeup',
       class MakeupServiceMock extends Service.extend(Evented)
-        implements MakeupService {
+        implements MakeupServiceInterface {
         classNamePrefix = 'some-class-name-prefix/';
 
         resolveContext(key: string): string {

@@ -1,10 +1,7 @@
 import { plugin } from 'postcss';
 import valueParser, { Node } from 'postcss-value-parser';
-import cssesc from 'cssesc';
 import { getKeyNodeFromFunctionNode } from './utils';
-
-const serializeConfigKey = (key: string) =>
-  `--${cssesc(key, { isIdentifier: true })}`;
+import { serializeConfigKey } from '../../lib/config-key';
 
 export interface Options {
   keyword?: string;

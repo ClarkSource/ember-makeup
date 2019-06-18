@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": { "*": ["types/*"] },
     "target": "es2016",
+    "lib": ["esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
     "allowJs": true,

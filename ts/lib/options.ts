@@ -6,7 +6,7 @@ export interface MakeupOptions {
 export type FinalMakeupOptions = Readonly<Required<MakeupOptions>>;
 
 export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
-  contextClassNamePrefix: 'ember-makeup/',
+  contextClassNamePrefix: 'ember-makeup/context/',
   contextKeyword: 'context'
 });
 

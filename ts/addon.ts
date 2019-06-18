@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { addon } from './lib/utils/ember-cli-entities';
 import BroccoliDebug from 'broccoli-debug';
 import { register } from './plugins/preprocessor-registry';
@@ -12,7 +13,10 @@ import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
 import { BroccoliNode } from 'broccoli-plugin';
-import { configCreator } from './plugins/broccoli/config-creator';
+import {
+  configCreatorJS,
+  configCreatorCSS
+} from './plugins/broccoli/config-creator';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
@@ -38,13 +42,18 @@ const addonPrototype = addon({
       includer.options && (includer.options.makeup as MakeupOptions | undefined)
     );
 
-    if (this.belongsToAddon()) {
+    if ((this.parent as Addon).parent) {
       this.parentAddon = includer as Addon;
     }
   },
 
-  belongsToAddon() {
-    return Boolean((this.parent as Addon).parent);
+  shouldIncludeChildAddon(childAddon): boolean {
+    const disabledAddons = ['ember-css-modules', 'ember-cli-sass'];
+    if (disabledAddons.includes(childAddon.name)) {
+      return false;
+    }
+
+    return this._super.shouldIncludeChildAddon.call(this, childAddon);
   },
 
   /**
@@ -67,13 +76,53 @@ const addonPrototype = addon({
     return new EmberCSSModulesPlugin(parent, this);
   },
 
+  themes: {
+    clark: {
+      'contextual-component': {
+        background: {
+          $light: 'white',
+          $dark: 'black'
+        },
+        color: {
+          $light: 'black',
+          $dark: 'white'
+        },
+        actual: {
+          $light: '"light"',
+          $dark: '"dark"'
+        },
+        'style-applied': '"Yes"'
+      },
+
+      context: {
+        light: 'light',
+        dark: 'dark'
+      }
+    }
+  },
+
+  filePathForTheme(themeName: string) {
+    return `${this.name}/${themeName}.css`;
+  },
+
   treeForAddon(tree: BroccoliNode): BroccoliNode {
     const originalTree = this.debugTree(
       this._super.treeForAddon.call(this, tree),
       'treeForAddon:input'
     );
 
-    const configFile = configCreator(`${this.name}/config`, this.makeupOptions);
+    // Only run for the root app.
+    if (this.parentAddon) return originalTree;
+
+    const configFile = configCreatorJS(`${this.name}/config`, {
+      options: this.makeupOptions,
+      themePaths: Object.fromEntries(
+        Object.keys(this.themes).map(themeName => [
+          themeName,
+          join('/', this.filePathForTheme(themeName))
+        ])
+      )
+    });
 
     const mergedTree = this.debugTree(
       new BroccoliMergeTrees([originalTree, configFile], {
@@ -83,6 +132,20 @@ const addonPrototype = addon({
     );
 
     return mergedTree;
+  },
+
+  treeForPublic() {
+    // Only run for the root app.
+    if (this.parentAddon) return undefined;
+
+    return this.debugTree(
+      configCreatorCSS({
+        getFileName: themeName => this.filePathForTheme(themeName),
+        contextClassNamePrefix: this.makeupOptions.contextClassNamePrefix,
+        themes: this.themes
+      }),
+      'treeForStyles:output'
+    );
   }
 });
 

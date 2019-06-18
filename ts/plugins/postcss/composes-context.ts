@@ -43,7 +43,7 @@ export default plugin<{
       atRule.replaceWith(
         decl({
           prop: 'composes',
-          value: `${contextClassNamePrefix}/${configKey} from global`
+          value: `${contextClassNamePrefix}${configKey} from global`
         })
       );
     });

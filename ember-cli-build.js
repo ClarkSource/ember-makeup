@@ -1,6 +1,7 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const BroccoliDebugTree = require('broccoli-debug');
 
 module.exports = function(defaults) {
   const app = new EmberAddon(defaults, {
@@ -9,5 +10,5 @@ module.exports = function(defaults) {
     }
   });
 
-  return app.toTree();
+  return new BroccoliDebugTree(app.toTree(), 'ember-makeup:dummy-app');
 };

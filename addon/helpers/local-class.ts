@@ -1,5 +1,6 @@
 import Helper from '@ember/component/helper';
 import { action } from '@ember/object';
+import { join } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 
 import { localClass as originalLocalClass } from 'ember-css-modules/helpers/local-class';
@@ -24,7 +25,8 @@ export default class LocalClassHelper extends Helper {
 
   @action
   private onThemeChange() {
-    if (this.hasContexts) this.recompute();
+    // @TODO: https://github.com/emberjs/ember.js/issues/14774
+    if (this.hasContexts) join(() => this.recompute());
   }
 
   compute(params: [string], named: { from: string }) {
