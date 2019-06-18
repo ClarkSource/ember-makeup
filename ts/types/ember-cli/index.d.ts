@@ -37,6 +37,7 @@ declare module 'ember-cli/lib/models/addon' {
     pkg: {
       name: string;
       version: string;
+      keywords?: string[];
       dependencies?: Record<string, string>;
       devDependencies?: Record<string, string>;
     };

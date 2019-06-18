@@ -17,16 +17,18 @@ import {
   configCreatorJS,
   configCreatorCSS
 } from './plugins/broccoli/config-creator';
-import { ThemeList } from './lib/theme';
+import { ThemeProviderRegistry, ThemeProvider } from './themes';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
 
   makeupOptions: (undefined as unknown) as FinalMakeupOptions,
 
-  themes: (undefined as unknown) as ThemeList,
+  themeProviders: (undefined as unknown) as ThemeProviderRegistry,
 
   parentAddon: (undefined as unknown) as Addon | undefined,
+
+  /* static */ ThemeProvider,
 
   get debugTree() {
     return BroccoliDebug.buildDebugCallback(this.name);
@@ -34,6 +36,12 @@ const addonPrototype = addon({
 
   included(includer) {
     this.computeOptions(includer);
+
+    this.themeProviders = new ThemeProviderRegistry(
+      this.parent,
+      includer,
+      'ember-makeup-theme-provider'
+    );
 
     this._super.included.call(this, includer);
   },
@@ -50,8 +58,6 @@ const addonPrototype = addon({
     this.makeupOptions = computeOptions(parentOptions.makeup as
       | MakeupOptions
       | undefined);
-
-    this.themes = (parentOptions.themes as ThemeList) || {};
 
     if ((this.parent as Addon).parent) {
       this.parentAddon = includer as Addon;
@@ -103,10 +109,12 @@ const addonPrototype = addon({
     const configFile = configCreatorJS(`${this.name}/config`, {
       options: this.makeupOptions,
       themePaths: Object.fromEntries(
-        Object.keys(this.themes).map(themeName => [
-          themeName,
-          join('/', this.filePathForTheme(themeName))
-        ])
+        this.themeProviders
+          .getThemeNames()
+          .map(themeName => [
+            themeName,
+            join('/', this.filePathForTheme(themeName))
+          ])
       )
     });
 
@@ -128,7 +136,7 @@ const addonPrototype = addon({
       configCreatorCSS({
         getFileName: themeName => this.filePathForTheme(themeName),
         contextClassNamePrefix: this.makeupOptions.contextClassNamePrefix,
-        themes: this.themes
+        themes: this.themeProviders.getThemes()
       }),
       'treeForStyles:output'
     );

@@ -8,7 +8,7 @@ import {
   isContextKey,
   contextFromContextKey
 } from '../../../lib/config-key';
-import { Theme, ThemeList } from '../../../lib/theme';
+import { Theme, ThemeList } from '../../../themes';
 
 const isPrimitiveValue = (value: any) =>
   typeof value === 'string' || typeof value === 'number';

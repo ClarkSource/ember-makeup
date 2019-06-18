@@ -3,35 +3,43 @@
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const BroccoliDebugTree = require('broccoli-debug');
 
+const { ThemeProvider } = require('.');
+
 module.exports = function(defaults) {
   const app = new EmberAddon(defaults, {
     cssModules: {
       intermediateOutputPath: 'app/styles/css-modules.css'
     },
 
-    themes: {
-      clark: {
-        'contextual-component': {
-          background: {
-            $light: 'white',
-            $dark: 'black'
-          },
-          color: {
-            $light: 'black',
-            $dark: 'white'
-          },
-          actual: {
-            $light: '"light"',
-            $dark: '"dark"'
-          },
-          'style-applied': '"Yes"'
-        },
+    createEmberMakeupThemeProvider() {
+      return new (class extends ThemeProvider {
+        getThemes() {
+          return {
+            clark: {
+              'contextual-component': {
+                background: {
+                  $light: 'white',
+                  $dark: 'black'
+                },
+                color: {
+                  $light: 'black',
+                  $dark: 'white'
+                },
+                actual: {
+                  $light: '"light"',
+                  $dark: '"dark"'
+                },
+                'style-applied': '"Yes"'
+              },
 
-        context: {
-          light: 'light',
-          dark: 'dark'
+              context: {
+                light: 'light',
+                dark: 'dark'
+              }
+            }
+          };
         }
-      }
+      })();
     }
   });
 
