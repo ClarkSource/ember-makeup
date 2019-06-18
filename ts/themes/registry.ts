@@ -82,9 +82,7 @@ export class ThemeProviderRegistry {
     );
     if (!(plugin instanceof ThemeProvider)) {
       this.parent.ui.writeWarnLine(
-        `Addon '${
-          addon.name
-        }' did not return a 'ThemeProvider' instance from its 'createEmberMakeupThemeProvider' hook.`
+        `Addon '${addon.name}' did not return a 'ThemeProvider' instance from its 'createEmberMakeupThemeProvider' hook.`
       );
     }
 

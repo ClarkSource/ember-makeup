@@ -1169,6 +1169,13 @@
   dependencies:
     "@types/sizzle" "*"
 
+"@types/lodash.frompairs@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.frompairs/-/lodash.frompairs-4.0.6.tgz#09b082c10fa753dc2001302b75ac79ca1e0a9ea3"
+  integrity sha512-rwCUf4NMKhXpiVjL/RXP8YOk+rd02/J4tACADEgaMXRVnzDbSSlBMKFZoX/ARmHVLg3Qc98Um4PErGv8FbxU7w==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.transform@^4.6.6":
   version "4.6.6"
   resolved "https://registry.yarnpkg.com/@types/lodash.transform/-/lodash.transform-4.6.6.tgz#f69d442089180d7724430ede6b7a985720117132"
@@ -7083,6 +7090,11 @@ lodash.forown@~2.3.0:
     lodash._basecreatecallback "~2.3.0"
     lodash._objecttypes "~2.3.0"
     lodash.keys "~2.3.0"
+
+lodash.frompairs@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/lodash.frompairs/-/lodash.frompairs-4.0.1.tgz#bc4e5207fa2757c136e573614e9664506b2b1bd2"
+  integrity sha1-vE5SB/onV8E25XNhTpZkUGsrG9I=
 
 lodash.get@^4.4.2:
   version "4.4.2"

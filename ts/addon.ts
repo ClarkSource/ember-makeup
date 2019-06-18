@@ -1,4 +1,5 @@
 import { join } from 'path';
+import fromPairs from 'lodash.frompairs';
 import { addon } from './lib/utils/ember-cli-entities';
 import BroccoliDebug from 'broccoli-debug';
 import { register } from './plugins/preprocessor-registry';
@@ -108,7 +109,7 @@ const addonPrototype = addon({
 
     const configFile = configCreatorJS(`${this.name}/config`, {
       options: this.makeupOptions,
-      themePaths: Object.fromEntries(
+      themePaths: fromPairs(
         this.themeProviders
           .getThemeNames()
           .map(themeName => [
