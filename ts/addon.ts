@@ -17,11 +17,14 @@ import {
   configCreatorJS,
   configCreatorCSS
 } from './plugins/broccoli/config-creator';
+import { ThemeList } from './lib/theme';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
 
   makeupOptions: (undefined as unknown) as FinalMakeupOptions,
+
+  themes: (undefined as unknown) as ThemeList,
 
   parentAddon: (undefined as unknown) as Addon | undefined,
 
@@ -38,9 +41,17 @@ const addonPrototype = addon({
   computeOptions(includer: Addon | Project | EmberApp) {
     if (this.makeupOptions) return;
 
-    this.makeupOptions = computeOptions(
-      includer.options && (includer.options.makeup as MakeupOptions | undefined)
-    );
+    if (!includer.options && !this.app)
+      throw new Error('Could not find parent options.');
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const parentOptions = includer.options || this.app!.options;
+
+    this.makeupOptions = computeOptions(parentOptions.makeup as
+      | MakeupOptions
+      | undefined);
+
+    this.themes = (parentOptions.themes as ThemeList) || {};
 
     if ((this.parent as Addon).parent) {
       this.parentAddon = includer as Addon;
@@ -74,31 +85,6 @@ const addonPrototype = addon({
     this.computeOptions(parent);
 
     return new EmberCSSModulesPlugin(parent, this);
-  },
-
-  themes: {
-    clark: {
-      'contextual-component': {
-        background: {
-          $light: 'white',
-          $dark: 'black'
-        },
-        color: {
-          $light: 'black',
-          $dark: 'white'
-        },
-        actual: {
-          $light: '"light"',
-          $dark: '"dark"'
-        },
-        'style-applied': '"Yes"'
-      },
-
-      context: {
-        light: 'light',
-        dark: 'dark'
-      }
-    }
   },
 
   filePathForTheme(themeName: string) {

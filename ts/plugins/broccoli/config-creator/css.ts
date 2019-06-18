@@ -8,6 +8,7 @@ import {
   isContextKey,
   contextFromContextKey
 } from '../../../lib/config-key';
+import { Theme, ThemeList } from '../../../lib/theme';
 
 const isPrimitiveValue = (value: any) =>
   typeof value === 'string' || typeof value === 'number';
@@ -132,14 +133,10 @@ function themeToCSS(
   return css.toString();
 }
 
-interface Config {
+export interface Config {
   contextClassNamePrefix: string;
   getFileName: (themeName: string) => string;
-  themes: Record<string, Theme>;
-}
-
-interface Theme {
-  [key: string]: Theme | string | number;
+  themes: ThemeList;
 }
 
 export function configCreatorCSS({
