@@ -4571,9 +4571,9 @@ ember-compatibility-helpers@^1.2.0:
     semver "^5.4.1"
 
 ember-css-modules@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-css-modules/-/ember-css-modules-1.2.0.tgz#c376383e9852b6deb7b52f8f7b40c8c7b54910e4"
-  integrity sha512-ddmaFVIzsrmHwhN+4pK/vehkBUwf4RULZXbn0CHXwyakGndQb3+fTFWOiSekBCuc/9agGXzidjZbl6ndIX7wIg==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ember-css-modules/-/ember-css-modules-1.2.1.tgz#2aa68f14ab656d6a1259ce6da5d329078a8f03ad"
+  integrity sha512-s4pAcRUOESbDb5vk5y4KXYA1wPh36hvYBMYPyqx2ZeBfJIVhG1ZCsJ8ADLYyG+MCYD7B+0EqL/hUAStdz3ApZA==
   dependencies:
     broccoli-concat "^3.2.2"
     broccoli-css-modules "^0.6.2"
