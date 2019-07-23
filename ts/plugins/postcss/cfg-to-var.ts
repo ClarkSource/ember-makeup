@@ -1,10 +1,24 @@
-import { plugin } from 'postcss';
 import valueParser, { Node } from 'postcss-value-parser';
-import { getKeyNodeFromFunctionNode } from './utils';
+import { getKeyNodeFromFunctionNode, pluginWithRequiredOptions } from './utils';
 import { serializeConfigKey } from '../../lib/config-key';
 
 export interface Options {
+  /**
+   * The function name to use.
+   *
+   * @default 'cfg'
+   */
   keyword?: string;
+
+  /**
+   * The key namespace to prepend when transforming to `var` functions.
+   */
+  customPropertyPrefix: string;
+
+  /**
+   * An optional function to call for every occurrence of the `cfg` function.
+   * This is used to build the implicit schema.
+   */
   reportUsage?: (usage: Usage) => void;
 
   // https://github.com/jeffjewiss/broccoli-postcss/blob/d01e9827889b0a61a56ed7d991119f2f00bde6b1/index.js#L38
@@ -12,22 +26,53 @@ export interface Options {
   to?: string;
 }
 
+/**
+ * A `Usage` is reported for every occurrence of the `cfg` function.
+ */
 export interface Usage {
+  /**
+   * The list of selectors of the rule of this declaration this config value is
+   * used in.
+   *
+   * @example ['.foo', '.bar > .foo']
+   */
   selectors: string[];
+
+  /**
+   * The name of the property of the declaration this config value is used in.
+   *
+   * @example 'border-color'
+   */
   prop: string;
+
+  /**
+   * The original full value of the declaration this config value is used in.
+   */
   originalValue: string;
+
+  /**
+   * The fully resolved config key that is referenced, i.e. the part inside of
+   * the `cfg()` function.
+   *
+   * @example 'some-component.border.color'
+   */
   key: string;
-  fallback?: string;
+
+  /**
+   * The file path of the current file.
+   */
   path: string;
 }
 
-export default plugin(
+export default pluginWithRequiredOptions(
   'postcss-ember-makeup',
-  ({ keyword = 'cfg', reportUsage, to }: Options = {}) => {
+  ({ keyword = 'cfg', customPropertyPrefix, reportUsage, to }: Options) => {
     const needsTransformation = (value: string) =>
       value.includes(`${keyword}(`);
 
     if (!to) throw new TypeError('Called without `to` file path option.');
+    if (!customPropertyPrefix)
+      throw new TypeError('Called without key `customPropertyPrefix` option.');
 
     return root => {
       root.walkDecls(decl => {
@@ -55,7 +100,7 @@ export default plugin(
             keyNode.type = 'word';
 
             const key = keyNode.value;
-            keyNode.value = serializeConfigKey(key);
+            keyNode.value = serializeConfigKey(`${customPropertyPrefix}${key}`);
 
             node.nodes = [keyNode];
 
@@ -63,18 +108,11 @@ export default plugin(
             node.value = 'var';
 
             if (reportUsage) {
-              const fallback =
-                node.nodes.length > 1
-                  ? valueParser.stringify(node.nodes.slice(1))
-                  : undefined;
               reportUsage({
-                // @todo https://github.com/postcss/postcss/pull/1277
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                selectors: rule.selectors!,
+                selectors: rule.selectors,
                 prop: decl.prop,
                 originalValue,
                 key,
-                fallback,
                 path: to
               });
             }

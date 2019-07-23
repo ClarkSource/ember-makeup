@@ -136,6 +136,7 @@ const addonPrototype = addon({
     return this.debugTree(
       configCreatorCSS({
         getFileName: themeName => this.filePathForTheme(themeName),
+        customPropertyPrefix: this.makeupOptions.customPropertyPrefix,
         contextClassNamePrefix: this.makeupOptions.contextClassNamePrefix,
         themes: this.themeProviders.getThemes()
       }),

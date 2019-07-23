@@ -10,6 +10,7 @@ import config from 'ember-makeup/config';
 import pEvent from 'p-event';
 
 export default class MakeupService extends Service.extend(Evented) {
+  readonly customPropertyPrefix: string = config.options.customPropertyPrefix;
   readonly classNamePrefix: string = config.options.contextClassNamePrefix;
   readonly themePaths: Record<string, string> = config.themePaths;
 
@@ -48,7 +49,9 @@ export default class MakeupService extends Service.extend(Evented) {
   }
 
   private getPropertyValue(key: string) {
-    return this.computedStyle.getPropertyValue(`--${key}`).trim();
+    return this.computedStyle
+      .getPropertyValue(`--${this.customPropertyPrefix}${key}`)
+      .trim();
   }
 
   async setTheme(themeName: string) {

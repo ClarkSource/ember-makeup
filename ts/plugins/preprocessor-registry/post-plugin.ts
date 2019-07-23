@@ -28,6 +28,7 @@ export default class PostPlugin implements Plugin {
         {
           module: cfgToVarPlugin,
           options: {
+            customPropertyPrefix: this.owner.makeupOptions.customPropertyPrefix
             // reportUsage(usage: Usage) {
             //   console.log(usage);
             // }

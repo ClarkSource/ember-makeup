@@ -1,4 +1,5 @@
 export interface MakeupOptions {
+  customPropertyPrefix?: string;
   contextClassNamePrefix?: string;
   contextKeyword?: string;
 }
@@ -6,6 +7,7 @@ export interface MakeupOptions {
 export type FinalMakeupOptions = Readonly<Required<MakeupOptions>>;
 
 export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
+  customPropertyPrefix: 'ember-makeup/cfg/',
   contextClassNamePrefix: 'ember-makeup/context/',
   contextKeyword: 'context'
 });

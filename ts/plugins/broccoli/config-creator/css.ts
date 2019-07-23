@@ -99,12 +99,18 @@ const flattenTheme = (
   );
 /* eslint-enable no-param-reassign */
 
-const flattenedThemeToRule = (selector: string, theme: FlattenedTheme) =>
+const flattenedThemeToRule = (
+  {
+    selector,
+    customPropertyPrefix
+  }: { selector: string; customPropertyPrefix: string },
+  theme: FlattenedTheme
+) =>
   Object.entries(theme).reduce(
     (builtRule, [key, value]) =>
       builtRule.append(
         decl({
-          prop: serializeConfigKey(key),
+          prop: serializeConfigKey(`${customPropertyPrefix}${key}`),
           value: String(value)
         })
       ),
@@ -113,18 +119,29 @@ const flattenedThemeToRule = (selector: string, theme: FlattenedTheme) =>
 
 function themeToCSS(
   theme: Theme,
-  { contextClassNamePrefix }: { contextClassNamePrefix: string }
+  {
+    customPropertyPrefix,
+    contextClassNamePrefix
+  }: { customPropertyPrefix: string; contextClassNamePrefix: string }
 ) {
   const { contextless, contextual } = flattenTheme([])(theme);
 
   const css = root();
-  css.append(flattenedThemeToRule(':root', contextless));
+  css.append(
+    flattenedThemeToRule(
+      { selector: ':root', customPropertyPrefix },
+      contextless
+    )
+  );
   for (const [contextName, contextualTheme] of Object.entries(contextual)) {
     css.append(
       flattenedThemeToRule(
-        `.${cssesc(`${contextClassNamePrefix}${contextName}`, {
-          isIdentifier: true
-        })}`,
+        {
+          selector: `.${cssesc(`${contextClassNamePrefix}${contextName}`, {
+            isIdentifier: true
+          })}`,
+          customPropertyPrefix
+        },
         contextualTheme
       )
     );
@@ -134,6 +151,7 @@ function themeToCSS(
 }
 
 export interface Config {
+  customPropertyPrefix: string;
   contextClassNamePrefix: string;
   getFileName: (themeName: string) => string;
   themes: ThemeList;
@@ -141,6 +159,7 @@ export interface Config {
 
 export function configCreatorCSS({
   themes,
+  customPropertyPrefix,
   contextClassNamePrefix,
   getFileName
 }: Config) {
@@ -149,7 +168,7 @@ export function configCreatorCSS({
       ([name, theme]) =>
         new BroccoliFileCreator(
           getFileName(name),
-          themeToCSS(theme, { contextClassNamePrefix })
+          themeToCSS(theme, { customPropertyPrefix, contextClassNamePrefix })
         )
     ),
     { annotation: 'ember-makeup:config-creator-css' }

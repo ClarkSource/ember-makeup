@@ -1,4 +1,4 @@
-import { Container, Declaration } from 'postcss';
+import { Container, Declaration, Plugin, Transformer, plugin } from 'postcss';
 import {
   stringify,
   FunctionNode,
@@ -63,4 +63,18 @@ export function getKeyNodeFromFunctionNode(
   }
 
   return keyNode as WordNode | StringNode;
+}
+
+export function pluginWithRequiredOptions<T>(
+  name: string,
+  initializer: (pluginOptions: T) => Transformer
+) {
+  return plugin(name, (pluginOptions?: T) => {
+    if (!pluginOptions)
+      throw new TypeError(
+        `Plugin '${name}' requires you to pass an options object.`
+      );
+
+    return initializer(pluginOptions);
+  }) as Plugin<T | Record<string, any>>;
 }
