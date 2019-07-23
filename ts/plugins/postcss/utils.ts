@@ -33,6 +33,10 @@ export function assertValidConfigKey(
   }
 }
 
+/**
+ * Validate and return then key node from a parsed function node.
+ * This ensures that the passed in function node only has a single parameter.
+ */
 export function getKeyNodeFromFunctionNode(
   decl: Declaration,
   node: FunctionNode,
@@ -40,6 +44,17 @@ export function getKeyNodeFromFunctionNode(
 ): WordNode | StringNode {
   const [keyNode] = node.nodes;
 
+  /**
+   * When invoked as `cfg()`, without an explicit config key, return the
+   * declaration property name as the key. For instance, the following would
+   * return `border-color`:
+   *
+   * ```css
+   * .foo {
+   *   border-color: cfg();
+   * }
+   * ```
+   */
   if (!keyNode) {
     const syntheticKeyNode: StringNode = {
       type: 'string' as NodeType.String,
@@ -50,6 +65,24 @@ export function getKeyNodeFromFunctionNode(
     return syntheticKeyNode;
   }
 
+  /**
+   * Disallow passing more than one parameter.
+   */
+  if (node.nodes.length !== 1) {
+    throw decl.error(
+      `You can only pass one parameter to '${keyword}', but you provided: ${stringify(
+        node
+      )}`,
+      { word: keyword }
+    );
+  }
+
+  /**
+   * Only allow strings or words as keys.
+   *
+   * - string: `cfg('foo')`
+   * - word:   `cfg(foo)`
+   */
   if (
     (keyNode.type !== 'word' && keyNode.type !== 'string') ||
     keyNode.value.length === 0

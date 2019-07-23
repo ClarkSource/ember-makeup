@@ -64,8 +64,11 @@ export interface Usage {
   path: string;
 }
 
+/**
+ * Transforms the `cfg()` function to `var()`.
+ */
 export default pluginWithRequiredOptions(
-  'postcss-ember-makeup',
+  'postcss-ember-makeup:cfg-to-var',
   ({ keyword = 'cfg', customPropertyPrefix, reportUsage, to }: Options) => {
     const needsTransformation = (value: string) =>
       value.includes(`${keyword}(`);
@@ -92,6 +95,10 @@ export default pluginWithRequiredOptions(
           .walk(node => {
             if (node.type !== 'function' || node.value !== keyword) return;
 
+            // This also validates the function node and ensures that it only
+            // a single parameter. Thus we can safely reuse it to turn it into a
+            // `var` function, without accidentally specifying a second
+            // parameter (the optional fallback value).
             const keyNode = getKeyNodeFromFunctionNode(
               decl,
               node,
@@ -101,8 +108,6 @@ export default pluginWithRequiredOptions(
 
             const key = keyNode.value;
             keyNode.value = serializeConfigKey(`${customPropertyPrefix}${key}`);
-
-            node.nodes = [keyNode];
 
             // turns `cfg` into `var`
             node.value = 'var';
