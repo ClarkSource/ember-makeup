@@ -9,6 +9,12 @@ import config from 'ember-makeup/config';
 
 import pEvent from 'p-event';
 
+function removeNode(node: Node) {
+  if (node.parentNode) {
+    node.parentNode.removeChild(node);
+  }
+}
+
 export default class MakeupService extends Service.extend(Evented) {
   readonly customPropertyPrefix: string = config.options.customPropertyPrefix;
   readonly classNamePrefix: string = config.options.contextClassNamePrefix;
@@ -24,21 +30,37 @@ export default class MakeupService extends Service.extend(Evented) {
     this.destroyLinkElement();
   }
 
-  private createLinkElement(href: string) {
-    this.destroyLinkElement();
+  private async createLinkElement(href: string) {
+    const linkElement = document.createElement('link');
+    linkElement.setAttribute('rel', 'stylesheet');
+    linkElement.setAttribute('href', href);
+    document.head.appendChild(linkElement);
 
-    this.linkElement = document.createElement('link');
-    this.linkElement.setAttribute('rel', 'stylesheet');
-    this.linkElement.setAttribute('href', href);
-    document.head.appendChild(this.linkElement);
+    try {
+      await pEvent(linkElement, 'load');
 
-    return pEvent(this.linkElement, 'load');
+      // Only destroy the old link element _after_ the new one loaded
+      // successfully, to avoid FOUC.
+      this.destroyLinkElement();
+
+      this.linkElement = linkElement;
+    } catch (error) {
+      // When loading the new link element failed, still destroy the old link
+      // element.
+      this.destroyLinkElement();
+
+      // But also cleanup the new link element.
+      removeNode(linkElement);
+
+      throw error;
+    }
   }
 
   private destroyLinkElement() {
-    if (this.linkElement && this.linkElement.parentElement)
-      this.linkElement.parentElement.removeChild(this.linkElement);
-    this.linkElement = undefined;
+    if (this.linkElement) {
+      removeNode(this.linkElement);
+      this.linkElement = undefined;
+    }
   }
 
   resolveContext(key: string): string | undefined {
