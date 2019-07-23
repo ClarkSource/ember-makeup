@@ -8,6 +8,7 @@ import Service from '@ember/service';
 import config from 'ember-makeup/config';
 
 import pEvent from 'p-event';
+import { computed } from '@ember/object';
 
 function removeNode(node: Node) {
   if (node.parentNode) {
@@ -21,9 +22,26 @@ export default class MakeupService extends Service.extend(Evented) {
   readonly themePaths: Record<string, string> = config.themePaths;
 
   private linkElement?: HTMLLinkElement;
-  private computedStyle!: CSSStyleDeclaration;
+  private computedStyles: Record<string, CSSStyleDeclaration> = Object.create(
+    null
+  );
 
   private isReady = false;
+
+  /**
+   * This is a cached element that is appended to the `:root`, so that we can
+   * use it to compute styles with in `getComputedStyle`.
+   */
+  @computed()
+  private get probeElement() {
+    const element = document.createElement('div');
+
+    // Intentionally using `appendChild` over `append` here, since it is
+    // supported in IE11.
+    document.documentElement.appendChild(element);
+
+    return element;
+  }
 
   willDestroy() {
     super.willDestroy();
@@ -65,13 +83,20 @@ export default class MakeupService extends Service.extend(Evented) {
 
   resolveContext(key: string): string | undefined {
     if (!this.isReady) return undefined;
+
     const context = this.getPropertyValue(key);
     assert(`Could not resolve context '${key}'.`, Boolean(context));
+    return this.prefixContext(context!);
+  }
+
+  private prefixContext(context: string) {
     return `${this.classNamePrefix}${context}`;
   }
 
-  private getPropertyValue(key: string) {
-    return this.computedStyle
+  private getPropertyValue(key: string, context?: string): string | undefined {
+    if (!this.isReady) return undefined;
+
+    return this.getComputedStyle(context)
       .getPropertyValue(`--${this.customPropertyPrefix}${key}`)
       .trim();
   }
@@ -84,12 +109,36 @@ export default class MakeupService extends Service.extend(Evented) {
       themeName in this.themePaths
     );
 
+    this.isReady = false;
+
     await this.createLinkElement(this.themePaths[themeName]);
-    this.computedStyle = window.getComputedStyle(document.documentElement);
+    this.computedStyles = Object.create(null);
 
     this.isReady = true;
 
     this.trigger('theme-change');
+  }
+
+  /**
+   * Returns the computed style for either the document `:root`, if `context` is
+   * empty, or the computed style for the given `context`.
+   *
+   * This can then be used call `getPropertyValue` on to resolve a value.
+   *
+   * @param context
+   */
+  private getComputedStyle(context?: string): CSSStyleDeclaration {
+    const cacheKey = context ? `context-${context}` : `root`;
+
+    if (!this.computedStyles[cacheKey]) {
+      let element: HTMLElement = document.documentElement;
+      if (context) {
+        element = this.probeElement;
+        element.className = this.prefixContext(context);
+      }
+      this.computedStyles[cacheKey] = window.getComputedStyle(element);
+    }
+    return this.computedStyles[cacheKey];
   }
 }
 
