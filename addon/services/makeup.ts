@@ -1,6 +1,7 @@
 import { assert } from '@ember/debug';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 // @TODO: This fails, when the primary host does not depend on `ember-makeup`
 // directly. What should the correct behavior be? I think we should throw a
@@ -9,6 +10,7 @@ import config from 'ember-makeup/config';
 
 import pEvent from 'p-event';
 import { computed } from '@ember/object';
+import { makeStylesheetReader } from 'ember-makeup/utils/stylesheet/reader';
 
 function removeNode(node: Node) {
   if (node.parentNode) {
@@ -21,26 +23,32 @@ export default class MakeupService extends Service.extend(Evented) {
   readonly classNamePrefix: string = config.options.contextClassNamePrefix;
   readonly themePaths: Record<string, string> = config.themePaths;
 
-  private linkElement?: HTMLLinkElement;
-  private computedStyles: Record<string, CSSStyleDeclaration> = Object.create(
-    null
+  /**
+   * All browsers that do not support `CSS.supports` also do not support custom
+   * properties.
+   */
+  readonly supportsCustomProperties = Boolean(
+    window.CSS && CSS.supports('--foo: var(--bar)')
   );
+
+  get stylesheetReader() {
+    return makeStylesheetReader({
+      customPropertyPrefix: this.customPropertyPrefix,
+      classNamePrefix: this.classNamePrefix
+    });
+  }
+
+  @tracked
+  private linkElement?: HTMLLinkElement;
 
   private isReady = false;
 
-  /**
-   * This is a cached element that is appended to the `:root`, so that we can
-   * use it to compute styles with in `getComputedStyle`.
-   */
-  @computed()
-  private get probeElement() {
-    const element = document.createElement('div');
+  @computed('linkElement')
+  get properties() {
+    if (!this.linkElement || !this.linkElement.sheet) return undefined;
 
-    // Intentionally using `appendChild` over `append` here, since it is
-    // supported in IE11.
-    document.documentElement.appendChild(element);
-
-    return element;
+    const sheet = this.linkElement.sheet as CSSStyleSheet;
+    return this.stylesheetReader(sheet);
   }
 
   willDestroy() {
@@ -94,11 +102,18 @@ export default class MakeupService extends Service.extend(Evented) {
   }
 
   private getPropertyValue(key: string, context?: string): string | undefined {
-    if (!this.isReady) return undefined;
+    this.properties;
 
-    return this.getComputedStyle(context)
-      .getPropertyValue(`--${this.customPropertyPrefix}${key}`)
-      .trim();
+    if (!this.properties) return undefined;
+
+    if (context) {
+      return (
+        this.properties.contextual[context] &&
+        this.properties.contextual[context][key]
+      );
+    }
+
+    return this.properties.contextless[key];
   }
 
   async setTheme(themeName: string) {
@@ -110,35 +125,10 @@ export default class MakeupService extends Service.extend(Evented) {
     );
 
     this.isReady = false;
-
     await this.createLinkElement(this.themePaths[themeName]);
-    this.computedStyles = Object.create(null);
-
     this.isReady = true;
 
     this.trigger('theme-change');
-  }
-
-  /**
-   * Returns the computed style for either the document `:root`, if `context` is
-   * empty, or the computed style for the given `context`.
-   *
-   * This can then be used call `getPropertyValue` on to resolve a value.
-   *
-   * @param context
-   */
-  private getComputedStyle(context?: string): CSSStyleDeclaration {
-    const cacheKey = context ? `context-${context}` : `root`;
-
-    if (!this.computedStyles[cacheKey]) {
-      let element: HTMLElement = document.documentElement;
-      if (context) {
-        element = this.probeElement;
-        element.className = this.prefixContext(context);
-      }
-      this.computedStyles[cacheKey] = window.getComputedStyle(element);
-    }
-    return this.computedStyles[cacheKey];
   }
 }
 
