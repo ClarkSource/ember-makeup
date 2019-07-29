@@ -62,6 +62,7 @@ export function getKeyNodeFromFunctionNode(
       quote: "'",
       unclosed: false
     };
+    node.nodes = [syntheticKeyNode];
     return syntheticKeyNode;
   }
 

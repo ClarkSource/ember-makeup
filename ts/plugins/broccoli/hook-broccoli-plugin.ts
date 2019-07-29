@@ -24,7 +24,10 @@ export function hookBroccoliPlugin<T extends BroccoliPlugin>(
         const returnValue = callbackObject.build();
         if (finish) {
           if (returnValue && typeof returnValue.then === 'function')
-            return returnValue.then((value: any) => (finish(), value));
+            return returnValue.then((value: any) => {
+              finish();
+              return value;
+            });
           finish();
         }
         return returnValue;

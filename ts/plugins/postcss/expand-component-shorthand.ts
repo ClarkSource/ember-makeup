@@ -71,7 +71,7 @@ function transformDecl(
       if (reportUsage) {
         const rule = findInIterable<Rule>(
           getParents(decl),
-          node => node.type === 'rule'
+          parentNode => parentNode.type === 'rule'
         );
         reportUsage({
           selectors: rule ? rule.selectors : [],
@@ -197,8 +197,9 @@ export default pluginWithRequiredOptions(
     reportUsage,
     to
   }: Options) {
-    return function(root, { options }: BroccoliCSSModulesResult) {
-      const path = to || (options && options.relativeFrom);
+    // eslint-disable-next-line unicorn/prevent-abbreviations
+    return function(root, { opts }: BroccoliCSSModulesResult) {
+      const path = to || (opts && opts.relativeFrom);
       if (!path)
         throw new TypeError('Neither `to` or `relativeFrom` were defined.');
 
@@ -224,7 +225,7 @@ export default pluginWithRequiredOptions(
       switch (componentAssociations.size) {
         case 0:
           return;
-        case 1:
+        case 1: {
           const [
             container,
             component
@@ -235,6 +236,7 @@ export default pluginWithRequiredOptions(
             path
           });
           break;
+        }
         default:
           transformMany(root, componentAssociations, {
             configKeyword,
