@@ -1,6 +1,6 @@
-import { Plugin as PostCSSPlugin, Transformer } from 'postcss';
 import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
+import { Plugin as PostCSSPlugin, Transformer } from 'postcss';
 
 export interface PluginHooks {
   /**

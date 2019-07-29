@@ -1,4 +1,5 @@
 import { Class as BroccoliFileCreator } from 'broccoli-file-creator';
+
 import { EmberMakeupConfig } from '../../../../addon/config';
 
 export function configCreatorJS(

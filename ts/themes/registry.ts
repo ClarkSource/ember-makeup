@@ -1,6 +1,7 @@
-import Addon from 'ember-cli/lib/models/addon';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
+import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
+
 import { ThemeProvider, ThemeList } from '.';
 
 const isThemeProvider = (keyword: string) => (addon: Addon) =>

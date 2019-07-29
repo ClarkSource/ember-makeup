@@ -1,25 +1,27 @@
 import { join } from 'path';
-import fromPairs from 'lodash.frompairs';
-import { addon } from './lib/utils/ember-cli-entities';
+
 import BroccoliDebug from 'broccoli-debug';
-import { register } from './plugins/preprocessor-registry';
+import BroccoliMergeTrees from 'broccoli-merge-trees';
+import { BroccoliNode } from 'broccoli-plugin';
+import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 import Addon from 'ember-cli/lib/models/addon';
+import Project from 'ember-cli/lib/models/project';
+import fromPairs from 'lodash.frompairs';
+
 import {
   computeOptions,
   MakeupOptions,
   FinalMakeupOptions
 } from './lib/options';
-import Project from 'ember-cli/lib/models/project';
-import EmberCSSModulesPlugin from './plugins/ember-css-modules';
-import EmberApp from 'ember-cli/lib/broccoli/ember-app';
-import BroccoliMergeTrees from 'broccoli-merge-trees';
-import { BroccoliNode } from 'broccoli-plugin';
+import { addon } from './lib/utils/ember-cli-entities';
 import {
   configCreatorJS,
   configCreatorCSS
 } from './plugins/broccoli/config-creator';
-import { ThemeProviderRegistry, ThemeProvider } from './themes';
+import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 import { Usage } from './plugins/postcss';
+import { register } from './plugins/preprocessor-registry';
+import { ThemeProviderRegistry, ThemeProvider } from './themes';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,

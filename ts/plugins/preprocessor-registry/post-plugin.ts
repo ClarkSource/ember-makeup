@@ -1,9 +1,10 @@
-import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
-import broccoliPostcss from 'broccoli-postcss';
-import { cfgToVarPlugin } from '../postcss';
 import { BroccoliNode } from 'broccoli-plugin';
+import broccoliPostcss from 'broccoli-postcss';
+import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
+
 import { EmberMakeupAddon } from '../../addon';
 import { collectUsages } from '../broccoli/hook-broccoli-plugin';
+import { cfgToVarPlugin } from '../postcss';
 
 export default class PostPreprocessorPlugin implements Plugin {
   // eslint-disable-next-line unicorn/prevent-abbreviations

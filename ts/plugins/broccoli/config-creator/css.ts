@@ -1,8 +1,9 @@
 import { Class as BroccoliFileCreator } from 'broccoli-file-creator';
-import { root, rule, decl } from 'postcss';
-import transform from 'lodash.transform';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
 import cssesc from 'cssesc';
+import transform from 'lodash.transform';
+import { root, rule, decl } from 'postcss';
+
 import {
   serializeConfigKey,
   isContextKey,

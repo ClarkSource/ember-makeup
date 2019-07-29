@@ -1,7 +1,8 @@
 import valueParser, { Node } from 'postcss-value-parser';
-import { getKeyNodeFromFunctionNode, pluginWithRequiredOptions } from './utils';
+
 import { serializeConfigKey } from '../../lib/config-key';
 import { Usage } from './usage';
+import { getKeyNodeFromFunctionNode, pluginWithRequiredOptions } from './utils';
 
 export interface Options {
   /**

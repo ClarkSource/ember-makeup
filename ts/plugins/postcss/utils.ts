@@ -6,6 +6,7 @@ import {
   WordNode,
   NodeType
 } from 'postcss-value-parser';
+
 import { isValidConfigKey, containsQuotes } from '../../lib/config-key';
 
 export function assertNoDoubleColonAtRule(

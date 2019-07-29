@@ -1,5 +1,11 @@
 import { Container, Declaration, AtRule, Rule, Result } from 'postcss';
 import valueParser from 'postcss-value-parser';
+
+import {
+  isValidRootConfigKey,
+  resolveRootConfigKey
+} from '../../lib/config-key';
+import { Usage } from './usage';
 import {
   assertNoDoubleColonAtRule,
   assertValidConfigKey,
@@ -8,11 +14,6 @@ import {
   findInIterable,
   pluginWithRequiredOptions
 } from './utils';
-import {
-  isValidRootConfigKey,
-  resolveRootConfigKey
-} from '../../lib/config-key';
-import { Usage } from './usage';
 
 function buildNamespaceFromParents(
   componentAssociations: Map<Container, string>,

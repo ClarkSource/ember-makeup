@@ -1,4 +1,5 @@
 import BroccoliPlugin from 'broccoli-plugin';
+
 import { Usage } from '../postcss';
 
 /**

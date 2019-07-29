@@ -1,4 +1,5 @@
 import { decl, plugin } from 'postcss';
+
 import { assertNoDoubleColonAtRule, assertValidConfigKey } from './utils';
 
 /**

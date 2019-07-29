@@ -1,12 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const merge = require('lodash.merge');
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const [
   BASE_ABBREVIATIONS_LEVEL,
   BASE_ABBREVIATIONS_CONFIG
 ] = require('@clark/eslint-config/lib/common').rules[
   'unicorn/prevent-abbreviations'
 ];
+const merge = require('lodash.merge');
 
 module.exports = {
   root: true,

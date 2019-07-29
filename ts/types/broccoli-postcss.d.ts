@@ -1,5 +1,5 @@
-import { Plugin, ProcessOptions, SourceMapOptions } from 'postcss';
 import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
+import { Plugin, ProcessOptions, SourceMapOptions } from 'postcss';
 
 export default function broccoliPostcss(
   tree: BroccoliNode,

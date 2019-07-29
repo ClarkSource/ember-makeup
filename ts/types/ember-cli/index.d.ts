@@ -1,20 +1,12 @@
+/* eslint-disable import-helpers/order-imports */
 declare module 'ember-cli/lib/broccoli/ember-app' {
-  import CoreObject from 'core-object';
-
   export default class EmberApp extends CoreObject {
     options: Record<string, unknown>;
   }
 }
 
 declare module 'ember-cli/lib/models/addon' {
-  import CoreObject, { ExtendOptions } from 'core-object';
   import UI from 'console-ui';
-  import { Application } from 'express';
-  import Project from 'ember-cli/lib/models/project';
-  import Command from 'ember-cli/lib/models/command';
-  import EmberApp from 'ember-cli/lib/broccoli/ember-app';
-  import Registry from 'ember-cli-preprocessor-registry';
-  import { BroccoliNode } from 'broccoli-plugin';
 
   export default class Addon extends CoreObject {
     name: string;
@@ -76,9 +68,7 @@ declare module 'ember-cli/lib/models/blueprint' {
 }
 
 declare module 'ember-cli/lib/models/command' {
-  import CoreObject from 'core-object';
   import UI from 'console-ui';
-  import Project from 'ember-cli/lib/models/project';
 
   interface CommandOption {
     name: string;
@@ -109,9 +99,20 @@ declare module 'ember-cli/lib/models/command' {
 }
 
 declare module 'ember-cli/lib/models/project' {
-  import CoreObject from 'core-object';
   import UI from 'console-ui';
+
+  import { BroccoliNode } from 'broccoli-plugin';
+  import CoreObject from 'core-object';
+  import CoreObject from 'core-object';
+  import CoreObject, { ExtendOptions } from 'core-object';
+  import CoreObject from 'core-object';
+  import Registry from 'ember-cli-preprocessor-registry';
+  import EmberApp from 'ember-cli/lib/broccoli/ember-app';
   import Addon from 'ember-cli/lib/models/addon';
+  import Command from 'ember-cli/lib/models/command';
+  import Project from 'ember-cli/lib/models/project';
+  import Project from 'ember-cli/lib/models/project';
+  import { Application } from 'express';
 
   export default class Project extends CoreObject {
     ui: UI;

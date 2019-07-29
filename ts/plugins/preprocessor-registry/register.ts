@@ -1,7 +1,8 @@
-import { PrePlugin, PostPlugin } from '.';
 import Registry from 'ember-cli-preprocessor-registry';
-import { EmberMakeupAddon } from '../../addon';
 import get from 'lodash.get';
+
+import { PrePlugin, PostPlugin } from '.';
+import { EmberMakeupAddon } from '../../addon';
 
 export function register(
   owner: EmberMakeupAddon,

@@ -1,7 +1,7 @@
 'use strict';
 
-const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const BroccoliDebugTree = require('broccoli-debug');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 const { ThemeProvider } = require('.');
 

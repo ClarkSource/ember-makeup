@@ -1,12 +1,13 @@
+import Addon from 'ember-cli/lib/models/addon';
+import Project from 'ember-cli/lib/models/project';
 import Plugin, { PluginHooks, Options } from 'ember-css-modules/lib/plugin';
+
+import { EmberMakeupAddon } from '../../addon';
 import {
   composesContextPlugin,
   expandComponentShorthandPlugin,
   Usage
 } from '../postcss';
-import { EmberMakeupAddon } from '../../addon';
-import Project from 'ember-cli/lib/models/project';
-import Addon from 'ember-cli/lib/models/addon';
 
 /**
  * This is a plugin for `ember-css-modules` that adds the following PostCSS
