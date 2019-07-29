@@ -1,7 +1,8 @@
 import Plugin, { PluginHooks, Options } from 'ember-css-modules/lib/plugin';
 import {
   composesContextPlugin,
-  expandComponentShorthandPlugin
+  expandComponentShorthandPlugin,
+  Usage
 } from '../postcss';
 import { EmberMakeupAddon } from '../../addon';
 import Project from 'ember-cli/lib/models/project';
@@ -20,17 +21,39 @@ import Addon from 'ember-cli/lib/models/addon';
 export default class EmberCSSModulesPlugin extends Plugin
   implements PluginHooks {
   private owner: EmberMakeupAddon;
+  private usages: Usage[] = [];
+
+  name = 'ember-makeup:css-modules';
 
   constructor(parent: Addon | Project, owner: EmberMakeupAddon) {
     super(parent);
     this.owner = owner;
   }
 
+  private flushUsages() {
+    this.usages = [];
+  }
+
+  private collectUsage(usage: Usage) {
+    this.usages.push(usage);
+  }
+
+  private reportUsages() {
+    this.owner.reportUsages(this.name, this.usages);
+  }
+
+  buildEnd() {
+    this.reportUsages();
+    this.flushUsages();
+  }
+
   config(_environment: string, baseOptions: Options) {
     this.addPostcssPlugin(
       baseOptions,
       'before',
-      expandComponentShorthandPlugin,
+      expandComponentShorthandPlugin({
+        reportUsage: usage => this.collectUsage(usage)
+      }),
       composesContextPlugin(this.owner.makeupOptions)
     );
   }

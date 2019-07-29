@@ -19,6 +19,7 @@ import {
   configCreatorCSS
 } from './plugins/broccoli/config-creator';
 import { ThemeProviderRegistry, ThemeProvider } from './themes';
+import { Usage } from './plugins/postcss';
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
@@ -92,6 +93,11 @@ const addonPrototype = addon({
     this.computeOptions(parent);
 
     return new EmberCSSModulesPlugin(parent, this);
+  },
+
+  reportUsages(callsite: string, usages: Usage[]) {
+    console.log({ callsite });
+    console.log(usages);
   },
 
   filePathForTheme(themeName: string) {

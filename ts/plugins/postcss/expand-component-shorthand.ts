@@ -1,29 +1,25 @@
-import { plugin, Container, Declaration, AtRule } from 'postcss';
+import { Container, Declaration, AtRule, Rule, Result } from 'postcss';
 import valueParser from 'postcss-value-parser';
 import {
   assertNoDoubleColonAtRule,
   assertValidConfigKey,
-  getKeyNodeFromFunctionNode
+  getKeyNodeFromFunctionNode,
+  getParents,
+  findInIterable,
+  pluginWithRequiredOptions
 } from './utils';
 import {
   isValidRootConfigKey,
   resolveRootConfigKey
 } from '../../lib/config-key';
-
-function* getParents(node: { parent: any }) {
-  let { parent } = node;
-  while (parent) {
-    yield parent;
-    parent = parent.parent;
-  }
-}
+import { Usage } from './usage';
 
 function buildNamespaceFromParents(
   componentAssociations: Map<Container, string>,
   node: { parent: any }
 ): string {
   const namespaceFragments: string[] = [];
-  for (const parent of getParents(node)) {
+  for (const parent of getParents<Container>(node)) {
     if (!componentAssociations.has(parent)) continue;
 
     // @todo https://github.com/microsoft/TypeScript/issues/13086
@@ -50,17 +46,41 @@ function transformContextAtRule(atRule: AtRule, namespace: string) {
   atRule.params = namespaceConfigKey(namespace, configKey);
 }
 
-function transformDecl(decl: Declaration, namespace: string, keyword = 'cfg') {
+interface TransformOptions {
+  configKeyword: string;
+  reportUsage?: (usage: Usage) => void;
+  path: string;
+}
+
+function transformDecl(
+  decl: Declaration,
+  namespace: string,
+  { configKeyword, reportUsage, path }: TransformOptions
+) {
   const originalValue = decl.value;
 
   decl.value = valueParser(originalValue)
     .walk(node => {
-      if (node.type !== 'function' || node.value !== keyword) return;
+      if (node.type !== 'function' || node.value !== configKeyword) return;
 
-      const keyNode = getKeyNodeFromFunctionNode(decl, node, keyword);
-      keyNode.value = namespaceConfigKey(namespace, keyNode.value);
+      const keyNode = getKeyNodeFromFunctionNode(decl, node, configKeyword);
+      const key = namespaceConfigKey(namespace, keyNode.value);
 
-      node.nodes = [keyNode];
+      keyNode.value = key;
+
+      if (reportUsage) {
+        const rule = findInIterable<Rule>(
+          getParents(decl),
+          node => node.type === 'rule'
+        );
+        reportUsage({
+          selectors: rule ? rule.selectors : [],
+          property: decl.prop,
+          originalValue,
+          key,
+          path
+        });
+      }
     })
     .toString();
 }
@@ -68,13 +88,13 @@ function transformDecl(decl: Declaration, namespace: string, keyword = 'cfg') {
 function transformOne(
   container: Container,
   component: string,
-  keyword = 'cfg'
+  { configKeyword, reportUsage, path }: TransformOptions
 ) {
   container.walkDecls(decl => {
     // Only parse and transform, if the function, e.g. `cfg(`, is present.
-    if (!decl.value.includes(`${keyword}(`)) return;
+    if (!decl.value.includes(`${configKeyword}(`)) return;
 
-    transformDecl(decl, component, keyword);
+    transformDecl(decl, component, { configKeyword, reportUsage, path });
   });
   container.walkAtRules('context', atRule =>
     transformContextAtRule(atRule, component)
@@ -84,11 +104,11 @@ function transformOne(
 function transformMany(
   container: Container,
   componentAssociations: Map<Container, string>,
-  keyword = 'cfg'
+  { configKeyword = 'cfg', reportUsage, path }: TransformOptions
 ) {
   container.walkDecls(decl => {
     // Only parse and transform, if the function, e.g. `cfg(`, is present.
-    if (!decl.value.includes(`${keyword}(`)) return;
+    if (!decl.value.includes(`${configKeyword}(`)) return;
 
     const parentNamespace = buildNamespaceFromParents(
       componentAssociations,
@@ -97,7 +117,7 @@ function transformMany(
 
     if (!parentNamespace) return;
 
-    transformDecl(decl, parentNamespace, keyword);
+    transformDecl(decl, parentNamespace, { configKeyword, reportUsage, path });
   });
   container.walkAtRules('context', atRule => {
     const parentNamespace = buildNamespaceFromParents(
@@ -106,6 +126,38 @@ function transformMany(
     );
     transformContextAtRule(atRule, parentNamespace);
   });
+}
+
+export interface Options {
+  /**
+   * The function name to use.
+   *
+   * @default 'cfg'
+   */
+  configKeyword?: string;
+
+  /**
+   * The at-rule name to use.
+   *
+   * @default 'component'
+   */
+  componentKeyword?: string;
+
+  /**
+   * An optional function to call for every occurrence of the `cfg` function.
+   * This is used to build the implicit schema.
+   */
+  reportUsage?: (usage: Usage) => void;
+
+  // https://github.com/jeffjewiss/broccoli-postcss/blob/d01e9827889b0a61a56ed7d991119f2f00bde6b1/index.js#L38
+  from?: string;
+  to?: string;
+}
+
+interface BroccoliCSSModulesResult extends Result {
+  opts?: Result['opts'] & {
+    relativeFrom?: string;
+  };
 }
 
 /**
@@ -137,37 +189,59 @@ function transformMany(
  * }
  * ```
  */
-export default plugin('postcss-ember-makeup:expand-component-shortcut', () => {
-  const keyword = 'component';
+export default pluginWithRequiredOptions(
+  'postcss-ember-makeup:expand-component-shortcut',
+  function({
+    configKeyword = 'cfg',
+    componentKeyword = 'component',
+    reportUsage,
+    to
+  }: Options) {
+    return function(root, { options }: BroccoliCSSModulesResult) {
+      const path = to || (options && options.relativeFrom);
+      if (!path)
+        throw new TypeError('Neither `to` or `relativeFrom` were defined.');
 
-  return root => {
-    assertNoDoubleColonAtRule(keyword, root);
+      assertNoDoubleColonAtRule(componentKeyword, root);
 
-    const componentAssociations = new Map<Container, string>();
+      const componentAssociations = new Map<Container, string>();
 
-    root.walkAtRules(keyword, atRule => {
-      const { params: configKey, parent } = atRule;
-      assertValidConfigKey(configKey, atRule);
+      root.walkAtRules(componentKeyword, atRule => {
+        const { params: configKey, parent } = atRule;
+        assertValidConfigKey(configKey, atRule);
 
-      if (componentAssociations.has(parent)) {
-        throw atRule.error(
-          `You can only specify a '@component' once per container.`
-        );
+        if (componentAssociations.has(parent)) {
+          throw atRule.error(
+            `You can only specify a '@component' once per container.`
+          );
+        }
+
+        componentAssociations.set(parent, configKey);
+
+        atRule.remove();
+      });
+
+      switch (componentAssociations.size) {
+        case 0:
+          return;
+        case 1:
+          const [
+            container,
+            component
+          ] = componentAssociations.entries().next().value;
+          transformOne(container, component, {
+            configKeyword,
+            reportUsage,
+            path
+          });
+          break;
+        default:
+          transformMany(root, componentAssociations, {
+            configKeyword,
+            reportUsage,
+            path
+          });
       }
-
-      componentAssociations.set(parent, configKey);
-
-      atRule.remove();
-    });
-
-    switch (componentAssociations.size) {
-      case 0:
-        return;
-      case 1:
-        transformOne(...[...componentAssociations.entries()][0]);
-        break;
-      default:
-        transformMany(root, componentAssociations);
-    }
-  };
-});
+    };
+  }
+);

@@ -4,8 +4,9 @@ import { BroccoliNode } from 'broccoli-plugin';
 import { EmberMakeupAddon } from '../../addon';
 import { expandComponentShorthandPlugin } from '../postcss';
 import scss from 'postcss-scss';
+import { collectUsages } from '../broccoli/hook-broccoli-plugin';
 
-export default class PrePlugin implements Plugin {
+export default class PrePreprocessorPlugin implements Plugin {
   // eslint-disable-next-line unicorn/prevent-abbreviations
   ext = ['css', 'scss'];
 
@@ -23,15 +24,20 @@ export default class PrePlugin implements Plugin {
     _outputDirectory: string,
     _options: ToTreeOptions
   ) {
-    const expandComponentShorthandTree = broccoliPostcss(tree, {
-      browsers: this.owner.project.targets.browsers,
-      plugins: [
-        {
-          module: expandComponentShorthandPlugin
-        }
-      ],
-      parser: scss
-    });
+    const expandComponentShorthandTree = collectUsages(
+      usages => this.owner.reportUsages(this.name, usages),
+      reportUsage =>
+        broccoliPostcss(tree, {
+          browsers: this.owner.project.targets.browsers,
+          plugins: [
+            {
+              module: expandComponentShorthandPlugin,
+              options: { reportUsage }
+            }
+          ],
+          parser: scss
+        })
+    );
 
     // Passing as part of the options object above unfortunately does not work
     // correctly, because the `undefined` is ignored.

@@ -1,16 +1,18 @@
 import { assert } from '@ember/debug';
+import { computed } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
+
+import config from 'ember-makeup/config';
+import { makeStylesheetReader } from 'ember-makeup/utils/stylesheet/reader';
+
 import { tracked } from '@glimmer/tracking';
 
 // @TODO: This fails, when the primary host does not depend on `ember-makeup`
 // directly. What should the correct behavior be? I think we should throw a
 // build error, similar to `ember-cli-resolve-asset`.
-import config from 'ember-makeup/config';
 
 import pEvent from 'p-event';
-import { computed } from '@ember/object';
-import { makeStylesheetReader } from 'ember-makeup/utils/stylesheet/reader';
 
 function removeNode(node: Node) {
   if (node.parentNode) {
@@ -102,8 +104,6 @@ export default class MakeupService extends Service.extend(Evented) {
   }
 
   private getPropertyValue(key: string, context?: string): string | undefined {
-    this.properties;
-
     if (!this.properties) return undefined;
 
     if (context) {

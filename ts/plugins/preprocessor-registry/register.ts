@@ -1,6 +1,7 @@
 import { PrePlugin, PostPlugin } from '.';
 import Registry from 'ember-cli-preprocessor-registry';
 import { EmberMakeupAddon } from '../../addon';
+import get from 'lodash.get';
 
 export function register(
   owner: EmberMakeupAddon,
@@ -17,13 +18,24 @@ export function register(
   // Remove all already registered plugins.
   for (const plugin of registeredPlugins) registry.remove(TYPE, plugin);
 
-  // Put the PrePlugin first.
-  registry.add(TYPE, new PrePlugin(owner));
+  // Find the `ember-css-modules` `OutputStylesProcessor`, if present.
+  const emberCSSModulesPluginIndex = registeredPlugins.findIndex(
+    plugin => get(plugin, 'owner.name') === 'ember-css-modules'
+  );
 
-  // Add all removed plugins back in.
-  for (const plugin of registeredPlugins) registry.add(TYPE, plugin);
+  // Add the `PrePlugin` _right_ behind the `OutputStylesProcessor`, or to the
+  // beginning of the array.
+  registeredPlugins.splice(
+    // If the plugin is not present: `-1 + 1 = 0`
+    emberCSSModulesPluginIndex + 1,
+    0,
+    new PrePlugin(owner)
+  );
 
   // Add the PostPlugin.
   // The list now looks like: [PrePlugin, ..., PostPlugin]
-  registry.add(TYPE, new PostPlugin(owner));
+  registeredPlugins.push(new PostPlugin(owner));
+
+  // Add all plugins back in.
+  for (const plugin of registeredPlugins) registry.add(TYPE, plugin);
 }

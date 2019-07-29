@@ -1,12 +1,13 @@
 import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
 import broccoliPostcss from 'broccoli-postcss';
-import cfgToVarPlugin from '../postcss/cfg-to-var';
+import { cfgToVarPlugin } from '../postcss';
 import { BroccoliNode } from 'broccoli-plugin';
 import { EmberMakeupAddon } from '../../addon';
+import { collectUsages } from '../broccoli/hook-broccoli-plugin';
 
-export default class PostPlugin implements Plugin {
+export default class PostPreprocessorPlugin implements Plugin {
   // eslint-disable-next-line unicorn/prevent-abbreviations
-  ext = ['css', 'yml'];
+  ext = ['css'];
 
   name = 'ember-makeup:post';
 
@@ -22,20 +23,23 @@ export default class PostPlugin implements Plugin {
     _outputDirectory: string,
     _options: ToTreeOptions
   ) {
-    const cfgToVarTree = broccoliPostcss(tree, {
-      browsers: this.owner.project.targets.browsers,
-      plugins: [
-        {
-          module: cfgToVarPlugin,
-          options: {
-            customPropertyPrefix: this.owner.makeupOptions.customPropertyPrefix
-            // reportUsage(usage: Usage) {
-            //   console.log(usage);
-            // }
-          }
-        }
-      ]
-    });
+    const cfgToVarTree = collectUsages(
+      usages => this.owner.reportUsages(this.name, usages),
+      reportUsage =>
+        broccoliPostcss(tree, {
+          browsers: this.owner.project.targets.browsers,
+          plugins: [
+            {
+              module: cfgToVarPlugin,
+              options: {
+                reportUsage,
+                customPropertyPrefix: this.owner.makeupOptions
+                  .customPropertyPrefix
+              }
+            }
+          ]
+        })
+    );
 
     return this.owner.debugTree(cfgToVarTree, 'post-plugin');
   }

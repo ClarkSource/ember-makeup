@@ -7,8 +7,13 @@ const { ThemeProvider } = require('.');
 
 module.exports = function(defaults) {
   const app = new EmberAddon(defaults, {
+    'ember-cli-babel': {
+      includePolyfill: true
+    },
+
     cssModules: {
-      intermediateOutputPath: 'app/styles/css-modules.css'
+      intermediateOutputPath: 'app/styles/css-modules.css',
+      passthroughFileExtensions: ['scss']
     },
 
     createEmberMakeupThemeProvider() {

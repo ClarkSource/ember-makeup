@@ -1,6 +1,7 @@
 import valueParser, { Node } from 'postcss-value-parser';
 import { getKeyNodeFromFunctionNode, pluginWithRequiredOptions } from './utils';
 import { serializeConfigKey } from '../../lib/config-key';
+import { Usage } from './usage';
 
 export interface Options {
   /**
@@ -24,44 +25,6 @@ export interface Options {
   // https://github.com/jeffjewiss/broccoli-postcss/blob/d01e9827889b0a61a56ed7d991119f2f00bde6b1/index.js#L38
   from?: string;
   to?: string;
-}
-
-/**
- * A `Usage` is reported for every occurrence of the `cfg` function.
- */
-export interface Usage {
-  /**
-   * The list of selectors of the rule of this declaration this config value is
-   * used in.
-   *
-   * @example ['.foo', '.bar > .foo']
-   */
-  selectors: string[];
-
-  /**
-   * The name of the property of the declaration this config value is used in.
-   *
-   * @example 'border-color'
-   */
-  prop: string;
-
-  /**
-   * The original full value of the declaration this config value is used in.
-   */
-  originalValue: string;
-
-  /**
-   * The fully resolved config key that is referenced, i.e. the part inside of
-   * the `cfg()` function.
-   *
-   * @example 'some-component.border.color'
-   */
-  key: string;
-
-  /**
-   * The file path of the current file.
-   */
-  path: string;
 }
 
 /**
@@ -115,7 +78,7 @@ export default pluginWithRequiredOptions(
             if (reportUsage) {
               reportUsage({
                 selectors: rule.selectors,
-                prop: decl.prop,
+                property: decl.prop,
                 originalValue,
                 key,
                 path: to

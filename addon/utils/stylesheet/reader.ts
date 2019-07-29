@@ -17,20 +17,20 @@ export const makeStylesheetReader = ({
   const contextual: Record<string, Record<string, string>> = {};
 
   for (const rule of (sheet.cssRules as unknown) as Iterable<CSSStyleRule>) {
-    let props = contextless;
+    let properties = contextless;
     if (rule.selectorText !== ':root') {
       const context = getContextFromSelector(rule.selectorText);
       if (!contextual[context]) {
         contextual[context] = {};
       }
-      props = contextual[context];
+      properties = contextual[context];
     }
 
-    for (const prop of rule.style) {
-      if (!prop.startsWith('--')) continue;
-      props[getKeyFromCustomProperty(prop)] = rule.style
-        .getPropertyValue(prop)
-        .trim();
+    for (const property of rule.style) {
+      if (!property.startsWith('--')) continue;
+      properties[
+        getKeyFromCustomProperty(property)
+      ] = rule.style.getPropertyValue(property).trim();
     }
   }
 

@@ -111,3 +111,21 @@ export function pluginWithRequiredOptions<T>(
     return initializer(pluginOptions);
   }) as Plugin<T | Record<string, any>>;
 }
+
+export function* getParents<T>(node: { parent: any }): IterableIterator<T> {
+  let { parent } = node;
+  while (parent) {
+    yield parent;
+    parent = parent.parent;
+  }
+}
+
+export function findInIterable<T>(
+  iterable: Iterable<any>,
+  predicate: (element: any) => boolean
+): T | null {
+  for (const element of iterable) {
+    if (predicate(element)) return element;
+  }
+  return null;
+}
