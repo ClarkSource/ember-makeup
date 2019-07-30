@@ -1,12 +1,21 @@
 /* eslint-disable import-helpers/order-imports */
 declare module 'ember-cli/lib/broccoli/ember-app' {
+  import CoreObject from 'core-object';
+
   export default class EmberApp extends CoreObject {
     options: Record<string, unknown>;
   }
 }
 
 declare module 'ember-cli/lib/models/addon' {
+  import { BroccoliNode } from 'broccoli-plugin';
   import UI from 'console-ui';
+  import CoreObject, { ExtendOptions } from 'core-object';
+  import EmberApp from 'ember-cli/lib/broccoli/ember-app';
+  import Command from 'ember-cli/lib/models/command';
+  import Project from 'ember-cli/lib/models/project';
+  import Registry from 'ember-cli-preprocessor-registry';
+  import { Application } from 'express';
 
   export default class Addon extends CoreObject {
     name: string;
@@ -69,6 +78,8 @@ declare module 'ember-cli/lib/models/blueprint' {
 
 declare module 'ember-cli/lib/models/command' {
   import UI from 'console-ui';
+  import CoreObject from 'core-object';
+  import Project from 'ember-cli/lib/models/project';
 
   interface CommandOption {
     name: string;
@@ -94,7 +105,7 @@ declare module 'ember-cli/lib/models/command' {
 
     project: Project;
 
-    run(options: {}): void | Promise<unknown>;
+    run(options: {}, anonymousOptions: string[]): void | Promise<unknown>;
   }
 }
 
@@ -102,16 +113,11 @@ declare module 'ember-cli/lib/models/project' {
   import UI from 'console-ui';
 
   import { BroccoliNode } from 'broccoli-plugin';
-  import CoreObject from 'core-object';
-  import CoreObject from 'core-object';
   import CoreObject, { ExtendOptions } from 'core-object';
-  import CoreObject from 'core-object';
   import Registry from 'ember-cli-preprocessor-registry';
   import EmberApp from 'ember-cli/lib/broccoli/ember-app';
   import Addon from 'ember-cli/lib/models/addon';
   import Command from 'ember-cli/lib/models/command';
-  import Project from 'ember-cli/lib/models/project';
-  import Project from 'ember-cli/lib/models/project';
   import { Application } from 'express';
 
   export default class Project extends CoreObject {
