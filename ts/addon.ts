@@ -8,6 +8,7 @@ import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
 import fromPairs from 'lodash.frompairs';
 
+import commands from './commands';
 import {
   computeOptions,
   MakeupOptions,
@@ -34,6 +35,10 @@ const addonPrototype = addon({
 
   /* static */ ThemeProvider,
 
+  get usages(): { [callsite: string]: Usage[] } {
+    return {};
+  },
+
   get debugTree() {
     return BroccoliDebug.buildDebugCallback(this.name);
   },
@@ -48,6 +53,10 @@ const addonPrototype = addon({
     );
 
     this._super.included.call(this, includer);
+  },
+
+  includedCommands() {
+    return commands;
   },
 
   computeOptions(includer: Addon | Project | EmberApp) {
@@ -98,8 +107,7 @@ const addonPrototype = addon({
   },
 
   reportUsages(callsite: string, usages: Usage[]) {
-    console.log({ callsite });
-    console.log(usages);
+    this.usages[callsite] = usages;
   },
 
   filePathForTheme(themeName: string) {
@@ -155,4 +163,5 @@ const addonPrototype = addon({
 
 export default addonPrototype;
 
+export const addonName = addonPrototype.name;
 export type EmberMakeupAddon = typeof addonPrototype & Addon;

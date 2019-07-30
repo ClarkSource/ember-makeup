@@ -44,7 +44,8 @@
     "postcss": "^7.0.17",
     "postcss-scss": "^2.0.0",
     "postcss-selector-parser": "^6.0.2",
-    "postcss-value-parser": "^4.0.0"
+    "postcss-value-parser": "^4.0.0",
+    "tmp-promise": "^2.0.2"
   },
   "devDependencies": {
     "@clark/ember-css-modules-config": "^0.4.1",
@@ -108,7 +109,7 @@
     "ember-css-modules": "^1.2.0"
   },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": ">= 11.14.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
