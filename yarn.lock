@@ -806,9 +806,9 @@
     "@typescript-eslint/parser" "^1.13.0"
 
 "@clark/eslint-config@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config/-/eslint-config-1.5.0.tgz#bb04ba43e6fc8d152020cf3e89792e5c0e176e3a"
-  integrity sha512-/SvFFjuun4K5xH9ejZf7tzu2vIrew8iMP3OWWsXuac3c+lYnFzePNuHRsHxRasE7qsPPRoPWP2ijKD8s2dvFxA==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-config/-/eslint-config-1.8.0.tgz#5d1c0930893e0b27332e6280924d815212eed303"
+  integrity sha512-CPDS0qhsw/342FjiOvoe35arww0Nkg1bVtF8qfBebMoIwmqnTDRDX01u2v5otwEGLkXGRBCy0KaetejtlLCGkw==
   dependencies:
     eslint-config-airbnb-base "^13.2.0"
     eslint-config-prettier "^6.0.0"
