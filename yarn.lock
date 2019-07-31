@@ -745,9 +745,9 @@
     "@clark/eslint-config" "^1.5.0"
 
 "@clark/eslint-config-ember-order-imports@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.5.0.tgz#7f36612a26cb51a461c849637a3f3905b79d3af2"
-  integrity sha512-Cn6qkXTYNNU6T5p/8aQ9eeaDPDoyCjrRobHpCrbrqimIkgUpGn/ZXeHYP5aH0jvoBLNRJ5iYSqV3UtT3M+m73w==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.8.0.tgz#8ef7195c17723ae0684124ab43940c3a9b7db31c"
+  integrity sha512-y5FopsqyB/9KhFYrLoBbI/U9qDxvyDW1oTrDF1y0/31BwXtC8U/CwHI3z053rX8cY3T/EQTpXIW5LDc7s6lizg==
   dependencies:
     eslint-plugin-import-helpers "^1.0.2"
 
