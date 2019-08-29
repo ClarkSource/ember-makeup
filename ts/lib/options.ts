@@ -16,8 +16,8 @@ export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
 
 export function computeOptions(options?: MakeupOptions): FinalMakeupOptions {
   if (options && typeof options === 'object') {
-    return Object.assign({}, DEFAULT_OPTIONS, options);
+    return { ...DEFAULT_OPTIONS, ...options };
   }
 
-  return Object.assign({}, DEFAULT_OPTIONS);
+  return { ...DEFAULT_OPTIONS };
 }
