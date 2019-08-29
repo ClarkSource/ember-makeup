@@ -34,7 +34,7 @@ module('Integration | Helper | local-class', function(hooks) {
       'service:makeup',
       class MakeupServiceMock extends Service.extend(Evented)
         implements MakeupServiceInterface {
-        classNamePrefix = 'some-class-name-prefix/';
+        contextClassNamePrefix = 'some-class-name-prefix/';
 
         resolveContext(): string {
           throw new Error('Should not be called');
@@ -56,7 +56,7 @@ module('Integration | Helper | local-class', function(hooks) {
       'service:makeup',
       class MakeupServiceMock extends Service.extend(Evented)
         implements MakeupServiceInterface {
-        classNamePrefix = 'some-class-name-prefix/';
+        contextClassNamePrefix = 'some-class-name-prefix/';
 
         resolveContext(key: string): string {
           return `context-${flavor}-${key}`;

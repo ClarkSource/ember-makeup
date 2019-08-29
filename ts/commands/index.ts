@@ -1,7 +1,7 @@
+import fromPairs from 'lodash.frompairs';
+
 import generate from './schema/generate';
 
 const commands = [generate];
 
-export default Object.fromEntries(
-  commands.map(command => [command.name, command])
-);
+export default fromPairs(commands.map(command => [command.name, command]));

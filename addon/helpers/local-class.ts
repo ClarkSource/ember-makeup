@@ -31,19 +31,21 @@ export default class LocalClassHelper extends Helper {
 
   compute(params: [string], named: { from: string }) {
     const localClasses = originalLocalClass(params, named);
-    const { classNamePrefix } = this.makeup;
+    const { contextClassNamePrefix } = this.makeup;
 
     // If the magic context class name prefix is not contained in the class
     // list, just pass through the unchanged local classes.
-    this.hasContexts = localClasses.includes(classNamePrefix);
+    this.hasContexts = localClasses.includes(contextClassNamePrefix);
     if (!this.hasContexts) return localClasses;
 
     // Forward all regular local classes and resolve all context classes.
     return localClasses
       .split(' ')
       .map(className =>
-        className.startsWith(classNamePrefix)
-          ? this.makeup.resolveContext(className.slice(classNamePrefix.length))
+        className.startsWith(contextClassNamePrefix)
+          ? this.makeup.resolveContext(
+              className.slice(contextClassNamePrefix.length)
+            )
           : className
       )
       .join(' ');

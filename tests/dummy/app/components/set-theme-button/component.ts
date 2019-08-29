@@ -1,16 +1,20 @@
-import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
 
 import MakeupService from 'ember-makeup/services/makeup';
 
-export default class SetThemeButton extends Component {
-  @service makeup!: MakeupService;
+export interface SetThemeButtonArgs {
+  theme: string;
+}
 
-  theme!: string;
+export default class SetThemeButtonComponent extends Component<
+  SetThemeButtonArgs
+> {
+  @service makeup!: MakeupService;
 
   @action
   setTheme() {
-    this.makeup.setTheme(this.theme);
+    this.makeup.setTheme(this.args.theme);
   }
 }

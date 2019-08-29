@@ -2,13 +2,13 @@ import { unescape } from '../css';
 
 export const makeStylesheetReader = ({
   customPropertyPrefix,
-  classNamePrefix
+  contextClassNamePrefix
 }: {
   customPropertyPrefix: string;
-  classNamePrefix: string;
+  contextClassNamePrefix: string;
 }) => (sheet: CSSStyleSheet) => {
   const getContextFromSelector = (selector: string) =>
-    unescape(selector).slice(classNamePrefix.length + 1);
+    unescape(selector).slice(contextClassNamePrefix.length + 1);
 
   const getKeyFromCustomProperty = (property: string) =>
     unescape(property).slice(customPropertyPrefix.length + 2);

@@ -1,0 +1,10 @@
+{
+  "name": "test-theme-green",
+  "version": "0.0.0",
+  "keywords": [
+    "ember-makeup-theme"
+  ],
+  "makeup": {
+    "name": "green"
+  }
+}

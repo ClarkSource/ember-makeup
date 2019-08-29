@@ -21,7 +21,9 @@ function removeNode(node: Node) {
 
 export default class MakeupService extends Service.extend(Evented) {
   readonly customPropertyPrefix: string = config.options.customPropertyPrefix;
-  readonly classNamePrefix: string = config.options.contextClassNamePrefix;
+  readonly contextClassNamePrefix: string =
+    config.options.contextClassNamePrefix;
+
   readonly themePaths: Record<string, string> = config.themePaths;
 
   /**
@@ -35,7 +37,7 @@ export default class MakeupService extends Service.extend(Evented) {
   get stylesheetReader() {
     return makeStylesheetReader({
       customPropertyPrefix: this.customPropertyPrefix,
-      classNamePrefix: this.classNamePrefix
+      contextClassNamePrefix: this.contextClassNamePrefix
     });
   }
 
@@ -100,7 +102,7 @@ export default class MakeupService extends Service.extend(Evented) {
   }
 
   private prefixContext(context: string) {
-    return `${this.classNamePrefix}${context}`;
+    return `${this.contextClassNamePrefix}${context}`;
   }
 
   private getPropertyValue(key: string, context?: string): string | undefined {

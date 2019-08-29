@@ -1,0 +1,5 @@
+background: $background.light
+
+color: $typo.dark
+
+style-applied: '"Yes"'

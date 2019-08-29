@@ -1,0 +1,13 @@
+background:
+  $light: $background.light
+  $dark: $background.dark
+
+color:
+  $light: $typo.dark
+  $dark: $typo.light
+
+actual:
+  $light: '"light"'
+  $dark: '"dark"'
+
+style-applied: '"Yes"'

@@ -1,8 +1,10 @@
-import { join } from 'path';
+import { join, dirname } from 'path';
 
 import BroccoliDebug from 'broccoli-debug';
+import BroccoliFunnel from 'broccoli-funnel';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
-import { BroccoliNode } from 'broccoli-plugin';
+import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
+import { WatchedDir } from 'broccoli-source';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
@@ -22,18 +24,29 @@ import {
 import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 import { Usage } from './plugins/postcss';
 import { register } from './plugins/preprocessor-registry';
-import { ThemeProviderRegistry, ThemeProvider } from './themes';
+
+interface PackageJSON {
+  name: string;
+  version: string;
+  keywords?: string[];
+  makeup?: {
+    name?: string;
+  };
+}
+
+interface ThemePackage {
+  name: string;
+  package: PackageJSON;
+}
 
 const addonPrototype = addon({
   name: require(`${__dirname}/../package`).name as string,
 
   makeupOptions: (undefined as unknown) as FinalMakeupOptions,
 
-  themeProviders: (undefined as unknown) as ThemeProviderRegistry,
+  themePackages: (undefined as unknown) as ThemePackage[],
 
   parentAddon: (undefined as unknown) as Addon | undefined,
-
-  /* static */ ThemeProvider,
 
   get usages(): { [callsite: string]: Usage[] } {
     return {};
@@ -43,14 +56,29 @@ const addonPrototype = addon({
     return BroccoliDebug.buildDebugCallback(this.name);
   },
 
+  findThemePackages() {
+    const keyword = 'ember-makeup-theme';
+    const { dependencies = {}, devDependencies = {} } = this.project.pkg;
+    const packages: ThemePackage[] = [dependencies, devDependencies]
+      .flatMap(Object.keys)
+      .map(name => this.project.require(`${name}/package.json`) as PackageJSON)
+      .filter(json => json.keywords && json.keywords.includes(keyword))
+      .map(json => ({
+        name: (json.makeup && json.makeup.name) || json.name,
+        package: json
+      }));
+    if (packages.length === 0) {
+      throw new Error(
+        `Could not find a package with the '${keyword}' keyword.`
+      );
+    }
+    return packages;
+  },
+
   included(includer) {
     this.computeOptions(includer);
 
-    this.themeProviders = new ThemeProviderRegistry(
-      this.parent,
-      includer,
-      'ember-makeup-theme-provider'
-    );
+    this.themePackages = this.findThemePackages();
 
     this._super.included.call(this, includer);
   },
@@ -110,10 +138,6 @@ const addonPrototype = addon({
     this.usages[callsite] = usages;
   },
 
-  filePathForTheme(themeName: string) {
-    return `${this.name}/${themeName}.css`;
-  },
-
   treeForAddon(tree: BroccoliNode): BroccoliNode {
     const originalTree = this.debugTree(
       this._super.treeForAddon.call(this, tree),
@@ -126,12 +150,10 @@ const addonPrototype = addon({
     const configFile = configCreatorJS(`${this.name}/config`, {
       options: this.makeupOptions,
       themePaths: fromPairs(
-        this.themeProviders
-          .getThemeNames()
-          .map(themeName => [
-            themeName,
-            join('/', this.filePathForTheme(themeName))
-          ])
+        this.themePackages.map(theme => [
+          theme.name,
+          join('/', this.makeupOptions.pathPrefix, `${theme.name}.css`)
+        ])
       )
     });
 
@@ -149,14 +171,37 @@ const addonPrototype = addon({
     // Only run for the root app.
     if (this.parentAddon) return undefined;
 
+    const themePackageNames = this.findThemePackages();
+
+    const themePackageSourceNodes = themePackageNames.map(
+      themePackage =>
+        ([
+          themePackage.name,
+          new WatchedDir(
+            dirname(
+              this.project.resolveSync(
+                `${themePackage.package.name}/package.json`
+              )
+            ),
+            { annotation: `ember-makeup:theme-source (${themePackage.name})` }
+          )
+        ] as unknown) as [string, BroccoliPlugin]
+    );
+
     return this.debugTree(
-      configCreatorCSS({
-        getFileName: themeName => this.filePathForTheme(themeName),
-        customPropertyPrefix: this.makeupOptions.customPropertyPrefix,
-        contextClassNamePrefix: this.makeupOptions.contextClassNamePrefix,
-        themes: this.themeProviders.getThemes()
-      }),
-      'treeForStyles:output'
+      new BroccoliFunnel(
+        new BroccoliMergeTrees(
+          themePackageSourceNodes.map(([themeName, source]) =>
+            configCreatorCSS(source, {
+              themeName,
+              customPropertyPrefix: this.makeupOptions.customPropertyPrefix,
+              contextClassNamePrefix: this.makeupOptions.contextClassNamePrefix
+            })
+          )
+        ),
+        { destDir: this.makeupOptions.pathPrefix }
+      ),
+      'treeForPublic:output'
     );
   }
 });

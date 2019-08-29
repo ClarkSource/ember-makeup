@@ -1,4 +1,4 @@
-@component contextual-component;
+@component contextual-example;
 
 .contextual-component {
   background: cfg();

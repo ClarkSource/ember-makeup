@@ -24,7 +24,7 @@ interface BroccoliDebugOptions {
   force?: boolean;
 }
 
-declare class BroccoliDebug {
+declare class BroccoliDebug extends BroccoliPlugin {
   /**
     Builds a callback function for easily generating `BroccoliDebug` instances
     with a shared prefix.
