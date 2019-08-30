@@ -117,7 +117,10 @@
     "ember-css-modules": "^1.2.0"
   },
   "engines": {
-    "node": ">= 11.14.*"
+    "node": " ^8.6.0 || >= 10.0.0"
+  },
+  "volta": {
+    "node": "8.6.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",

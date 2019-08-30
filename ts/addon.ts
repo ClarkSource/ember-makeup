@@ -59,14 +59,19 @@ const addonPrototype = addon({
   findThemePackages() {
     const keyword = 'ember-makeup-theme';
     const { dependencies = {}, devDependencies = {} } = this.project.pkg;
-    const packages: ThemePackage[] = [dependencies, devDependencies]
-      .flatMap(Object.keys)
+
+    // Would be using `.flatMap()`, but it's not supported in Node 8.
+    // https://node.green/#ES2019-features-Array-prototype--flat--flatMap-
+    // eslint-disable-next-line unicorn/prefer-flat-map
+    const packages: ThemePackage[] = ([] as string[])
+      .concat(...[dependencies, devDependencies].map(Object.keys))
       .map(name => this.project.require(`${name}/package.json`) as PackageJSON)
       .filter(json => json.keywords && json.keywords.includes(keyword))
       .map(json => ({
         name: (json.makeup && json.makeup.name) || json.name,
         package: json
       }));
+
     if (packages.length === 0) {
       throw new Error(
         `Could not find a package with the '${keyword}' keyword.`

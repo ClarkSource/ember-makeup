@@ -7,6 +7,7 @@ import BroccoliPlugin, {
   BroccoliNode
 } from 'broccoli-plugin';
 import fg, { Pattern, Options as GlobOptions } from 'fast-glob';
+import fromPairs from 'lodash.frompairs';
 import pProps from 'p-props';
 import { JsonValue, JsonObject } from 'type-fest';
 
@@ -90,7 +91,7 @@ export class BroccoliMergeJSON extends BroccoliPlugin {
     const files: {
       [filePath: string]: JsonValue;
     } = await pProps(
-      Object.fromEntries(
+      fromPairs(
         filePaths.map(filePath => [
           filePath,
           this.readJSONFile(resolve(inputPath, filePath))

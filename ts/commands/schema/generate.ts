@@ -1,12 +1,13 @@
-import { promises } from 'fs';
+import { writeFile as _writeFile } from 'fs';
 import { resolve } from 'path';
+import { promisify } from 'util';
 
 import { withDir } from 'tmp-promise';
 
 import { EmberMakeupAddon, addonName } from '../../addon';
 import { command } from '../../lib/utils/ember-cli-entities';
 
-const { writeFile } = promises;
+const writeFile = promisify(_writeFile);
 
 interface SchemaGenerateOptions {
   dependencies: boolean;
