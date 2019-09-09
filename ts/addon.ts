@@ -48,6 +48,8 @@ const addonPrototype = addon({
 
   parentAddon: (undefined as unknown) as Addon | undefined,
 
+  _treeForConfig: (undefined as unknown) as BroccoliPlugin,
+
   get usages(): { [callsite: string]: Usage[] } {
     return {};
   },
@@ -172,9 +174,14 @@ const addonPrototype = addon({
     return mergedTree;
   },
 
-  treeForPublic() {
+  // @todo: move this to `PostPlugin` in the first place to avoid `broccoli-bridge`
+  treeForConfig() {
     // Only run for the root app.
-    if (this.parentAddon) return undefined;
+    if (this.parentAddon)
+      throw new Error('`treeForConfig` must not be called for addons.');
+
+    // Only run once and return the cached value.
+    if (this._treeForConfig) return this._treeForConfig;
 
     const themePackageNames = this.findThemePackages();
 
@@ -193,7 +200,7 @@ const addonPrototype = addon({
         ] as unknown) as [string, BroccoliPlugin]
     );
 
-    return this.debugTree(
+    const tree = this.debugTree(
       new BroccoliFunnel(
         new BroccoliMergeTrees(
           themePackageSourceNodes.map(([themeName, source]) =>
@@ -206,8 +213,12 @@ const addonPrototype = addon({
         ),
         { destDir: this.makeupOptions.pathPrefix }
       ),
-      'treeForPublic:output'
+      'treeForConfig:output'
     );
+
+    this._treeForConfig = tree;
+
+    return tree;
   }
 });
 

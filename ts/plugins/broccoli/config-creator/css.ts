@@ -1,3 +1,4 @@
+import BroccoliMergeTrees from 'broccoli-merge-trees';
 import { BroccoliNode } from 'broccoli-plugin';
 import { JsonValue, JsonObject } from 'type-fest';
 
@@ -37,5 +38,5 @@ export function configCreatorCSS(
     customPropertyPrefix,
     contextClassNamePrefix
   });
-  return cssTheme;
+  return new BroccoliMergeTrees([mergedJSON, cssTheme]);
 }

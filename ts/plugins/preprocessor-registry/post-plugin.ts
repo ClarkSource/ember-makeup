@@ -1,3 +1,4 @@
+import BroccoliMergeTrees from 'broccoli-merge-trees';
 import { BroccoliNode } from 'broccoli-plugin';
 import broccoliPostcss from 'broccoli-postcss';
 import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
@@ -19,7 +20,7 @@ export default class PostPreprocessorPlugin implements Plugin {
   }
 
   toTree(
-    tree: BroccoliNode,
+    input: BroccoliNode,
     _inputDirectory: string,
     _outputDirectory: string,
     _options: ToTreeOptions
@@ -27,7 +28,7 @@ export default class PostPreprocessorPlugin implements Plugin {
     const cfgToVarTree = collectUsages(
       usages => this.owner.reportUsages(this.name, usages),
       reportUsage =>
-        broccoliPostcss(tree, {
+        broccoliPostcss(input, {
           browsers: this.owner.project.targets.browsers,
           plugins: [
             {
@@ -42,6 +43,9 @@ export default class PostPreprocessorPlugin implements Plugin {
         })
     );
 
-    return this.owner.debugTree(cfgToVarTree, 'post-plugin');
+    return this.owner.debugTree(
+      new BroccoliMergeTrees([cfgToVarTree, this.owner.treeForConfig()]),
+      'post-plugin'
+    );
   }
 }
