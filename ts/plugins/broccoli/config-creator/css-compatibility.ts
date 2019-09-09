@@ -4,34 +4,11 @@ import BroccoliMultifilter from 'broccoli-multifilter';
 import { BroccoliNode } from 'broccoli-plugin';
 import fg from 'fast-glob';
 import makeDir from 'make-dir';
-import postcss from 'postcss';
 
 import { readFile, writeFile } from '../../../lib/utils/async-fs';
 import { Usage } from '../../../plugins/postcss';
+import { generateCompatibilityCSS } from '../../postcss/compatibility-css';
 import { Theme } from './css';
-
-// @todo move to extra file
-export function generateCompatibilityCSS(theme: Theme, usages: Usage[]) {
-  const root = postcss.root();
-
-  for (const usage of usages) {
-    root.append(
-      postcss.rule({
-        selectors: usage.selectors,
-        nodes: [
-          postcss.decl({
-            prop: usage.property,
-            value:
-              // @todo handle contextual properties and multiple `cfg()` per decl
-              (theme.contextless[usage.key] as string) || usage.originalValue
-          })
-        ]
-      })
-    );
-  }
-
-  return root;
-}
 
 export interface ConfigCreatorCSSCompatibilityOptions {
   customPropertyPrefix: string;
