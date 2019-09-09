@@ -1,3 +1,6 @@
+import { extname } from 'path';
+
+import BroccoliMultiPostCSS from 'broccoli-multi-postcss';
 import valueParser, { Node } from 'postcss-value-parser';
 
 import { serializeConfigKey } from '../../lib/config-key';
@@ -33,15 +36,22 @@ export interface Options {
  */
 export default pluginWithRequiredOptions(
   'postcss-ember-makeup:cfg-to-var',
-  ({ keyword = 'cfg', customPropertyPrefix, reportUsage, to }: Options) => {
+  ({ keyword = 'cfg', customPropertyPrefix }: Options) => {
     const needsTransformation = (value: string) =>
       value.includes(`${keyword}(`);
 
-    if (!to) throw new TypeError('Called without `to` file path option.');
     if (!customPropertyPrefix)
       throw new TypeError('Called without key `customPropertyPrefix` option.');
 
-    return root => {
+    return (root, result) => {
+      if (!result.opts || !result.opts.to)
+        throw new TypeError('Called without `to` file path option.');
+
+      const path = result.opts.to;
+
+      const usages: Usage[] = [];
+      const reportUsage = (usage: Usage) => usages.push(usage);
+
       root.walkDecls(decl => {
         if (!needsTransformation(decl.value)) return;
 
@@ -82,11 +92,18 @@ export default pluginWithRequiredOptions(
                 property: decl.prop,
                 originalValue,
                 key,
-                path: to
+                path
               });
             }
           }, true)
           .toString();
+      });
+
+      result.messages.push({
+        plugin: 'postcss-ember-makeup:cfg-to-var',
+        type: BroccoliMultiPostCSS.MessageType.WriteFile,
+        path: `${path.slice(0, -extname(path).length)}.makeup.json`,
+        content: JSON.stringify({ path, usages })
       });
     };
   }
