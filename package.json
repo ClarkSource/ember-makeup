@@ -45,6 +45,7 @@
     "lodash.frompairs": "^4.0.1",
     "lodash.get": "^4.4.2",
     "lodash.transform": "^4.6.0",
+    "make-dir": "^3.0.0",
     "p-event": "^4.1.0",
     "p-props": "^3.0.1",
     "postcss": "^7.0.18",

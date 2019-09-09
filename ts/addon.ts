@@ -174,7 +174,6 @@ const addonPrototype = addon({
     return mergedTree;
   },
 
-  // @todo: move this to `PostPlugin` in the first place to avoid `broccoli-bridge`
   treeForConfig() {
     // Only run for the root app.
     if (this.parentAddon)

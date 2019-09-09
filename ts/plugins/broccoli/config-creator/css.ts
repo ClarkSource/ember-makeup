@@ -2,7 +2,11 @@ import BroccoliMergeTrees from 'broccoli-merge-trees';
 import { BroccoliNode } from 'broccoli-plugin';
 import { JsonValue, JsonObject } from 'type-fest';
 
-import { processTheme, isThemeSource } from '../../../theme/process-theme';
+import {
+  processTheme,
+  isThemeSource,
+  ProcessedTheme
+} from '../../../theme/process-theme';
 import BroccoliJSONToCSS from '../json-to-css';
 import { BroccoliMergeJSON } from '../merge-json';
 import BroccoliYAMLToJSON from '../yaml-to-json';
@@ -12,6 +16,10 @@ export interface ConfigCreatorCSSOptions {
 
   customPropertyPrefix: string;
   contextClassNamePrefix: string;
+}
+
+export interface Theme extends ProcessedTheme {
+  name: string;
 }
 
 export function configCreatorCSS(
@@ -31,7 +39,8 @@ export function configCreatorCSS(
         throw new TypeError(
           `'${themeName}' was not processed as a correct theme source.`
         );
-      return (processTheme(themeSource) as unknown) as JsonObject;
+      const theme: Theme = { ...processTheme(themeSource), name: themeName };
+      return (theme as unknown) as JsonObject;
     }
   });
   const cssTheme = new BroccoliJSONToCSS(mergedJSON, {

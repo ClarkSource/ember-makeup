@@ -1,6 +1,4 @@
-import { readFile as _readFile, writeFile as _writeFile } from 'fs';
 import { resolve, sep } from 'path';
-import { promisify } from 'util';
 
 import BroccoliPlugin, {
   BroccoliPluginOptions,
@@ -11,8 +9,7 @@ import fromPairs from 'lodash.frompairs';
 import pProps from 'p-props';
 import { JsonValue, JsonObject } from 'type-fest';
 
-const readFile = promisify(_readFile);
-const writeFile = promisify(_writeFile);
+import { readFile, writeFile } from '../../lib/utils/async-fs';
 
 const ENFORCED_GLOB_OPTIONS = {
   absolute: false,

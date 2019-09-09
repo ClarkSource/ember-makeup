@@ -4,6 +4,7 @@ import { BroccoliNode } from 'broccoli-plugin';
 import { Plugin, ToTreeOptions } from 'ember-cli-preprocessor-registry';
 
 import { EmberMakeupAddon } from '../../addon';
+import { BroccoliConfigCreatorCSSCompatibility } from '../../plugins/broccoli/config-creator';
 import { cfgToVarPlugin } from '../postcss';
 
 export default class PostPreprocessorPlugin implements Plugin {
@@ -36,8 +37,15 @@ export default class PostPreprocessorPlugin implements Plugin {
       ]
     });
 
+    const configTree = this.owner.treeForConfig();
+
+    const compatibilityTree = new BroccoliConfigCreatorCSSCompatibility(
+      configTree,
+      cfgToVarTree
+    );
+
     return this.owner.debugTree(
-      new BroccoliMergeTrees([cfgToVarTree, this.owner.treeForConfig()]),
+      new BroccoliMergeTrees([cfgToVarTree, configTree, compatibilityTree]),
       'post-plugin'
     );
   }

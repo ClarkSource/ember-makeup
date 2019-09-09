@@ -1,9 +1,8 @@
-import { extname } from 'path';
-
 import BroccoliMultiPostCSS from 'broccoli-multi-postcss';
 import valueParser, { Node } from 'postcss-value-parser';
 
 import { serializeConfigKey } from '../../lib/config-key';
+import { stripExtension } from '../../lib/utils/path';
 import { Usage } from './usage';
 import { getKeyNodeFromFunctionNode, pluginWithRequiredOptions } from './utils';
 
@@ -102,7 +101,7 @@ export default pluginWithRequiredOptions(
       result.messages.push({
         plugin: 'postcss-ember-makeup:cfg-to-var',
         type: BroccoliMultiPostCSS.MessageType.WriteFile,
-        path: `${path.slice(0, -extname(path).length)}.makeup.json`,
+        path: `${stripExtension(path)}.makeup.json`,
         content: JSON.stringify({ path, usages })
       });
     };
