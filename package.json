@@ -56,12 +56,12 @@
   },
   "devDependencies": {
     "@clark/ember-css-modules-config": "^0.4.1",
-    "@clark/eslint-config": "^1.10.0",
-    "@clark/eslint-config-ember": "^1.10.2",
-    "@clark/eslint-config-ember-order-imports": "^1.10.2",
-    "@clark/eslint-config-ember-typescript": "^1.10.2",
-    "@clark/eslint-config-node": "^1.10.0",
-    "@clark/eslint-config-node-typescript": "^1.10.2",
+    "@clark/eslint-config": "^1.14.1",
+    "@clark/eslint-config-ember": "^1.14.1",
+    "@clark/eslint-config-ember-order-imports": "^1.14.1",
+    "@clark/eslint-config-ember-typescript": "^1.14.1",
+    "@clark/eslint-config-node": "^1.14.1",
+    "@clark/eslint-config-node-typescript": "^1.14.1",
     "@ember/optional-features": "^0.7.0",
     "@glimmer/component": "^0.14.0-alpha.13",
     "@simple-dom/interface": "^1.4.0",
@@ -116,6 +116,7 @@
     "typescript": "^3.6.2"
   },
   "peerDependencies": {
+    "ember-cli": "^3.12.0",
     "ember-css-modules": "^1.2.0"
   },
   "engines": {

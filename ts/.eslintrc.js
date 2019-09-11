@@ -19,6 +19,13 @@ module.exports = {
           prop: true
         }
       })
-    ]
+    ],
+
+    // @TODO: fix config to re-enable this
+    'node/no-missing-import': 'off',
+
+    // @TODO: the rule does not understand type-only imports
+    'node/no-extraneous-import': 'off',
+    'node/no-unpublished-import': 'off'
   }
 };
