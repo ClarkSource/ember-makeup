@@ -818,12 +818,12 @@
     "@typescript-eslint/parser" "^2.1.0"
 
 "@clark/eslint-config@^1.10.0", "@clark/eslint-config@^1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config/-/eslint-config-1.11.0.tgz#dbe80a13adbdc7f973db3ffb9ee4e848e9146e77"
-  integrity sha512-IsnKBL6ZAhIHjvrEetV38NZGB7UCC8+lljmK0ttWjI4K6hqZcXJboA/uqG/e46IX86p4eTniJs7Qr7iY58Ph7w==
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-config/-/eslint-config-1.13.0.tgz#ebc25b9ed4dc39df5c0041a43d341d55542e1d04"
+  integrity sha512-FPvC5b1KaF3+NC7xbud4pmTdcffr6s0HuwlRGDdaQoTd6scpvVHtZ+ZfddXERXqR643Pf5KEDO92qzogQmBVkA==
   dependencies:
     eslint-config-airbnb-base "^14.0.0"
-    eslint-config-prettier "^6.2.0"
+    eslint-config-prettier "^6.3.0"
     eslint-config-xo-space "^0.21.0"
     eslint-plugin-import "^2.18.2"
     eslint-plugin-node "^10.0.0"
@@ -5418,10 +5418,10 @@ eslint-config-airbnb-base@^14.0.0:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-prettier@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.2.0.tgz#80e0b8714e3f6868c4ac2a25fbf39c02e73527a7"
-  integrity sha512-VLsgK/D+S/FEsda7Um1+N8FThec6LqE3vhcMyp8mlmto97y3fGf3DX7byJexGuOb1QY0Z/zz222U5t+xSfcZDQ==
+eslint-config-prettier@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.3.0.tgz#e73b48e59dc49d950843f3eb96d519e2248286a3"
+  integrity sha512-EWaGjlDAZRzVFveh2Jsglcere2KK5CJBhkNSa1xs3KfMUGdRiT7lG089eqPdvlzWHpAqaekubOsOMu8W8Yk71A==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -11139,11 +11139,9 @@ terser@^4.1.2:
 
 "test-theme-blue@link:./dev/test-theme-blue":
   version "0.0.0"
-  uid ""
 
 "test-theme-green@link:./dev/test-theme-green":
   version "0.0.0"
-  uid ""
 
 testem@^2.14.0:
   version "2.17.0"
