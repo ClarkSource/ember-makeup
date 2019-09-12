@@ -2,10 +2,10 @@ import { writeFile as _writeFile } from 'fs';
 import { resolve } from 'path';
 import { promisify } from 'util';
 
+import Command from 'ember-cli/lib/models/command';
 import { withDir } from 'tmp-promise';
 
 import { EmberMakeupAddon, addonName } from '../../addon';
-import { command } from '../../lib/utils/ember-cli-entities';
 
 const writeFile = promisify(_writeFile);
 
@@ -15,11 +15,10 @@ interface SchemaGenerateOptions {
   output: string;
 }
 
-export default command({
-  name: 'makeup:schema:generate',
-  works: 'insideProject',
-  description: "Generates the makeup schema from the project's style files.",
-  availableOptions: [
+export default class SchemaGenerateCommand extends Command {
+  works = 'insideProject' as const;
+  description = "Generates the makeup schema from the project's style files.";
+  availableOptions = [
     {
       name: 'dependencies',
       type: Boolean,
@@ -43,7 +42,7 @@ export default command({
       description:
         'The file path relative to the project root to write the schema to'
     }
-  ],
+  ];
 
   async run({ environment, output }: SchemaGenerateOptions) {
     const Builder = this.project.require(
@@ -75,4 +74,7 @@ export default command({
     // @TODO: write a proper schema generator
     await writeFile(schemaOutputFile, JSON.stringify(usages, null, 2));
   }
-});
+}
+
+// https://github.com/ember-cli/ember-cli/blob/cf55d3c36118e6a04ace1cf183951f310cfca9cd/lib/cli/lookup-command.js#L18
+SchemaGenerateCommand.prototype.name = 'makeup:schema:generate';

@@ -5,6 +5,7 @@ import BroccoliFunnel from 'broccoli-funnel';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
 import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
 import { WatchedDir } from 'broccoli-source';
+import Registry from 'ember-cli-preprocessor-registry';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 import Addon from 'ember-cli/lib/models/addon';
 import Project from 'ember-cli/lib/models/project';
@@ -16,7 +17,6 @@ import {
   MakeupOptions,
   FinalMakeupOptions
 } from './lib/options';
-import { addon } from './lib/utils/ember-cli-entities';
 import {
   configCreatorJS,
   configCreatorCSS
@@ -39,24 +39,42 @@ interface ThemePackage {
   package: PackageJSON;
 }
 
-const addonPrototype = addon({
-  name: require(`${__dirname}/../package`).name as string,
+export const addonName = require(`${__dirname}/../package`).name as string;
 
-  makeupOptions: (undefined as unknown) as FinalMakeupOptions,
+export class EmberMakeupAddon extends Addon {
+  /**
+   * Since `CoreObject` executes the `init` chain _during_ `super()`, the
+   * `Addon` base class's `init` runs _before_ class instance property
+   * assignments in the `EmberMakeupAddon` sub-class.
+   *
+   * Since `Addon#init` checks for the presence of `this.name`, we need to
+   * assign the property here as opposed to just using a class instance property
+   * assignment, like:
+   *
+   * ```ts
+   * class EmberMakeupAddon extends Addon {
+   *   name = 'ember-makeup';
+   * }
+   * ```
+   *
+   * @see https://github.com/ember-cli/ember-cli/blob/3af9f60cfe6e16caab0a972c7d25e8bb8017db26/lib/models/addon.js#L286-L288
+   */
+  init(...args: any[]) {
+    this.name = addonName;
+    super.init(...args);
+  }
 
-  themePackages: (undefined as unknown) as ThemePackage[],
+  makeupOptions!: FinalMakeupOptions;
 
-  parentAddon: (undefined as unknown) as Addon | undefined,
+  themePackages!: ThemePackage[];
 
-  _treeForConfig: (undefined as unknown) as BroccoliPlugin,
+  parentAddon: Addon | undefined;
 
-  get usages(): { [callsite: string]: Usage[] } {
-    return {};
-  },
+  _treeForConfig!: BroccoliPlugin;
 
-  get debugTree() {
-    return BroccoliDebug.buildDebugCallback(this.name);
-  },
+  usages: { [callsite: string]: Usage[] } = {};
+
+  debugTree = BroccoliDebug.buildDebugCallback(this.name);
 
   findThemePackages() {
     const keyword = 'ember-makeup-theme';
@@ -80,20 +98,20 @@ const addonPrototype = addon({
       );
     }
     return packages;
-  },
+  }
 
-  included(includer) {
+  included(includer: Addon | Project | EmberApp) {
     this.computeOptions(includer);
     this.checkIfInstalledAtRoot();
 
     this.themePackages = this.findThemePackages();
 
-    this._super.included.call(this, includer);
-  },
+    super.included(includer);
+  }
 
   includedCommands() {
     return commands;
-  },
+  }
 
   computeOptions(includer: Addon | Project | EmberApp) {
     if (this.makeupOptions) return;
@@ -111,7 +129,7 @@ const addonPrototype = addon({
     if ((this.parent as Addon).parent) {
       this.parentAddon = includer as Addon;
     }
-  },
+  }
 
   checkIfInstalledAtRoot() {
     if (this.parentAddon && !this.project.findAddonByName(this.name)) {
@@ -123,25 +141,25 @@ const addonPrototype = addon({
         }' depends on it.`
       );
     }
-  },
+  }
 
-  shouldIncludeChildAddon(childAddon): boolean {
+  shouldIncludeChildAddon(childAddon: Addon): boolean {
     const disabledAddons = ['ember-css-modules', 'ember-cli-sass'];
     if (disabledAddons.includes(childAddon.name)) {
       return false;
     }
 
-    return this._super.shouldIncludeChildAddon.call(this, childAddon);
-  },
+    return super.shouldIncludeChildAddon(childAddon);
+  }
 
   /**
    * Integrate with other CSS processors, like ember-cli-sass.
    *
    * @see https://github.com/ember-cli/ember-cli-preprocess-registry#addon-usage
    */
-  setupPreprocessorRegistry(type, registry) {
+  setupPreprocessorRegistry(type: 'self' | 'parent', registry: Registry) {
     register(this, type, registry);
-  },
+  }
 
   /**
    * Integrate with ember-css-modules.
@@ -152,15 +170,15 @@ const addonPrototype = addon({
     this.computeOptions(parent);
 
     return new EmberCSSModulesPlugin(parent, this);
-  },
+  }
 
   reportUsages(callsite: string, usages: Usage[]) {
     this.usages[callsite] = usages;
-  },
+  }
 
   treeForAddon(tree: BroccoliNode): BroccoliNode {
     const originalTree = this.debugTree(
-      this._super.treeForAddon.call(this, tree),
+      super.treeForAddon(tree),
       'treeForAddon:input'
     );
 
@@ -185,7 +203,7 @@ const addonPrototype = addon({
     );
 
     return mergedTree;
-  },
+  }
 
   treeForConfig() {
     // Only run for the root app.
@@ -232,9 +250,6 @@ const addonPrototype = addon({
 
     return tree;
   }
-});
+}
 
-export default addonPrototype;
-
-export const addonName = addonPrototype.name;
-export type EmberMakeupAddon = typeof addonPrototype & Addon;
+export default EmberMakeupAddon;
