@@ -84,6 +84,7 @@ const addonPrototype = addon({
 
   included(includer) {
     this.computeOptions(includer);
+    this.checkIfInstalledAtRoot();
 
     this.themePackages = this.findThemePackages();
 
@@ -109,6 +110,18 @@ const addonPrototype = addon({
 
     if ((this.parent as Addon).parent) {
       this.parentAddon = includer as Addon;
+    }
+  },
+
+  checkIfInstalledAtRoot() {
+    if (this.parentAddon && !this.project.findAddonByName(this.name)) {
+      throw new Error(
+        `You need to install '${
+          this.name
+        }' in your project '${this.project.name()}', because '${
+          this.parentAddon.name
+        }' depends on it.`
+      );
     }
   },
 
