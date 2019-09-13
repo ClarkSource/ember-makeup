@@ -1,0 +1,7 @@
+@component lazy-engine;
+
+.colorful-message {
+  @component colorful-message;
+  background: cfg();
+  color: cfg();
+}

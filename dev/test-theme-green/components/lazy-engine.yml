@@ -1,0 +1,3 @@
+colorful-message:
+  background: $background.light
+  color: $typo.dark

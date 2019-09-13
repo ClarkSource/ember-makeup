@@ -2,26 +2,4 @@
   <SetThemeButton @theme={{themeName}} />
 {{/each}}
 
-<ContextComponent @context="light">
-  <ContextComponent @context="dark">
-    <ContextualComponent @expected="dark" />
-  </ContextComponent>
-
-  <ContextComponent @context="dark">
-    <ContextComponent @context="light">
-      <ContextualComponent @expected="light" />
-    </ContextComponent>
-  </ContextComponent>
-</ContextComponent>
-
-<ContextComponent @context="dark">
-  <ContextComponent @context="light">
-    <ContextualComponent @expected="light" />
-  </ContextComponent>
-  
-  <ContextComponent @context="light">
-    <ContextComponent @context="dark">
-      <ContextualComponent @expected="dark" />
-    </ContextComponent>
-  </ContextComponent>
-</ContextComponent>
+{{outlet}}
