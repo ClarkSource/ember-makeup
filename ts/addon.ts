@@ -17,6 +17,7 @@ import {
   MakeupOptions,
   FinalMakeupOptions
 } from './lib/options';
+import { memoize } from './lib/utils/decorators';
 import {
   configCreatorJS,
   configCreatorCSS
@@ -66,16 +67,13 @@ export class EmberMakeupAddon extends Addon {
 
   makeupOptions!: FinalMakeupOptions;
 
-  themePackages!: ThemePackage[];
-
   parentAddon: Addon | undefined;
-
-  _treeForConfig!: BroccoliPlugin;
 
   usages: { [callsite: string]: Usage[] } = {};
 
   debugTree = BroccoliDebug.buildDebugCallback(this.name);
 
+  @memoize
   findThemePackages() {
     const keyword = 'ember-makeup-theme';
     const { dependencies = {}, devDependencies = {} } = this.project.pkg;
@@ -104,7 +102,7 @@ export class EmberMakeupAddon extends Addon {
     this.computeOptions(includer);
     this.checkIfInstalledAtRoot();
 
-    this.themePackages = this.findThemePackages();
+    this.findThemePackages();
 
     super.included(includer);
   }
@@ -188,7 +186,7 @@ export class EmberMakeupAddon extends Addon {
     const configFile = configCreatorJS(`${this.name}/config`, {
       options: this.makeupOptions,
       themePaths: fromPairs(
-        this.themePackages.map(theme => [
+        this.findThemePackages().map(theme => [
           theme.name,
           join('/', this.makeupOptions.pathPrefix, `${theme.name}.css`)
         ])
@@ -205,17 +203,15 @@ export class EmberMakeupAddon extends Addon {
     return mergedTree;
   }
 
+  @memoize
   treeForConfig() {
     // Only run for the root app.
     if (this.parentAddon)
       throw new Error('`treeForConfig` must not be called for addons.');
 
-    // Only run once and return the cached value.
-    if (this._treeForConfig) return this._treeForConfig;
+    const themePackages = this.findThemePackages();
 
-    const themePackageNames = this.findThemePackages();
-
-    const themePackageSourceNodes = themePackageNames.map(
+    const themePackageSourceNodes = themePackages.map(
       themePackage =>
         ([
           themePackage.name,
@@ -245,8 +241,6 @@ export class EmberMakeupAddon extends Addon {
       ),
       'treeForConfig:output'
     );
-
-    this._treeForConfig = tree;
 
     return tree;
   }
