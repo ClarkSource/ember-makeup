@@ -5,6 +5,7 @@ import BroccoliFunnel from 'broccoli-funnel';
 import BroccoliMergeTrees from 'broccoli-merge-trees';
 import BroccoliPlugin, { BroccoliNode } from 'broccoli-plugin';
 import { WatchedDir } from 'broccoli-source';
+import { compare } from 'compare-versions';
 import Registry from 'ember-cli-preprocessor-registry';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 import Addon from 'ember-cli/lib/models/addon';
@@ -69,6 +70,8 @@ export class EmberMakeupAddon extends Addon {
 
   parentAddon: Addon | undefined;
 
+  rootInstance!: EmberMakeupAddon;
+
   usages: { [callsite: string]: Usage[] } = {};
 
   debugTree = BroccoliDebug.buildDebugCallback(this.name);
@@ -99,12 +102,11 @@ export class EmberMakeupAddon extends Addon {
   }
 
   included(includer: Addon | Project | EmberApp) {
+    super.included(includer);
+    this.findRootInstance();
     this.computeOptions(includer);
-    this.checkIfInstalledAtRoot();
 
     this.findThemePackages();
-
-    super.included(includer);
   }
 
   includedCommands() {
@@ -123,21 +125,46 @@ export class EmberMakeupAddon extends Addon {
     this.makeupOptions = computeOptions(parentOptions.makeup as
       | MakeupOptions
       | undefined);
-
-    if ((this.parent as Addon).parent) {
-      this.parentAddon = includer as Addon;
-    }
   }
 
-  checkIfInstalledAtRoot() {
-    if (this.parentAddon && !this.project.findAddonByName(this.name)) {
-      throw new Error(
-        `You need to install '${
-          this.name
-        }' in your project '${this.project.name()}', because '${
-          this.parentAddon.name
-        }' depends on it.`
-      );
+  findRootInstance() {
+    if ((this.parent as Addon).parent) {
+      this.parentAddon = this.parent as Addon;
+    }
+
+    if (this.parentAddon) {
+      const rootInstance = this.project.findAddonByName(this.name) as
+        | EmberMakeupAddon
+        | undefined;
+
+      if (!rootInstance) {
+        throw new Error(
+          `You need to install '${
+            this.name
+          }' in your project '${this.project.name()}', because '${
+            this.parentAddon.name
+          }' depends on it.`
+        );
+      }
+
+      if (
+        (!rootInstance.makeupOptions ||
+          !rootInstance.makeupOptions.ignoreVersionCheck) &&
+        (compare(rootInstance.pkg.version, this.pkg.version, '<') ||
+          compare(
+            rootInstance.pkg.version,
+            `${this.pkg.version.split('.')[0]}.*.*`,
+            '>'
+          ))
+      ) {
+        throw new Error(
+          `The version of the root instance of ${this.name} (v${rootInstance.pkg.version}) is incompatible with the version used by '${this.parentAddon.name}' (v${this.pkg.version}).`
+        );
+      }
+
+      this.rootInstance = rootInstance;
+    } else {
+      this.rootInstance = this;
     }
   }
 
@@ -207,6 +234,8 @@ export class EmberMakeupAddon extends Addon {
   treeForConfig() {
     // Only run for the root app.
     if (this.parentAddon)
+      // This would happen, when this addon instance wrongfully call this method
+      // on itself instead of the `rootInstance`.
       throw new Error('`treeForConfig` must not be called for addons.');
 
     const themePackages = this.findThemePackages();

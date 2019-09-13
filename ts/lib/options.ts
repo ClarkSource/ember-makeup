@@ -3,6 +3,8 @@ export interface MakeupOptions {
   customPropertyPrefix?: string;
   contextClassNamePrefix?: string;
   contextKeyword?: string;
+
+  ignoreVersionCheck?: boolean;
 }
 
 export type FinalMakeupOptions = Readonly<Required<MakeupOptions>>;
@@ -11,7 +13,9 @@ export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
   pathPrefix: 'ember-makeup',
   customPropertyPrefix: 'ember-makeup/cfg/',
   contextClassNamePrefix: 'ember-makeup/context/',
-  contextKeyword: 'context'
+  contextKeyword: 'context',
+
+  ignoreVersionCheck: false
 });
 
 export function computeOptions(options?: MakeupOptions): FinalMakeupOptions {

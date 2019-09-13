@@ -37,7 +37,7 @@ export default class PostPreprocessorPlugin implements Plugin {
       ]
     });
 
-    const configTree = this.owner.treeForConfig();
+    const configTree = this.owner.rootInstance.treeForConfig();
 
     const compatibilityTree = new BroccoliConfigCreatorCSSCompatibility(
       configTree,
