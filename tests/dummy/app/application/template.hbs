@@ -16,6 +16,18 @@
       </LinkTo>
     </li>
     <li>
+      <LinkTo @route="eager-engine">
+        eager-engine
+      </LinkTo>
+      <ul>
+        <li>
+          <LinkTo @route="eager-engine.squares">
+            eager-engine.squares
+          </LinkTo>
+        </li>
+      </ul>
+    </li>
+    <li>
       <LinkTo @route="lazy-engine">
         lazy-engine
       </LinkTo>

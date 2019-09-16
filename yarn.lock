@@ -11406,6 +11406,19 @@ terser@^4.1.2:
   version "0.0.0"
   uid ""
 
+"test-addon@link:dev/test-addon":
+  version "0.0.0"
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+
+"test-eager-engine@link:./dev/test-eager-engine":
+  version "0.0.0"
+  uid ""
+
 "test-lazy-engine@link:./dev/test-lazy-engine":
   version "0.0.0"
   uid ""

@@ -13,6 +13,11 @@ export default class TestApplication extends Application {
   Resolver = Resolver;
 
   engines = {
+    testEagerEngine: {
+      dependencies: {
+        services: ['makeup']
+      }
+    },
     testLazyEngine: {
       dependencies: {
         services: ['makeup']

@@ -112,6 +112,7 @@
     "qunit-dom": "^0.9.0",
     "sass": "^1.22.10",
     "test-addon": "link:./dev/test-addon",
+    "test-eager-engine": "link:./dev/test-eager-engine",
     "test-lazy-engine": "link:./dev/test-lazy-engine",
     "test-theme-blue": "link:./dev/test-theme-blue",
     "test-theme-green": "link:./dev/test-theme-green",

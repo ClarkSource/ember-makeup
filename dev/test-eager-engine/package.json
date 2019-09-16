@@ -1,5 +1,5 @@
 {
-  "name": "test-lazy-engine",
+  "name": "test-eager-engine",
   "version": "0.0.0",
   "keywords": [
     "ember-addon",

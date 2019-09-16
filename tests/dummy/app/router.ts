@@ -8,6 +8,7 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function() {
+  this.mount('test-eager-engine', { as: 'eager-engine' });
   this.mount('test-lazy-engine', { as: 'lazy-engine' });
 
   this.route('contextual-example');
