@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "ember-cli-babel": "^7.7.3",
+    "ember-cli-htmlbars": "^3.1.0",
     "ember-cli-typescript": "^3.0.0",
     "ember-css-modules": "^1.2.1",
     "ember-makeup": "link:../../"

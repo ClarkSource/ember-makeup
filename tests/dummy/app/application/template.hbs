@@ -1,5 +1,37 @@
-{{#each this.themeNames as |themeName|}}
-  <SetThemeButton @theme={{themeName}} />
-{{/each}}
-
+<nav local-class="nav">
+  <ul>
+    <li>
+      <LinkTo @route="index">
+        index
+      </LinkTo>
+    </li>
+    <li>
+      <LinkTo @route="contextual-example">
+        contextual-example
+      </LinkTo>
+    </li>
+    <li>
+      <LinkTo @route="squares">
+        squares
+      </LinkTo>
+    </li>
+    <li>
+      <LinkTo @route="lazy-engine">
+        lazy-engine
+      </LinkTo>
+      <ul>
+        <li>
+          <LinkTo @route="lazy-engine.squares">
+            lazy-engine.squares
+          </LinkTo>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<div local-class="themes">
+  {{#each this.themeNames as |themeName|}}
+    <SetThemeButton @theme={{themeName}} />
+  {{/each}}
+</div>
 {{outlet}}

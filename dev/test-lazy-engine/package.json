@@ -10,7 +10,8 @@
     "ember-cli-htmlbars": "^3.1.0",
     "ember-cli-typescript": "^3.0.0",
     "ember-css-modules": "^1.2.1",
-    "ember-makeup": "link:../../"
+    "ember-makeup": "link:../../",
+    "test-addon": "link:../test-addon"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

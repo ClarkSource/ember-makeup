@@ -1,0 +1,13 @@
+@component test-addon.square;
+
+.square {
+  width: 200px;
+  height: 200px;
+
+  background: cfg();
+  color: cfg();
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
