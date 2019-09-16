@@ -5252,8 +5252,34 @@ ember-load-initializers@^2.1.0:
     ember-cli-typescript "^2.0.0"
 
 "ember-makeup@link:.":
-  version "0.0.0"
-  uid ""
+  version "0.0.1-alpha.8"
+  dependencies:
+    broccoli-debug "^0.6.5"
+    broccoli-file-creator "^2.1.1"
+    broccoli-funnel "^2.0.2"
+    broccoli-merge-trees "^3.0.2"
+    broccoli-multi-postcss "^0.3.2"
+    broccoli-persistent-filter "^2.3.0"
+    broccoli-postcss "^5.0.0"
+    broccoli-source "^3.0.0"
+    compare-versions "^3.5.1"
+    cssesc "^3.0.0"
+    ember-auto-import "^1.5.2"
+    ember-cli-babel "^7.11.0"
+    ember-cli-typescript "^3.0.0"
+    fast-glob "^3.0.4"
+    js-yaml "^3.13.1"
+    lodash.frompairs "^4.0.1"
+    lodash.get "^4.4.2"
+    lodash.transform "^4.6.0"
+    make-dir "^3.0.0"
+    p-event "^4.1.0"
+    p-props "^3.0.1"
+    postcss "^7.0.18"
+    postcss-scss "^2.0.0"
+    postcss-selector-parser "^6.0.2"
+    postcss-value-parser "^4.0.2"
+    tmp-promise "^2.0.2"
 
 ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
@@ -11404,19 +11430,26 @@ terser@^4.1.2:
 
 "test-addon@link:./dev/test-addon":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
 
 "test-lazy-engine@link:./dev/test-lazy-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
 
 "test-theme-blue@link:./dev/test-theme-blue":
   version "0.0.0"
-  uid ""
 
 "test-theme-green@link:./dev/test-theme-green":
   version "0.0.0"
-  uid ""
 
 testem@^2.14.0:
   version "2.17.0"
@@ -11652,9 +11685,9 @@ trim-right@^1.0.1:
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
 ts-node@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.3.0.tgz#e4059618411371924a1fb5f3b125915f324efb57"
-  integrity sha512-dyNS/RqyVTDcmNM4NIBAeDMpsAdaQ+ojdf0GOLqE6nwJOgzEkdRNzJywhDfwnuvB10oa6NLVG1rUJQCpRN7qoQ==
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.4.1.tgz#270b0dba16e8723c9fa4f9b4775d3810fd994b4f"
+  integrity sha512-5LpRN+mTiCs7lI5EtbXmF/HfMeCjzt7DH9CZwtkr6SywStrNQC723wG+aOWFiLNn7zT3kD/RnFqi3ZUfr4l5Qw==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
