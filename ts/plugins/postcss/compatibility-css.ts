@@ -28,7 +28,7 @@ const resolveTokens = (theme: FlattenedTheme, tokens: Token[]) =>
       : token
   );
 
-const isUsageContexless = (theme: Theme, { tokens }: SchemaUsage) =>
+const isUsageContextless = (theme: Theme, { tokens }: SchemaUsage) =>
   tokens.some(
     usage => isVariableUsage(usage) && usage.key in theme.contextless
   );
@@ -36,7 +36,7 @@ const isUsageContexless = (theme: Theme, { tokens }: SchemaUsage) =>
 const batchUsages = (theme: Theme, usages: SchemaUsage[]) =>
   usages.reduce(
     ({ contextless, contextual }, usage) => {
-      const batch = isUsageContexless(theme, usage) ? contextless : contextual;
+      const batch = isUsageContextless(theme, usage) ? contextless : contextual;
 
       for (const selector of usage.selectors) {
         if (!batch[selector]) batch[selector] = {};
