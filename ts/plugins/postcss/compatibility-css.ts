@@ -79,6 +79,7 @@ export function generateCompatibilityCSS(theme: Theme, usages: SchemaUsage[]) {
       try {
         root.append(
           postcss.rule({
+            // @todo: actually do the context class name magic
             selector: `:context(${contextName}) ${selector}`,
             nodes: Object.entries(decls).map(([prop, tokens]) =>
               postcss.decl({
