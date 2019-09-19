@@ -4,11 +4,6 @@
   background: cfg();
   color: cfg();
 
-  &:after {
-    display: inline-block;
-    content: cfg('text');
-  }
-
   .style-applied::after {
     content: 'No';
     content: cfg('style-applied');

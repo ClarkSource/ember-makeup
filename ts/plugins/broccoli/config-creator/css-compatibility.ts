@@ -6,7 +6,7 @@ import fg from 'fast-glob';
 import makeDir from 'make-dir';
 
 import { readFile, writeFile } from '../../../lib/utils/async-fs';
-import { Usage } from '../../../plugins/postcss';
+import { SchemaUsage } from '../../../plugins/postcss';
 import { generateCompatibilityCSS } from '../../postcss/compatibility-css';
 import { Theme } from './css';
 
@@ -20,28 +20,28 @@ export interface ConfigCreatorCSSCompatibilityOptions {
 
 enum InputPath {
   Themes = 0,
-  Styles = 1
+  Schemas = 1
 }
 
 export class BroccoliConfigCreatorCSSCompatibility extends BroccoliMultifilter {
   private themes: string[] = [];
-  private styles: string[] = [];
+  private schemas: string[] = [];
 
-  protected styleExtension = 'makeup.json';
+  protected schemaExtension = 'makeup.json';
 
   constructor(
     themes: BroccoliNode,
-    styles: BroccoliNode,
+    schemas: BroccoliNode,
     options?: ConfigCreatorCSSCompatibilityOptions
   ) {
-    super([themes, styles], options);
+    super([themes, schemas], options);
   }
 
   private async scanFiles() {
-    [this.themes, this.styles] = await Promise.all([
+    [this.themes, this.schemas] = await Promise.all([
       fg('**/*.json', { cwd: this.inputPaths[InputPath.Themes] }),
-      fg(`**/*.${this.styleExtension}`, {
-        cwd: this.inputPaths[InputPath.Styles]
+      fg(`**/*.${this.schemaExtension}`, {
+        cwd: this.inputPaths[InputPath.Schemas]
       })
     ]);
   }
@@ -50,7 +50,10 @@ export class BroccoliConfigCreatorCSSCompatibility extends BroccoliMultifilter {
     return join(this.inputPaths[inputPath], filePath);
   }
 
-  protected async generateCompatibilityCSS(theme: Theme, usages: Usage[]) {
+  protected async generateCompatibilityCSS(
+    theme: Theme,
+    usages: SchemaUsage[]
+  ) {
     const css = generateCompatibilityCSS(theme, usages);
     return css.toString();
   }
@@ -59,21 +62,21 @@ export class BroccoliConfigCreatorCSSCompatibility extends BroccoliMultifilter {
     const absoluteThemePath = this.prefixPath(InputPath.Themes, themePath);
     const theme: Theme = JSON.parse(await readFile(absoluteThemePath, 'utf8'));
 
-    const absoluteStylePaths = this.styles.map(stylePath =>
-      this.prefixPath(InputPath.Styles, stylePath)
+    const absoluteStylePaths = this.schemas.map(stylePath =>
+      this.prefixPath(InputPath.Schemas, stylePath)
     );
 
     await Promise.all(
-      this.styles.map(async (path, i) => {
+      this.schemas.map(async (path, i) => {
         const absolutePath = absoluteStylePaths[i];
         const outputPath = join(
           outputDirectory,
-          `${path.slice(0, -(this.styleExtension.length + 1))}.${
+          `${path.slice(0, -(this.schemaExtension.length + 1))}.${
             theme.name
           }.css`
         );
         const { usages } = JSON.parse(await readFile(absolutePath, 'utf8')) as {
-          usages: Usage[];
+          usages: SchemaUsage[];
         };
 
         const compatibilityCSS = await this.generateCompatibilityCSS(

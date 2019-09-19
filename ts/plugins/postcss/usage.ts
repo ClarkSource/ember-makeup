@@ -1,3 +1,5 @@
+import { Node, FunctionNode } from 'postcss-value-parser';
+
 /**
  * A `Usage` is reported for every occurrence of the `cfg` function.
  */
@@ -37,3 +39,38 @@ export interface Usage {
 }
 
 export enum Plugin {}
+
+/**
+ * A `SchemaUsage` is reported for every occurrence of the `var` function.
+ */
+export interface SchemaUsage {
+  /**
+   * The list of selectors of the rule of this declaration this config value is
+   * used in.
+   *
+   * @example ['.foo', '.bar > .foo']
+   */
+  selectors: string[];
+
+  /**
+   * The name of the property of the declaration this config value is used in.
+   *
+   * @example 'border-color'
+   */
+  property: string;
+
+  /**
+   * The transformed full value of the declaration this config value is used in.
+   */
+  value: string;
+
+  tokens: (Node | VariableUsage)[];
+}
+
+export interface VariableUsage extends FunctionNode {
+  isVariableUsage: true;
+  key: string;
+}
+
+export const isVariableUsage = (usage: any): usage is VariableUsage =>
+  Boolean(usage && usage.isVariableUsage);

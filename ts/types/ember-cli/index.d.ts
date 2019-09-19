@@ -66,6 +66,11 @@ declare module 'ember-cli/lib/models/addon' {
     ): void;
 
     treeForAddon(tree: BroccoliNode): BroccoliNode;
+
+    postprocessTree(
+      type: 'src' | 'css' | 'template' | 'js' | 'all',
+      tree: BroccoliNode
+    ): BroccoliNode;
   }
 }
 

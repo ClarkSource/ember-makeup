@@ -1,11 +1,1 @@
 @import 'css-modules';
-@import 'bar';
-
-// An SCSS comment 😱
-
-@component root;
-
-body {
-  background: red;
-  color: cfg('quux');
-}

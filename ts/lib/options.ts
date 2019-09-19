@@ -5,6 +5,8 @@ export interface MakeupOptions {
   contextKeyword?: string;
 
   ignoreVersionCheck?: boolean;
+
+  enableCompatibility?: boolean;
 }
 
 export type FinalMakeupOptions = Readonly<Required<MakeupOptions>>;
@@ -15,7 +17,9 @@ export const DEFAULT_OPTIONS: FinalMakeupOptions = Object.freeze({
   contextClassNamePrefix: 'ember-makeup/context/',
   contextKeyword: 'context',
 
-  ignoreVersionCheck: false
+  ignoreVersionCheck: false,
+
+  enableCompatibility: true
 });
 
 export function computeOptions(options?: MakeupOptions): FinalMakeupOptions {

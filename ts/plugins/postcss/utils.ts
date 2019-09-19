@@ -3,8 +3,7 @@ import {
   stringify,
   FunctionNode,
   StringNode,
-  WordNode,
-  NodeType
+  WordNode
 } from 'postcss-value-parser';
 
 import { isValidConfigKey, containsQuotes } from '../../lib/config-key';
@@ -58,7 +57,7 @@ export function getKeyNodeFromFunctionNode(
    */
   if (!keyNode) {
     const syntheticKeyNode: StringNode = {
-      type: 'string' as NodeType.String,
+      type: 'string',
       value: decl.prop,
       quote: "'",
       unclosed: false

@@ -1,5 +1,3 @@
-import { Values } from 'core-object/-private/utils';
-
 declare function valueParser(input: string): valueParser.NodeTree;
 
 // @todo https://github.com/typescript-eslint/typescript-eslint/issues/60
@@ -81,20 +79,11 @@ declare namespace valueParser {
     walk(callback: Callback, bubble?: boolean): NodeTree;
   }
 
-  enum NodeType {
-    Word = 'word',
-    String = 'string',
-    Div = 'div',
-    Space = 'space',
-    Comment = 'comment',
-    Function = 'function'
-  }
-
   interface Node {
     /**
      * The type of node.
      */
-    type: Values<NodeType>;
+    type: 'word' | 'string' | 'div' | 'space' | 'comment' | 'function';
 
     /**
      *  Each node has a `value` property; but what exactly value means is specific
@@ -123,7 +112,7 @@ declare namespace valueParser {
    * (e.g. `20px`, `75%`, `1.5`), and hex colors (e.g. `#e6e6e6`).
    */
   interface WordNode extends Node {
-    type: NodeType.Word;
+    type: 'word';
 
     /**
      * The "word" itself.
@@ -135,7 +124,7 @@ declare namespace valueParser {
    * A quoted string value, e.g. `"something"` in `content: "something";`.
    */
   interface StringNode extends Node {
-    type: NodeType.String;
+    type: 'string';
 
     /**
      * The text content of the string.
@@ -161,7 +150,7 @@ declare namespace valueParser {
    * - `:` in `(min-width: 700px)`
    */
   interface DivNode extends Node {
-    type: NodeType.Div;
+    type: 'div';
 
     /**
      * The divider character. Either `,`, `/`, or `:` (see examples above).
@@ -184,7 +173,7 @@ declare namespace valueParser {
    * `border: 1px solid black;`.
    */
   interface SpaceNode extends Node {
-    type: NodeType.Space;
+    type: 'space';
 
     /**
      * The whitespace itself.
@@ -196,7 +185,7 @@ declare namespace valueParser {
    * A CSS comment.
    */
   interface CommentNode extends Node {
-    type: NodeType.Comment;
+    type: 'comment';
 
     /**
      * The comment value without the enclosing `/*`.
@@ -216,7 +205,7 @@ declare namespace valueParser {
    * Function nodes have `nodes` nested within them: the function arguments.
    */
   interface FunctionNode extends Node {
-    type: NodeType.Function;
+    type: 'function';
 
     /**
      * The name of the function, e.g. `rgb` in `rgb(0,0,0)`.

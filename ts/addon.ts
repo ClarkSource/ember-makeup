@@ -21,8 +21,10 @@ import {
 import { memoize } from './lib/utils/decorators';
 import {
   configCreatorJS,
-  configCreatorCSS
+  configCreatorCSS,
+  BroccoliConfigCreatorCSSCompatibility
 } from './plugins/broccoli/config-creator';
+import { BroccoliExtractSchema } from './plugins/broccoli/extract-schema';
 import EmberCSSModulesPlugin from './plugins/ember-css-modules';
 import { Usage } from './plugins/postcss';
 import { register } from './plugins/preprocessor-registry';
@@ -228,6 +230,39 @@ export class EmberMakeupAddon extends Addon {
     );
 
     return mergedTree;
+  }
+
+  treeForPublic() {
+    // Only run for the root app.
+    if (this.parentAddon) return;
+
+    return this.treeForConfig();
+  }
+
+  postprocessTree(type: string, tree: BroccoliNode) {
+    // Only run for the root app and final processing with all files.
+    // Only run, if compatibility layer is enabled.
+    if (
+      this.parentAddon ||
+      type !== 'all' ||
+      !this.makeupOptions.enableCompatibility
+    )
+      return tree;
+
+    return new BroccoliMergeTrees([tree, this.treeForCompatibility(tree)]);
+  }
+
+  treeForCompatibility(cssTree: BroccoliNode) {
+    const configTree = this.treeForConfig();
+    const schemaTree = new BroccoliExtractSchema(cssTree, {
+      customPropertyPrefix: this.makeupOptions.customPropertyPrefix
+    });
+    const compatibilityTree = new BroccoliConfigCreatorCSSCompatibility(
+      configTree,
+      schemaTree
+    );
+
+    return this.debugTree(compatibilityTree, 'treeForCompatibility');
   }
 
   @memoize
