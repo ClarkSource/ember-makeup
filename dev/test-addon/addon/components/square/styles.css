@@ -4,7 +4,11 @@
   width: 200px;
   height: 200px;
 
-  background: cfg();
+  background: linear-gradient(
+    to bottom,
+    cfg('background.top'),
+    cfg('background.bottom')
+  );
   color: cfg();
 
   display: flex;

@@ -1,3 +1,5 @@
 square:
-  background: $background.light
+  background:
+    top: $background.light
+    bottom: $background.dark
   color: $typo.dark
