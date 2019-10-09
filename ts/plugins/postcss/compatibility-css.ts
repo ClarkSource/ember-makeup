@@ -2,6 +2,7 @@ import postcss from 'postcss';
 import { Node, WordNode, stringify } from 'postcss-value-parser';
 
 import { SchemaUsage } from '.';
+import { map, isFunctionNode } from '../../lib/utils/postcss-value-parser';
 import { FlattenedTheme } from '../../theme/process-theme';
 import { Theme } from '../broccoli/config-creator';
 import { VariableUsage, isVariableUsage } from './usage';
@@ -22,21 +23,26 @@ const resolveVariableUsage = (
 };
 
 const resolveTokens = (theme: FlattenedTheme, tokens: Token[]) =>
-  tokens.map(token =>
+  map(tokens, token =>
     isVariableUsage(token)
       ? makeWordNode(resolveVariableUsage(theme, token))
       : token
   );
 
-const isUsageContextless = (theme: Theme, { tokens }: SchemaUsage) =>
-  tokens.some(
-    usage => isVariableUsage(usage) && usage.key in theme.contextless
-  );
+const isEveryTokenContextless = (theme: Theme, tokens: Token[]): boolean =>
+  tokens.every(usage => {
+    if (isVariableUsage(usage)) return usage.key in theme.contextless;
+    if (isFunctionNode(usage))
+      return isEveryTokenContextless(theme, usage.nodes);
+    return true;
+  });
 
 const batchUsages = (theme: Theme, usages: SchemaUsage[]) =>
   usages.reduce(
     ({ contextless, contextual }, usage) => {
-      const batch = isUsageContextless(theme, usage) ? contextless : contextual;
+      const batch = isEveryTokenContextless(theme, usage.tokens)
+        ? contextless
+        : contextual;
 
       for (const selector of usage.selectors) {
         if (!batch[selector]) batch[selector] = {};

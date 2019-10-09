@@ -5,6 +5,7 @@ import { unesc } from 'postcss-selector-parser/dist/util';
 import parseValue from 'postcss-value-parser';
 
 import { serializeConfigKey } from '../../lib/config-key';
+import { map } from '../../lib/utils/postcss-value-parser';
 import { SchemaUsage, VariableUsage } from '../postcss/usage';
 
 export interface BroccoliExtractSchemaOptions {
@@ -52,7 +53,7 @@ export class BroccoliExtractSchema extends BroccoliPersistentFilter {
   }
 
   private extractTokens(value: string) {
-    return parseValue(value).nodes.map(node => {
+    return map(parseValue(value).nodes, node => {
       if (node.type !== 'function' || node.value !== 'var') return node;
       const functionNode = node as VariableUsage;
 
