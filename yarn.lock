@@ -766,11 +766,11 @@
     "@clark/eslint-config" "^1.14.1"
 
 "@clark/eslint-config-ember-order-imports@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.14.1.tgz#87a7b86f64b6a29b1461c381d72660dad312ae2e"
-  integrity sha512-pO8nrgNw9hx4Ag1ygSUH2LvZWzo/FzQY2ne+lfo/DzmflfoP+VBIzQlh7twB6+IQzW2gRW9sEzetrpzZPJEOwA==
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.20.0.tgz#931f10f8450d0ac9b3b4642802e05fbeefaa4bed"
+  integrity sha512-N3O/57eogDlfHAKft3TT7GPAqpj0tqEheg/t3PjZNzu7k3yHzF1DHaChbnWr3F+OHRwskUC2Ydw07p+KDUgYZA==
   dependencies:
-    "@clark/eslint-plugin-import-helpers-with-package" "^1.14.1"
+    "@clark/eslint-plugin-import-helpers-with-package" "^1.20.0"
 
 "@clark/eslint-config-ember-typescript@^1.14.1":
   version "1.14.1"
@@ -840,18 +840,18 @@
     eslint-plugin-unicorn "^10.0.0"
     prettier "^1.18.2"
 
-"@clark/eslint-plugin-import-helpers-with-package@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.14.1.tgz#56f41a1450f993a62c36de27e864b9a34ae54ea8"
-  integrity sha512-fJLQ9hfwc9XOa+gev7p5E6p97EXPVyxTHWUlpfu5QBJH+Wgmr7VfMIXW87p+WvqwRkCRJQbB5OO63r+FIQRqiw==
+"@clark/eslint-plugin-import-helpers-with-package@^1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.20.0.tgz#1c2e58b02255574bb400e02f85001ef281b3dad5"
+  integrity sha512-gIqABT8UapJwqnIVroQwHlRgPnqZbHa3ZIXVVgZrA/QuapwsmJBZ6nkT5fiaERsGXIrR5p+TxY7kEcQNy/mrqA==
   dependencies:
-    "@clark/eslint-util-get-package" "^1.14.1"
+    "@clark/eslint-util-get-package" "^1.20.0"
     eslint-plugin-import-helpers "^1.0.2"
 
-"@clark/eslint-util-get-package@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-util-get-package/-/eslint-util-get-package-1.14.1.tgz#434214b67667a41bed381dff1eda540c53be2cbd"
-  integrity sha512-G9i7WLYaCjTm1rrOMR4ZNXr+s4VsAWImMdKnKS8U9cpmXffJ7bWo590LGiuZJPiUyW3BzSZtxZwZeHium4/Jzw==
+"@clark/eslint-util-get-package@^1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-util-get-package/-/eslint-util-get-package-1.20.0.tgz#1e82a1254acf51c6900cf5738a31573884af481b"
+  integrity sha512-yUfM7dc9bzxBENkhKuEu8Y5fAuMtxuV1rf/x7XECEqtyyt+uHwGKSRaadxHDD8+gtjRk8/BOxEHZnQXwDykptA==
   dependencies:
     find-up "^4.1.0"
 
@@ -5260,7 +5260,6 @@ ember-load-initializers@^2.1.0:
 
 "ember-makeup@link:.":
   version "0.0.0"
-  uid ""
 
 ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
@@ -11411,7 +11410,12 @@ terser@^4.1.2:
 
 "test-addon@link:./dev/test-addon":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
 
 "test-addon@link:dev/test-addon":
   version "0.0.0"
@@ -11424,19 +11428,29 @@ terser@^4.1.2:
 
 "test-eager-engine@link:./dev/test-eager-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-lazy-engine@link:./dev/test-lazy-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-theme-blue@link:./dev/test-theme-blue":
   version "0.0.0"
-  uid ""
 
 "test-theme-green@link:./dev/test-theme-green":
   version "0.0.0"
-  uid ""
 
 testem@^2.14.0:
   version "2.17.0"
