@@ -5260,7 +5260,6 @@ ember-load-initializers@^2.1.0:
 
 "ember-makeup@link:.":
   version "0.0.0"
-  uid ""
 
 ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
@@ -8117,9 +8116,9 @@ make-dir@^2.0.0:
     semver "^5.6.0"
 
 make-dir@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.0.0.tgz#1b5f39f6b9270ed33f9f054c5c0f84304989f801"
-  integrity sha512-grNJDhb8b1Jm1qeqW5R/O63wUo4UXo2v2HMic6YT9i/HBlF93S8jkMgH7yugvY9ABDShH4VZMn8I+U8+fCNegw==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.0.2.tgz#04a1acbf22221e1d6ef43559f43e05a90dbb4392"
+  integrity sha512-rYKABKutXa6vXTXhoV18cBE7PaewPXHe/Bdq4v+ZLMhxbWApkFFplT0LcbMW+6BbjnQXzZ/sAvSE/JdguApG5w==
   dependencies:
     semver "^6.0.0"
 
@@ -11411,7 +11410,12 @@ terser@^4.1.2:
 
 "test-addon@link:./dev/test-addon":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
 
 "test-addon@link:dev/test-addon":
   version "0.0.0"
@@ -11424,19 +11428,29 @@ terser@^4.1.2:
 
 "test-eager-engine@link:./dev/test-eager-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-lazy-engine@link:./dev/test-lazy-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-theme-blue@link:./dev/test-theme-blue":
   version "0.0.0"
-  uid ""
 
 "test-theme-green@link:./dev/test-theme-green":
   version "0.0.0"
-  uid ""
 
 testem@^2.14.0:
   version "2.17.0"
