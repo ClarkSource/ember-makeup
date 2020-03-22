@@ -5260,7 +5260,6 @@ ember-load-initializers@^2.1.0:
 
 "ember-makeup@link:.":
   version "0.0.0"
-  uid ""
 
 ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
@@ -11411,7 +11410,12 @@ terser@^4.1.2:
 
 "test-addon@link:./dev/test-addon":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
 
 "test-addon@link:dev/test-addon":
   version "0.0.0"
@@ -11424,19 +11428,29 @@ terser@^4.1.2:
 
 "test-eager-engine@link:./dev/test-eager-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-lazy-engine@link:./dev/test-lazy-engine":
   version "0.0.0"
-  uid ""
+  dependencies:
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.1.0"
+    ember-cli-typescript "^3.0.0"
+    ember-css-modules "^1.2.1"
+    ember-makeup "link:."
+    test-addon "link:dev/test-addon"
 
 "test-theme-blue@link:./dev/test-theme-blue":
   version "0.0.0"
-  uid ""
 
 "test-theme-green@link:./dev/test-theme-green":
   version "0.0.0"
-  uid ""
 
 testem@^2.14.0:
   version "2.17.0"
@@ -11672,15 +11686,15 @@ trim-right@^1.0.1:
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
 ts-node@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.3.0.tgz#e4059618411371924a1fb5f3b125915f324efb57"
-  integrity sha512-dyNS/RqyVTDcmNM4NIBAeDMpsAdaQ+ojdf0GOLqE6nwJOgzEkdRNzJywhDfwnuvB10oa6NLVG1rUJQCpRN7qoQ==
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.8.0.tgz#41a301811ac96174db75c24462ec7ebadfa9668b"
+  integrity sha512-cHZpac2e71Df6/kC7AmqXObjHLs+oooxXmBqeiml9TBJk1Car9IsF12iPEeXxYVqwN/b/ZLoAsRcQ587wdwSkw==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
     make-error "^1.1.1"
     source-map-support "^0.5.6"
-    yn "^3.0.0"
+    yn "3.1.1"
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
@@ -12281,7 +12295,7 @@ yeast@0.1.2:
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
   integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
 
-yn@^3.0.0:
+yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
