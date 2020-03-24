@@ -118,7 +118,7 @@
     "test-theme-blue": "link:./dev/test-theme-blue",
     "test-theme-green": "link:./dev/test-theme-green",
     "ts-node": "^8.3.0",
-    "type-fest": "^0.7.1",
+    "type-fest": "^0.12.0",
     "typescript": "^3.6.3"
   },
   "peerDependencies": {
