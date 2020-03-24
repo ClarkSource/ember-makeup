@@ -5247,7 +5247,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.11.0, ember-cli-babel@^7.12.0, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3, ember-cli-babel@^7.8.0:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.11.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.12.0, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
   version "7.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.18.0.tgz#e979b73eee00cd93f63452c6170d045e8832f29c"
   integrity sha512-OLPfYD8wSfCrmGHcUf8zEfySSvbAL+5Qp2RWLycJIMaBZhg+SncKj5kVkL3cPJR5n2hVHPdfmKTQIYjOYl6FnQ==
@@ -5339,7 +5339,7 @@ ember-cli-htmlbars@^3.1.0:
     json-stable-stringify "^1.0.1"
     strip-bom "^3.0.0"
 
-ember-cli-htmlbars@^4.2.3:
+ember-cli-htmlbars@^4.0.0, ember-cli-htmlbars@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.2.3.tgz#ca1a4ce3806594f0a69a1ada3eed749a125cc2bf"
   integrity sha512-AA5N5a7T+9Bc3m+5X076WFYIN4EQL0o/g8acPBZnEolFJhc3TmnSlWay4JwEuvszA1MLFKmZET/VD9CfRw8+EQ==
@@ -5665,9 +5665,9 @@ ember-disable-prototype-extensions@^1.1.3:
   integrity sha1-GWkTUhdlS14nj5/i2dTkm1cgMp4=
 
 ember-engines@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/ember-engines/-/ember-engines-0.8.2.tgz#d1be1929217c5454b37ec2e6b07a0057075447b8"
-  integrity sha512-Lhwkj02b9/MjOyl3MFToL4Pa1djFtDjQOxI8SY86P81XUBbRDdeZ3pg5tDxU/upEeQ7La7uepoZWTBRj6Lxx0Q==
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/ember-engines/-/ember-engines-0.8.5.tgz#7a21eec7ce77f5e6636cc9126b898aec8d9917c9"
+  integrity sha512-ezbH+OBjGSa6fPSHqpNSVGdz1k9rHpV7tiP1SaEkbHwfuikl28TRY8Am6fgdnL8K6pP5qcSrSl+yUIaGULqOSg==
   dependencies:
     amd-name-resolver "1.3.1"
     babel-plugin-compact-reexports "^1.1.0"
@@ -5681,7 +5681,8 @@ ember-engines@^0.8.2:
     broccoli-test-helper "^2.0.0"
     calculate-cache-key-for-tree "^2.0.0"
     ember-asset-loader "^0.6.1"
-    ember-cli-babel "^7.8.0"
+    ember-cli-babel "^7.11.1"
+    ember-cli-htmlbars "^4.0.0"
     ember-cli-preprocess-registry "^3.3.0"
     ember-cli-string-utils "^1.1.0"
     ember-cli-version-checker "^3.1.3"
