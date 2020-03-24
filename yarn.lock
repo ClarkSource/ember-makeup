@@ -1055,11 +1055,11 @@
     "@clark/eslint-config" "^1.14.1"
 
 "@clark/eslint-config-ember-order-imports@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.14.1.tgz#87a7b86f64b6a29b1461c381d72660dad312ae2e"
-  integrity sha512-pO8nrgNw9hx4Ag1ygSUH2LvZWzo/FzQY2ne+lfo/DzmflfoP+VBIzQlh7twB6+IQzW2gRW9sEzetrpzZPJEOwA==
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.23.0.tgz#a4997376a6a0c39d37dfb75f5c8afd6f0c97937b"
+  integrity sha512-VGJn6YhXYkGSWdtf5fP1uDo/+Tq36jR4svRDUvEbR6CFn1+EwnJDOPthHoMJOeEkRAMKKxrGoyMJ0chh/swXJg==
   dependencies:
-    "@clark/eslint-plugin-import-helpers-with-package" "^1.14.1"
+    "@clark/eslint-plugin-import-helpers-with-package" "^1.23.0"
 
 "@clark/eslint-config-ember-typescript@^1.14.1":
   version "1.14.1"
@@ -1143,18 +1143,18 @@
     eslint-plugin-unicorn "^16.1.1"
     prettier "^1.19.1"
 
-"@clark/eslint-plugin-import-helpers-with-package@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.14.1.tgz#56f41a1450f993a62c36de27e864b9a34ae54ea8"
-  integrity sha512-fJLQ9hfwc9XOa+gev7p5E6p97EXPVyxTHWUlpfu5QBJH+Wgmr7VfMIXW87p+WvqwRkCRJQbB5OO63r+FIQRqiw==
+"@clark/eslint-plugin-import-helpers-with-package@^1.23.0":
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.23.0.tgz#9efb05e061db372dbc3e0d799207633d44a01dec"
+  integrity sha512-t0BvbtcZn2J5C+UYkk3ts5cntp6xJZwlCcmMjGMSLXe1lC4i2fcpYMql0//w6MyfokpkdIz6MMk/XUQPXBNTdA==
   dependencies:
-    "@clark/eslint-util-get-package" "^1.14.1"
+    "@clark/eslint-util-get-package" "^1.23.0"
     eslint-plugin-import-helpers "^1.0.2"
 
-"@clark/eslint-util-get-package@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-util-get-package/-/eslint-util-get-package-1.14.1.tgz#434214b67667a41bed381dff1eda540c53be2cbd"
-  integrity sha512-G9i7WLYaCjTm1rrOMR4ZNXr+s4VsAWImMdKnKS8U9cpmXffJ7bWo590LGiuZJPiUyW3BzSZtxZwZeHium4/Jzw==
+"@clark/eslint-util-get-package@^1.23.0":
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@clark/eslint-util-get-package/-/eslint-util-get-package-1.23.0.tgz#f327eee6e895fd56826233ab0f937d751d001327"
+  integrity sha512-VP2GOq3cR0BpCXDhNlQgOautZg2fK7992kds5PYoCTPvRoQbO2Muhq3WJZq5h4lkONqTNmycwkVYhWlih34c8g==
   dependencies:
     find-up "^4.1.0"
 
