@@ -110,7 +110,7 @@
     "eslint": "^6.2.2",
     "loader.js": "^4.7.0",
     "lodash.merge": "^4.6.2",
-    "qunit-dom": "^0.9.0",
+    "qunit-dom": "^1.1.0",
     "sass": "^1.22.10",
     "test-addon": "link:./dev/test-addon",
     "test-eager-engine": "link:./dev/test-eager-engine",
