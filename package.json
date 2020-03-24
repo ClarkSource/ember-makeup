@@ -31,7 +31,7 @@
     "broccoli-debug": "^0.6.5",
     "broccoli-file-creator": "^2.1.1",
     "broccoli-funnel": "^2.0.2",
-    "broccoli-merge-trees": "^3.0.2",
+    "broccoli-merge-trees": "^4.1.0",
     "broccoli-multi-postcss": "^0.3.2",
     "broccoli-persistent-filter": "^2.3.0",
     "broccoli-postcss": "^5.0.0",
