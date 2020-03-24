@@ -102,7 +102,7 @@
     "ember-load-initializers": "^2.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^4.5.1",
-    "ember-resolver": "^5.2.1",
+    "ember-resolver": "^7.0.0",
     "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/42fba9dae40402e3ce5b3fb6fcfd186794702d39.tgz",
     "ember-source-channel-url": "^2.0.1",
     "ember-template-lint": "^1.5.3",
