@@ -1355,9 +1355,9 @@
   integrity sha512-4mBnOrTpVKn+tYzlnMO7cwDkDa6wlQ2bBXW+79/6ahMd36GF216kxWYxgz+S4d5Ev1ByFbnQbPGxV4P5BSL8MA==
 
 "@types/ember-qunit@^3.4.6":
-  version "3.4.6"
-  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.6.tgz#b09ae84192c16fbd1da0d1be26fa02b67691250d"
-  integrity sha512-ARB2JDNV3qzrZ94fC+YdV9jT9hYAXP8pXcqAVzVEYVL5/upSxKcYZjiCSScpKzXikN8yieIGNqSGArhQrcdzFA==
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.8.tgz#81dbfa76f0729ec5c455039457ba747fb7b44ec1"
+  integrity sha512-eAFYXit9vIXLiJiLzmI3Y37+AprHX0aVkgkC9cZzOLPAFeTSJ9T6Mso0o9EvrlAeFe/opg9uGp/QUgbX7X7IAw==
   dependencies:
     "@types/ember" "*"
     "@types/ember-test-helpers" "*"
