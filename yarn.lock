@@ -1012,14 +1012,7 @@
   dependencies:
     "@clark/eslint-config" "^1.24.1"
 
-"@clark/eslint-config-ember-order-imports@^1.14.1":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.24.0.tgz#6836e2018d8d46634be66a397066f1c24af6e92e"
-  integrity sha512-a0UyYxTdb+XJKFawE17jJfT4zPjNB8IVP++nTpNZGuDwbmtNTvR3mwJDwkEYyewHnLYwUbGuBtc3kFIE2c7T/A==
-  dependencies:
-    "@clark/eslint-plugin-import-helpers-with-package" "^1.24.0"
-
-"@clark/eslint-config-ember-order-imports@^1.24.1":
+"@clark/eslint-config-ember-order-imports@^1.14.1", "@clark/eslint-config-ember-order-imports@^1.24.1":
   version "1.24.1"
   resolved "https://registry.yarnpkg.com/@clark/eslint-config-ember-order-imports/-/eslint-config-ember-order-imports-1.24.1.tgz#42c4b546e426d8ba6c5073c21a65a6edc25b9847"
   integrity sha512-n9HWvX3HllHzT5lvU0BPQnOpE4Z0LfmPstkjAE6T674ysk7jVbnEQA6n9vc4yRP7RJY6rWvNd9jIJ9MYtUIcug==
@@ -1095,14 +1088,6 @@
     eslint-plugin-unicorn "^18.0.1"
     prettier "^2.0.2"
 
-"@clark/eslint-plugin-import-helpers-with-package@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.24.0.tgz#70646b09c8f268bbbaa9def1645ccd897ffdf01d"
-  integrity sha512-uAjMfwBhGQpUtnkjmDYxdGKYmXJn5Ud4nDZOGQEY3BzevKipRFgz285ev5WXTVP7smvpxkyEBWBNgjP5IjSLcQ==
-  dependencies:
-    "@clark/eslint-util-get-package" "^1.24.0"
-    eslint-plugin-import-helpers "^1.0.2"
-
 "@clark/eslint-plugin-import-helpers-with-package@^1.24.1":
   version "1.24.1"
   resolved "https://registry.yarnpkg.com/@clark/eslint-plugin-import-helpers-with-package/-/eslint-plugin-import-helpers-with-package-1.24.1.tgz#88f409bdc03b071aaff5affee8a8fbf072d0ee84"
@@ -1110,13 +1095,6 @@
   dependencies:
     "@clark/eslint-util-get-package" "^1.24.1"
     eslint-plugin-import-helpers "^1.0.2"
-
-"@clark/eslint-util-get-package@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@clark/eslint-util-get-package/-/eslint-util-get-package-1.24.0.tgz#f1581eab2665413613cdccbcf9d93c5b248cfc8b"
-  integrity sha512-Qyy5uLYbwu/y4qfa19AtdFWkxEaPQw4XT1Ds+CQ9hSMkHzmjnGBWMdlE2Igrc0Ge52DpTlu0c6+l4QNe5QLQjQ==
-  dependencies:
-    find-up "^4.1.0"
 
 "@clark/eslint-util-get-package@^1.24.1":
   version "1.24.1"
